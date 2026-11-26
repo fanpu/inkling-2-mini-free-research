@@ -59,14 +59,14 @@ math { font-size: 1.05em; } math[display="block"] { margin: 0.3rem 0; overflow-x
 </style>
 
 <main>
-<span class="step">Orientation · updated 26 Nov 2026 · Phase 0 complete</span>
+<span class="step">Orientation · updated 26 Nov 2026 · Phase 0 and literature review complete</span>
 <h1>What does looping a layer do to fine-tuning?</h1>
 <p class="lede">Inkling 2 Mini runs its middle 12 layers three times per token, reusing the same weights each time. We want to know how that reuse changes training when we fine-tune the model. This page teaches the ideas from scratch, then reports what we have measured and decided so far.</p>
 
 <div class="panel status">
-  <div><b>Where we are.</b> The free tier works end to end. We have trained one step with each optimizer, downloaded the adapters, and checked a three-line toy theory against code.</div>
+  <div><b>Where we are.</b> The free tier works end to end. We have trained one step with each optimizer, downloaded the adapters, checked a toy theory against code, and finished a literature review.</div>
   <div><b>Main finding so far.</b> Both available optimizers ignore how large the gradient is. So the loop cannot show up in how far the weights move. It should show up in how much the model's output changes per unit of weight movement. That is the next thing to measure.</div>
-  <div><b>In progress.</b> A literature review is running on four questions. Is pointer chasing a standard task, what is known about looped transformers, what is known about LoRA under these optimizers, and what the Tinker documentation says. The training task is not fixed until it reports.</div>
+  <div><b>Correction from the review.</b> The model's three passes are not simply chained. Each pass restarts from the same input and receives a gated message from the previous pass. Step 6 explains this and Step 8 gives the revised prediction.</div>
   <div><b>Nothing is blocked.</b> The API key works and every run so far cost $0.</div>
 </div>
 
@@ -183,6 +183,8 @@ $$b \leftarrow b - \eta \cdot \operatorname{sign}\!\left(\frac{\partial L}{\part
   <p class="try">Schematic, not a computation. Each box is one layer of weights.</p>
 </div>
 <p>Each layer has an attention block, which lets a token read from earlier tokens, and a mixture-of-experts block. A mixture of experts holds many small sub-networks (128 here) and sends each token through only a few of them (8 here).</p>
+<p>The real loop is wired differently from our toy model. Thinking Machines' release post says every pass starts from the output of the first six layers. The second and third passes also read what the looped layers produced on the previous pass. That extra input is called the <em>message</em>. A learned <em>gate</em> decides how much of the message gets through. The gate began fully closed during the model's training and opened over time.</p>
+<p>So with the gate closed, the three passes are three identical copies of an ordinary layer stack, and only the last one feeds the rest of the model. With the gate wide open, each pass builds on the one before, which is the chain from Step 2. The real model sits somewhere in between.</p>
 <p>Tinker attaches a LoRA adapter to every attention matrix, every expert matrix and the output layer. There is one adapter per layer of weights. A looped layer's adapter is therefore reused on all three passes, exactly like \(ab\) in the toy model.</p>
 <div class="scroll"><table>
 <tr><th>We can set</th><th>We cannot set</th></tr>
@@ -191,8 +193,10 @@ $$b \leftarrow b - \eta \cdot \operatorname{sign}\!\left(\frac{\partial L}{\part
 <tr><td>AdamW learning rate, weight decay, and how much each step reuses earlier gradients (momentum)</td><td>Weight decay for Dimuon</td></tr>
 <tr><td>Dimuon learning rate and momentum</td><td>Anything inside Dimuon's update rule</td></tr>
 </table></div>
-<p>The proposed training task is pointer chasing. The prompt holds a small random lookup table, and the model must follow a given number of arrows from a starting symbol and answer with the final symbol only. Following one arrow and following three arrows use the same format and differ only in how many steps of work are needed. Training is supervised, with a known correct answer for every example.</p>
-<p class="note">The model also has loop-specific parts that pass messages between the three passes. They get no adapter, so we cannot train them.</p>
+<p>The training task is pointer chasing. The prompt holds a random lookup table over 26 letters, and the model must follow a given number of arrows from a starting letter and answer with the final letter only. The number of arrows is called the hop count. Training is supervised, with a known correct answer for every example.</p>
+<p>The review confirmed this is a standard task for studying depth. Thinking Machines used a close relative themselves and report that their variable-loop model follows longer chains when given more passes.</p>
+<p>The review also changed the design. A model can follow several arrows in one layer's worth of work by a doubling trick, so three hops needs only about one more layer than one hop. A harder task also draws more adapter weight everywhere. So we will sweep hop counts of 0, 1, 2, 3, 4 and 6, and add a control task that is harder without needing more steps.</p>
+<p class="note">The gates and the parts that build the message get no adapter, so we cannot train them.</p>
 <p class="take">Takeaway. The real model gives us ordinary and looped layers side by side in one training run, with one shared adapter per looped layer.</p>
 
 <h2><span class="step">Step 7</span>What we measured</h2>
@@ -215,11 +219,16 @@ $$b \leftarrow b - \eta \cdot \operatorname{sign}\!\left(\frac{\partial L}{\part
 
 <h2><span class="step">Step 8</span>What we will test next</h2>
 <p>Step 5 says where to look. If weight steps are equal, the loop must show in the output. The quantity to measure is a ratio. Make the same-size weight change in a looped layer and in an ordinary layer, and divide the first output change by the second.</p>
-<p>The toy model predicts \(K u^{K-1}\), which is 3 when \(u\) is near 1 as it is at the start of fine-tuning. That assumes the three passes push the output the same way, so their effects add up to 3. If the three pushes pointed in unrelated directions they would add like the sides of a box, to a length of \(\sqrt{1 + 1 + 1} = \sqrt{3} \approx 1.7\). The measured ratio tells us how much the passes agree.</p>
+<p>What should the ratio be? To compare fairly we use relative changes, meaning the percentage change in output per percentage change in weight. The chain from Step 2 gives a ratio of \(K = 3\).</p>
+<p>For the gated loop from Step 6, write \(g\) for how far the gate is open, with \(g = 0\) closed. Pass one produces \(h_1 = u x\). Each later pass produces \(h_k = u\,(x + g\,h_{k-1})\). The output is \(h_3\). Working through the algebra at \(u = 1\) gives the ratio</p>
+$$\frac{1 + 2g + 3g^2}{1 + g + g^2}.$$
+<p><b>Example.</b> At \(g = 0\) the ratio is \(1\), so a closed gate makes the looped layer behave like an ordinary one. At \(g = 1\) it is \(6/3 = 2\). As \(g\) grows it approaches \(3\). Our script confirms these values.</p>
+<p class="take">Takeaway. The measured ratio should fall between 1 and 3, and its value tells us how open the gates effectively are.</p>
 <ol>
   <li><b>Gradient readout.</b> Adam divides the gradient by its typical size plus a small constant. If we make that constant huge, the division does almost nothing and the step becomes the raw gradient times a fixed number. One step would then show the true gradient in every layer, with no upload needed. This is untested and the service may refuse the setting.</li>
   <li><b>Perturbation test.</b> Add a small change of fixed size to one layer's adapter, upload it, and measure how much the loss moves. Repeat for all 24 layers and for several random changes, so that the 12 looped layers can be compared with the 12 ordinary ones above the noise. This first needs a check that uploads work on the free tier.</li>
-  <li><b>Training profiles.</b> Train both optimizers for a few hundred steps and track each layer's adapter over time.</li>
+  <li><b>What is Dimuon?</b> Short runs at different learning rates and ranks to find its step rule. The documentation recommends 10 to 100 times the AdamW learning rate, which fits the gap we measured.</li>
+  <li><b>Training profiles and hop sweep.</b> Train both optimizers on the pointer-chasing task at each hop count and track each layer's adapter over time.</li>
   <li><b>Weight-decay sweep.</b> Raise AdamW's weight decay until adapters collapse and see whether looped layers collapse at a different level.</li>
 </ol>
 
@@ -232,6 +241,8 @@ $$b \leftarrow b - \eta \cdot \operatorname{sign}\!\left(\frac{\partial L}{\part
   <li><b>Framing.</b> Study the training mechanics of the looped layers with a minimal model first, then the real one.</li>
   <li><b>Muon weight-decay wiring stays local.</b> Dimuon has no weight decay setting, so that older question cannot be studied on Tinker.</li>
   <li><b>First hypothesis revised.</b> We dropped "looped layers get bigger updates" because the optimizers rule it out by design.</li>
+  <li><b>Toy model amended.</b> The gated loop replaces the pure chain for predictions about the real model.</li>
+  <li><b>Task chosen.</b> Pointer chasing as a sweep over hop counts, with a difficulty control.</li>
   <li><b>Pretraining claim withdrawn.</b> An earlier session said Inkling was pretrained with Muon. The model card does not say so. We treat it as unknown.</li>
   <li><b>Records.</b> Every result has a script and a note in the repository. This page is rebuilt when findings change.</li>
 </ul>
@@ -241,21 +252,26 @@ $$b \leftarrow b - \eta \cdot \operatorname{sign}\!\left(\frac{\partial L}{\part
   <li><b>"A looped layer gets three times the update."</b> Only under plain gradient descent. Under AdamW and Dimuon the weight update is the same size.</li>
   <li><b>"Flat updates across layers mean the loop does nothing."</b> They mean the optimizer hides it. The output still moves more.</li>
   <li><b>"The same learning rate is a fair comparison between optimizers."</b> Here it gave steps 61 times apart.</li>
-  <li><b>"The toy model is the real model."</b> The real passes are not identical. Each sees a different input and the model has extra parts linking them. The factor of 3 is an upper reference, which is why we measure it.</li>
+  <li><b>"The three passes are chained end to end."</b> They are not. Each restarts from the same input and is linked to the previous pass only through a gated message. The factor of 3 is an upper reference.</li>
+  <li><b>"More hops need proportionally more layers."</b> A doubling trick lets a model do \(k\) hops in about \(\log_2 k\) layers.</li>
 </ul>
 
 <h2>Blind spots</h2>
+<p>These come from the literature review. A reviewing agent opened each source. I have not read them myself, so treat them as leads.</p>
 <ul>
-  <li><b>Weight sharing across depth is an old idea.</b> Universal Transformers and deep equilibrium models reuse one block many times. Their training-stability results may already cover part of this.</li>
-  <li><b>Recurrent networks.</b> A loop is a short recurrence. The classic vanishing and exploding gradient analysis is the \(K u^{K-1}\) factor with large \(K\).</li>
+  <li><b>Looped models already have a training literature.</b> Loop-μP (arXiv 2606.18524) reportedly shows that updates to a shared layer add up across passes, so output change per step grows with the number of loops. DeepLoop (2607.13491) makes a related point. Neither was found to analyse sharpness.</li>
+  <li><b>LoRA on looped models.</b> Loop Dropout (2609.34218) reportedly finds that standard LoRA on a looped model adapts mostly in the late passes.</li>
+  <li><b>Recurrent networks.</b> A loop is a short recurrence. Pascanu et al. (1211.5063) analyse gradients through repeated use of one weight.</li>
   <li><b>Edge of stability.</b> Real training often sits right at the \(2/\text{sharpness}\) limit and corrects itself. Step 4 treats the limit as a hard wall, which is a simplification.</li>
-  <li><b>LoRA learning-rate balance.</b> Work on LoRA+ argues that \(A\) and \(B\) want different learning rates. Tinker gives one rate for both.</li>
+  <li><b>LoRA learning-rate balance.</b> LoRA+ argues that \(B\) should move faster than \(A\). Tinker gives one rate for both.</li>
+  <li><b>Depth and hops.</b> Sanford et al. (2402.09268) give the doubling argument. Saunshi et al. (2502.17416) reportedly show a small looped model matching a deeper one on this task.</li>
   <li><b>A variable-loop sibling exists.</b> Thinking Machines released a research model trained with 1 to 5 passes. It would let us change \(K\) directly. It is not on Tinker today.</li>
 </ul>
 
 <h2>Sources</h2>
 <ul>
-  <li>Inkling 2 Mini model card and configuration on Hugging Face, read 26 Nov 2026. All architecture facts above come from these two files.</li>
+  <li>Inkling 2 Mini model card and configuration on Hugging Face, and Thinking Machines' release post of 20 Nov 2026, all read directly on 26 Nov 2026. The architecture facts and the description of the gated message come from these.</li>
+  <li>Four review notes in the repository under <code>notes/lit/</code>, written by reviewing agents.</li>
   <li>Tinker SDK 0.40.1 source code, for what the optimizers and LoRA settings expose.</li>
   <li>Our scripts <code>00_probe_free_tier.py</code>, <code>01_inspect_probe.py</code> and <code>02_looped_abx_toy.py</code>, for every measured number.</li>
   <li>Hu et al. (2021), LoRA. Kingma and Ba (2015), Adam. Jordan (2024), Muon blog post. Cohen et al. (2021), edge of stability. Dehghani et al. (2019), Universal Transformers. Bai, Kolter and Koltun (2019), deep equilibrium models. Hayou, Ghosh and Yu (2024), LoRA+. These are cited from memory and were not re-read today.</li>
@@ -271,6 +287,8 @@ $$b \leftarrow b - \eta \cdot \operatorname{sign}\!\left(\frac{\partial L}{\part
 <tr><td>\(K\)</td><td>Number of times the layer is applied. <span class="plain">1 is ordinary</span>, <span class="loop">3 is looped</span></td></tr>
 <tr><td>\(f = u^K x\)</td><td>Output for input \(x\)</td></tr>
 <tr><td>\(s,\ e,\ L\)</td><td>Target, error \(f - s\), loss \(\tfrac12 e^2\)</td></tr>
+<tr><td>\(g\)</td><td>How far the cross-pass gate is open. 0 is closed</td></tr>
+<tr><td>\(h_k\)</td><td>Output of pass \(k\) through the looped layers</td></tr>
 <tr><td>\(\eta\)</td><td>Learning rate</td></tr>
 <tr><td>\(\lambda\)</td><td>Curvature of the loss. Its largest value is the sharpness</td></tr>
 </table></div>
