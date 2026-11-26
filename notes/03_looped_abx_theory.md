@@ -23,3 +23,23 @@ $K = 1$ is an ordinary layer. $K = 3$ stands in for Inkling 2 Mini's looped laye
 - **P3 (open).** Because looped layers are sharper per unit of weight change, the largest stable learning rate should be set by layers 6 to 17. The scalar model gives a sharpness ratio of $K^2 u^{2(K-1)}$.
 
 Not yet derived: the AdamW weight-decay equilibrium in the looped model, and anything about Dimuon's actual update rule, which is unknown (note 02).
+
+## Update 2026-11-26: the gated-message model
+
+Note 01 shows that Inkling's passes are not chained. Every pass restarts from the same input and reads a gated message from the previous pass. The scalar version is
+
+$$h_1 = u x, \qquad h_k = u\,(x + g\,h_{k-1}), \qquad f = h_K,$$
+
+where $g \ge 0$ is the gate gain. $g = 0$ is an ordinary layer. Large $g$ approaches the pure chain $u^K$.
+
+Because the output's size also changes with $g$, the right quantity is the relative sensitivity $\frac{\partial f}{\partial u}\frac{u}{f}$, the percentage change in output per percentage change in weight. For $K = 3$ at $u = 1$ it is
+
+$$\frac{1 + 2g + 3g^2}{1 + g + g^2},$$
+
+which is 1 at $g = 0$, 2 at $g = 1$, and tends to 3 as $g$ grows. Check 4 in `scripts/02_looped_abx_toy.py` confirms this to four digits.
+
+**Revised P2.** The ratio of looped to unlooped relative sensitivity lies between 1 and $K = 3$, and its value reads off how open the gates effectively are. The earlier lower reference of $\sqrt{3}$ is withdrawn. It assumed three chained passes with unrelated effects, which is not how the model is wired.
+
+## What the literature review found (notes/lit/02)
+
+The reviewer found no paper stating the $K u^{K-1}$ gradient factor together with sharpness scaling as its square for tied depth, and called it unpublished but unsurprising. Close relatives it lists: Pascanu et al. (1211.5063) on gradients through powers of a shared weight, Loop-μP (2606.18524) on looped updates adding coherently so that per-step output change grows with the loop count, and DeepLoop (2607.13491) on the shared update summing gradients over visits. I have not read these papers myself.

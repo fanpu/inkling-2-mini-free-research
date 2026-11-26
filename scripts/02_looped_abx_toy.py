@@ -59,3 +59,18 @@ for K in (1, 3):
     db = -1e-3 * torch.sign(b.grad)
     df = (w0 + a * (b + db)).item() ** K - w0**K
     print(f"   K={K}: |delta b|={abs(db.item()):.1e}  delta f={df:.3e}  predicted={K * w0**(K-1) * a0 * 1e-3:.3e}")
+
+# 4) Gated-message loop, closer to Inkling 2 Mini. Every pass starts from the same
+#    input x; passes 2..K also read g times the previous pass's output:
+#        h_1 = u*x,   h_k = u*(x + g*h_{k-1}),   f = h_K.
+#    g = 0 is a non-looped layer. Relative sensitivity (df/du)*(u/f) at u = 1, K = 3
+#    is (1 + 2g + 3g^2)/(1 + g + g^2): 1 at g = 0, 2 at g = 1, and 3 as g grows.
+print("4) gated-message loop, K = 3, u = 1: relative sensitivity (df/du)*u/f")
+for g in (0.0, 0.25, 1.0, 4.0, 100.0):
+    u = torch.tensor(1.0, requires_grad=True)
+    h = u * 1.0
+    for _ in range(2):
+        h = u * (1.0 + g * h)
+    (d,) = torch.autograd.grad(h, u)
+    pred = (1 + 2 * g + 3 * g * g) / (1 + g + g * g)
+    print(f"   g={g:6.2f}: measured={(d * u / h).item():.4f}  predicted={pred:.4f}")

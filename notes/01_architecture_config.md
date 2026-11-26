@@ -26,3 +26,15 @@ The 12 looped layers carry extra per-layer tensors that the other 12 do not: `co
 ## A sibling worth knowing about
 
 `thinkingmachines/TML-d24-varloop-research` has the same architecture with `is_varloop: true`. Its card says it was trained with 1 to 5 passes (sampled 1:2:6:2:1) and the pass count is chosen at inference. It would let us vary the loop count K directly. It is not in Tinker's model list today, so it is out of reach for free-tier work.
+
+## Update 2026-11-26: how the loop is wired
+
+Source: Thinking Machines' release post, https://thinkingmachines.ai/news/inkling-2-mini/ (read directly), and the Hugging Face blog https://huggingface.co/blog/inkling2mini.
+
+- **The passes are not chained end to end.** "Every pass starts with the output of the prelude (the first block)." Passes two and three also read the looped layers' outputs from the previous pass, called the message.
+- **A learned gate controls the message.** The gate "initially blocks the entire message, which makes each loop start the same as in a non-looping model, and increases the gain on the message over time". This is what the `controllers.*` tensors and `gate_rank: 64` are.
+- **Attention residuals.** Each layer reads the outputs of earlier blocks and learns its own mix, instead of one running sum.
+- **Training history.** The model started with 384 experts per layer and was pruned to the 128 most used during midtraining. Post-training included RL totalling 2.2T tokens. The post gives no optimizer or learning-rate details, so the pretraining optimizer is still unknown.
+- **TML's own multi-hop result.** On "N-Hop Lookup" (several lookup tables with fictional entries, follow a chain without writing anything down), the variable-loop model follows longer chains with more passes. To get answers without reasoning they prefilled the start of the response.
+
+Consequence: the pure-chain toy model $(w_0 + ab)^K$ overstates the coupling between passes. See the gated model in note 03.

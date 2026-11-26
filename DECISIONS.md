@@ -35,3 +35,15 @@ Append-only chronological record of key architectural, experimental, and tooling
 
 - **D-010 — Throwaway exports use the one-hour TTL:**
   Storage is free today, but probe and intermediate exports still set `ttl_seconds=3600`. Downloaded `.safetensors` files stay out of git.
+
+- **D-011 — Training task is in-context pointer chasing, as a hop sweep:**
+  Random permutation over 26 single-token letters, shuffled entry order, no revisited nodes, answer scored on the first token only. Hop counts k in {0, 1, 2, 3, 4, 6} instead of a single 1-versus-3 contrast, plus a control that is harder without being deeper (one hop, larger table). Base accuracy per k is measured first. Reasons are in `notes/lit/01_multihop_tasks.md`: k hops need only about log2(k) layers, pretrained models already do two hops, and harder tasks draw more adapter weight everywhere. Thinking Machines' own N-Hop Lookup result supports the task family.
+
+- **D-012 — Toy model amended to the gated-message loop:**
+  The real passes restart from the prelude output and are linked by a gated message, so the pure chain $(w_0 + ab)^K$ is an upper reference only. Predictions about sensitivity now use the gated model in note 03, with the looped-to-unlooped ratio between 1 and 3.
+
+- **D-013 — Optimizer learning rates:**
+  Tinker's docs recommend 10 to 100 times the AdamW learning rate for Dimuon, and a cookbook starting rate of 5.4e-4 for Inkling 2 Mini. Use these as starting points and match the two optimizers by measured step size, not by learning rate.
+
+- **D-014 — Literature notes are reviewer reports:**
+  The files in `notes/lit/` were written by sub-agents that opened the sources. Treat a claim from them as verified only after someone reads the cited source directly. Papers dated after mid-2026 have not been read by the lead agent.
