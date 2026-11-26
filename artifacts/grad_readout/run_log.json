@@ -1,0 +1,145 @@
+{
+ "errors": [],
+ "clients": {
+  "e_eps1e4": [
+   {
+    "lr": 10000.0,
+    "eps": 10000.0,
+    "wscale": 1.0,
+    "data_seed": 0,
+    "rank": 2,
+    "loss_metrics": {
+     "clock_cycle:unique": 6698495.0,
+     "loss:sum": 369.8236274719238,
+     "e_max_violation:mean": 11.673202514648438,
+     "e_frac_oversubscribed:mean": 0.2579752802848816,
+     "e_max_violation:max": 15.000000953674316,
+     "e_min_violation:mean": -1.0,
+     "e_frac_with_tokens:mean": 0.6355794668197632
+    },
+    "optim": "OptimStepResponse(metrics={})",
+    "dA_absmax": 0.0,
+    "B0_absmax": 0.0,
+    "n_tokens": 416,
+    "n_supervised": 40,
+    "seconds_create": 5.1,
+    "seconds_total": 89.1
+   }
+  ],
+  "c_eps1e3_data1": [
+   {
+    "lr": 1000.0,
+    "eps": 1000.0,
+    "wscale": 1.0,
+    "data_seed": 1,
+    "rank": 2,
+    "loss_metrics": {
+     "clock_cycle:unique": 6698515.0,
+     "e_min_violation:mean": -1.0,
+     "e_max_violation:mean": 11.642157554626465,
+     "e_frac_oversubscribed:mean": 0.2569987177848816,
+     "e_max_violation:max": 15.000000953674316,
+     "loss:sum": 371.90422439575195,
+     "e_frac_with_tokens:mean": 0.6412760615348816
+    },
+    "optim": "OptimStepResponse(metrics={})",
+    "dA_absmax": 0.0,
+    "B0_absmax": 0.0,
+    "n_tokens": 416,
+    "n_supervised": 40,
+    "seconds_create": 5.4,
+    "seconds_total": 117.5
+   }
+  ],
+  "c_eps1e3_data2": [
+   {
+    "lr": 1000.0,
+    "eps": 1000.0,
+    "wscale": 1.0,
+    "data_seed": 2,
+    "rank": 2,
+    "loss_metrics": {
+     "clock_cycle:unique": 3805909.0,
+     "loss:sum": 359.7835159301758,
+     "e_max_violation:mean": 11.636439323425293,
+     "e_frac_oversubscribed:mean": 0.2560221552848816,
+     "e_max_violation:max": 15.000000953674316,
+     "e_min_violation:mean": -1.0,
+     "e_frac_with_tokens:mean": 0.6337890625
+    },
+    "optim": "OptimStepResponse(metrics={})",
+    "dA_absmax": 0.0,
+    "B0_absmax": 0.0,
+    "n_tokens": 416,
+    "n_supervised": 40,
+    "seconds_create": 5.2,
+    "seconds_total": 106.4
+   }
+  ]
+ },
+ "sdk_warnings": [],
+ "notes": [
+  "Run 1 (before ServiceClient.close was added) stalled >15 min on setting c with the SDK warning: 'Training for <model_id>:train:0 is paused. Reason: concurrent training clients rate limit hit.' Settings a and b had finished and were reused from cache."
+ ],
+ "previous_runs": [
+  {
+   "errors": [],
+   "clients": {
+    "c_eps1e3": [
+     {
+      "lr": 1000.0,
+      "eps": 1000.0,
+      "wscale": 1.0,
+      "data_seed": 0,
+      "rank": 2,
+      "loss_metrics": {
+       "clock_cycle:unique": 2979280.0,
+       "e_max_violation:mean": 11.673202514648438,
+       "loss:sum": 369.8236274719238,
+       "e_frac_with_tokens:mean": 0.6355794668197632,
+       "e_frac_oversubscribed:mean": 0.2579752802848816,
+       "e_min_violation:mean": -1.0,
+       "e_max_violation:max": 15.000000953674316
+      },
+      "optim": "OptimStepResponse(metrics={})",
+      "dA_absmax": 0.0,
+      "B0_absmax": 0.0,
+      "n_tokens": 416,
+      "n_supervised": 40,
+      "seconds_create": 5.2,
+      "seconds_total": 161.9
+     }
+    ],
+    "d_eps1_w2": [
+     {
+      "lr": 1.0,
+      "eps": 1.0,
+      "wscale": 2.0,
+      "data_seed": 0,
+      "rank": 2,
+      "loss_metrics": {
+       "clock_cycle:unique": 6698466.0,
+       "e_min_violation:mean": -1.0,
+       "loss:sum": 739.6472549438477,
+       "e_frac_oversubscribed:mean": 0.2579752802848816,
+       "e_frac_with_tokens:mean": 0.6355794668197632,
+       "e_max_violation:mean": 11.673202514648438,
+       "e_max_violation:max": 15.000000953674316
+      },
+      "optim": "OptimStepResponse(metrics={})",
+      "dA_absmax": 0.0,
+      "B0_absmax": 0.0,
+      "n_tokens": 416,
+      "n_supervised": 40,
+      "seconds_create": 4.8,
+      "seconds_total": 121.9
+     }
+    ]
+   },
+   "sdk_warnings": [],
+   "notes": [
+    "Run 1 (before ServiceClient.close was added) stalled >15 min on setting c with the SDK warning: 'Training for <model_id>:train:0 is paused. Reason: concurrent training clients rate limit hit.' Settings a and b had finished and were reused from cache."
+   ]
+  }
+ ]
+}
