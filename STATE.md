@@ -41,4 +41,4 @@ Details and sources are in the notes. Each line here has been checked by a scrip
 - `RESEARCH_SEED.md` is the background from earlier threads. Some of its claims were later corrected. Where it disagrees with the notes, the notes win.
 - `notes/01_architecture_config.md`, `notes/02_tinker_probe.md`, `notes/03_looped_abx_theory.md`.
 - `scripts/00_probe_free_tier.py`, `scripts/01_inspect_probe.py`, `scripts/02_looped_abx_toy.py`.
-- `docs/orientation.html` is the source of the human-facing orientation page (see README).
+- `docs/orientation.html` is the source of the human-facing orientation page, published privately at https://claude.ai/artifact/RNJnoBSSA7htrQbjwZVWhm. Republish to that URL after editing. It follows the owner's explainer rules: one 700px column, numbered steps with one idea each, KaTeX math (MathML output), live interactives with a reset, then summary, misconceptions, blind spots and sources.

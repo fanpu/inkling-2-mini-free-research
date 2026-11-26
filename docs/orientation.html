@@ -1,0 +1,366 @@
+<title>Looped LoRA Lab</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one calm reading column, 700px, with interactives as bordered panels inside it. */
+:root {
+  --bg: #f7f8fa; --panel: #ffffff; --fg: #1c2330; --muted: #5d6878; --line: #d9dee6;
+  --loop: #c9650a; --plain: #2f6fb5; --ok: #1f7a4d; --warn: #a15c00; --code: #eef1f5;
+  --sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #12161d; --panel: #1a202a; --fg: #e4e8ef; --muted: #9aa5b5; --line: #2e3745;
+  --loop: #f0943a; --plain: #6aa9e8; --ok: #5bc48f; --warn: #e0a54a; --code: #222a36; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #12161d; --panel: #1a202a; --fg: #e4e8ef; --muted: #9aa5b5; --line: #2e3745;
+  --loop: #f0943a; --plain: #6aa9e8; --ok: #5bc48f; --warn: #e0a54a; --code: #222a36; color-scheme: dark }
+body { background: var(--bg); color: var(--fg); font-family: var(--sans); font-size: 18px; line-height: 1.7;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 2.5rem 5rem; }
+main { max-width: 700px; margin: 0 auto; display: flex; flex-direction: column; gap: 1.15rem; min-width: 0; }
+main > * { margin: 0; min-width: 0; }
+h1 { font-size: 2.3rem; line-height: 1.15; font-weight: 700; text-wrap: balance; }
+h2 { font-size: 1.55rem; line-height: 1.25; font-weight: 600; margin-top: 2.6rem; text-wrap: balance; }
+h3 { font-size: 1.1rem; font-weight: 600; margin-top: 0.6rem; }
+.step { font-family: var(--mono); font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 0.2rem; }
+.lede { font-size: 1.15rem; color: var(--muted); }
+a { color: var(--plain); }
+code { font-family: var(--mono); font-size: 0.86em; background: var(--code); padding: 0.1em 0.35em; border-radius: 4px; overflow-wrap: anywhere; }
+.loop { color: var(--loop); font-weight: 600; } .plain { color: var(--plain); font-weight: 600; }
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 1.1rem 1.2rem; display: flex; flex-direction: column; gap: 0.8rem; }
+.panel > * { margin: 0; }
+.try { font-size: 0.95rem; color: var(--muted); }
+.take { border-left: 3px solid var(--ok); padding-left: 0.9rem; font-weight: 500; }
+.note { border-left: 3px solid var(--warn); padding-left: 0.9rem; color: var(--muted); font-size: 0.98rem; }
+.ctrl { display: flex; flex-wrap: wrap; gap: 0.6rem 1.4rem; align-items: center; font-size: 0.95rem; }
+.ctrl label { display: flex; align-items: center; gap: 0.5rem; }
+.ctrl output { font-family: var(--mono); min-width: 3.5em; }
+input[type=range] { width: 170px; accent-color: var(--plain); }
+button { font: inherit; font-size: 0.9rem; padding: 0.3rem 0.8rem; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); color: var(--fg); cursor: pointer; }
+button:hover { border-color: var(--muted); } button:focus-visible, input:focus-visible, summary:focus-visible { outline: 2px solid var(--plain); outline-offset: 2px; }
+.read { font-family: var(--mono); font-size: 0.9rem; font-variant-numeric: tabular-nums; display: grid; gap: 0.2rem; }
+svg { width: 100%; height: auto; display: block; } svg text { font-family: var(--sans); fill: var(--muted); font-size: 13px; }
+.scroll { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 0.95rem; font-variant-numeric: tabular-nums; }
+th, td { text-align: left; padding: 0.45rem 0.7rem 0.45rem 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-weight: 600; color: var(--muted); font-size: 0.85rem; }
+details { border: 1px dashed var(--line); border-radius: 8px; padding: 0.6rem 0.9rem; }
+summary { cursor: pointer; font-weight: 500; }
+ol, ul { padding-left: 1.3rem; display: flex; flex-direction: column; gap: 0.4rem; }
+.layers { display: grid; grid-template-columns: repeat(24, 1fr); gap: 3px; }
+.layers span { height: 34px; border-radius: 3px; background: var(--plain); opacity: 0.8; }
+.layers span.l { background: var(--loop); }
+.axis { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 0.78rem; color: var(--muted); }
+.bars { display: grid; grid-template-columns: 9.5em 1fr 6em; gap: 0.35rem 0.7rem; align-items: center; font-size: 0.9rem; }
+.bar { height: 14px; border-radius: 3px; min-width: 2px; } .bars .v { font-family: var(--mono); text-align: right; }
+math { font-size: 1.05em; } math[display="block"] { margin: 0.3rem 0; overflow-x: auto; max-width: 100%; }
+.status { display: grid; gap: 0.5rem; } .status b { font-weight: 600; }
+@media (max-width: 480px) { body { font-size: 17px; } h1 { font-size: 1.8rem; } .bars { grid-template-columns: 6.5em 1fr 5em; } }
+</style>
+
+<main>
+<span class="step">Orientation · updated 26 Nov 2026 · Phase 0 complete</span>
+<h1>What does looping a layer do to fine-tuning?</h1>
+<p class="lede">Inkling 2 Mini runs its middle 12 layers three times per token, reusing the same weights each time. We want to know how that reuse changes training when we fine-tune the model. This page teaches the ideas from scratch, then reports what we have measured and decided so far.</p>
+
+<div class="panel status">
+  <div><b>Where we are.</b> The free tier works end to end. We have trained one step with each optimizer, downloaded the adapters, and checked a three-line toy theory against code.</div>
+  <div><b>Main finding so far.</b> Both available optimizers ignore how large the gradient is. So the loop cannot show up in how far the weights move. It should show up in how much the model's output changes per unit of weight movement. That is the next thing to measure.</div>
+  <div><b>Nothing is blocked.</b> The API key works and every run so far cost $0.</div>
+</div>
+
+<h2>Why this is a question at all</h2>
+<p>Most networks use each layer once. A looped layer is used several times in a row, so a single change to its weights acts on the signal several times. Intuition says such a layer should be touchier to train. We want to turn that intuition into numbers that can be wrong.</p>
+<p>Some names first. Thinking Machines Lab makes Inkling 2 Mini. They also run Tinker, a service that fine-tunes the model on their machines while we send data and settings. One version of the model is free to train there, and we use only that one.</p>
+<p>Our method comes from earlier work on a two-number model, \(y = abx\). Find the smallest model that still shows the effect, solve it exactly, then check whether the prediction survives in the real network.</p>
+
+<h3>Roadmap</h3>
+<ol>
+  <li>A fine-tuning adapter, shrunk to three numbers.</li>
+  <li>What looping does to the output.</li>
+  <li>What looping does to the gradient.</li>
+  <li>Why looped layers need smaller steps.</li>
+  <li>Optimizers that ignore gradient size, and what they hide.</li>
+  <li>The real model and what we can touch.</li>
+  <li>What we measured.</li>
+  <li>What we will test next.</li>
+</ol>
+
+<h2><span class="step">Step 1</span>An adapter shrunk to three numbers</h2>
+<p>Fine-tuning a large model usually leaves the original weights frozen and trains a small add-on called an adapter. The common kind is LoRA (low-rank adaptation). For a frozen weight matrix \(W_0\), LoRA trains two thin matrices \(B\) and \(A\) and uses \(W_0 + BA\) in place of \(W_0\).</p>
+<p>To see the mechanics, shrink every matrix to a single number. The frozen weight is \(w_0\). The two trainable numbers are \(a\) and \(b\). The layer multiplies its input \(x\) by the <em>effective weight</em></p>
+$$u = w_0 + ab.$$
+<p>\(B\) has \(r\) columns and \(A\) has \(r\) rows. The number \(r\) is the adapter's <em>rank</em>, and it is small. We use 8.</p>
+<p><b>Example.</b> Take \(w_0 = 1\), \(a = 0.5\), \(b = 0.2\). Then \(u = 1 + 0.5 \times 0.2 = 1.1\), and an input of \(x = 1\) comes out as \(1.1\).</p>
+<p>LoRA starts with \(b = 0\) and \(a\) set to a small random value. The product \(ab\) is then zero, so the model starts out exactly as it was before fine-tuning.</p>
+<p class="take">Takeaway. An adapter is a product of two trainable factors added to a frozen weight, and it starts at zero.</p>
+
+<h2><span class="step">Step 2</span>Looping multiplies by the same weight again</h2>
+<p>A looped layer applies its weight \(K\) times. In the scalar model the output is</p>
+$$f = u^K x.$$
+<p>We write <span class="plain">\(K = 1\)</span> for an ordinary layer and <span class="loop">\(K = 3\)</span> for a looped one. Those colours mean the same thing everywhere on this page.</p>
+<p><b>Example.</b> With \(u = 1.1\) and \(x = 1\), the ordinary layer gives \(1.1\). The looped layer gives \(1.1^3 = 1.331\). Now nudge \(u\) up by \(0.01\). The ordinary output rises by \(0.01\). The looped output becomes \(1.11^3 = 1.3676\), a rise of \(0.0366\). The same nudge moved the looped output about 3.7 times as far.</p>
+
+<div class="panel">
+  <p class="try">Try it. Drag the adapter value \(ab\) and watch the two outputs. Look at how much steeper the orange curve is where the marker sits.</p>
+  <div class="ctrl">
+    <label for="p1">adapter \(ab\) <input type="range" id="p1" min="-0.4" max="0.4" step="0.01" value="0.1"><output id="p1o"></output></label>
+    <label for="w1">frozen \(w_0\) <input type="range" id="w1" min="0.6" max="1.4" step="0.05" value="1"><output id="w1o"></output></label>
+    <button id="r1" type="button">Reset</button>
+  </div>
+  <div id="plot1"></div>
+  <div class="read" id="read1"></div>
+</div>
+
+<p>The steepness has a formula. The power rule from calculus gives</p>
+$$\frac{\partial f}{\partial u} = K u^{K-1} x.$$
+<p>For \(K = 1\) this is just \(x\). For \(K = 3\) and \(u = 1.1\) it is \(3 \times 1.21 = 3.63\). That is close to the 3.66 from the example. The small gap is there because the slope itself rises as \(u\) rises, and the example used a nudge of finite size.</p>
+<p class="take">Takeaway. A looped layer's output is \(K u^{K-1}\) times more sensitive to its weight than an ordinary layer's.</p>
+
+<h2><span class="step">Step 3</span>The gradient grows by the same factor</h2>
+<p>Training needs a target. Call it \(s\), and measure the error \(e = f - s\). The loss is \(L = \tfrac12 e^2\). The gradient tells us how the loss changes when we change \(b\). We derive it one line at a time with \(x = 1\).</p>
+$$\frac{\partial L}{\partial b} = e \cdot \frac{\partial f}{\partial b}$$
+<p>That line is the chain rule applied to \(\tfrac12 e^2\). Next, \(f = u^K\), so the power rule gives</p>
+$$\frac{\partial f}{\partial b} = K u^{K-1} \cdot \frac{\partial u}{\partial b}.$$
+<p>Finally \(u = w_0 + ab\), so \(\partial u / \partial b = a\). Putting the three lines together,</p>
+$$\frac{\partial L}{\partial b} = e \cdot K u^{K-1} \cdot a.$$
+<p><b>Example.</b> At the start, \(b = 0\) so \(u = w_0 = 1\). Take \(a = 0.5\) and an error of \(e = -0.3\). The ordinary layer's gradient is \(-0.3 \times 1 \times 0.5 = -0.15\). The looped layer's is \(-0.3 \times 3 \times 0.5 = -0.45\). Our script reproduces both numbers.</p>
+<p class="take">Takeaway. For the same error, a looped layer receives a gradient \(K u^{K-1}\) times larger.</p>
+
+<h2><span class="step">Step 4</span>Looped layers need smaller steps</h2>
+<p>Gradient descent updates a parameter by subtracting the gradient times a learning rate \(\eta\). If \(\eta\) is too large, each step overshoots the minimum by more than the last and training blows up. The limit depends on how sharply the loss curves.</p>
+<p>The simplest case shows why. Take the loss \(\tfrac12 \lambda z^2\), a bowl whose curvature is \(\lambda\). Its gradient is \(\lambda z\), so one step gives</p>
+$$z \leftarrow z - \eta \lambda z = (1 - \eta\lambda)\, z.$$
+<p>Each step multiplies \(z\) by \(1 - \eta\lambda\). The steps shrink toward zero only if that multiplier is between \(-1\) and \(1\), which means \(\eta &lt; 2/\lambda\).</p>
+<p><b>Example.</b> With \(\lambda = 2\) the limit is \(\eta = 1\). At \(\eta = 0.9\) the multiplier is \(-0.8\) and the steps shrink. At \(\eta = 1.1\) it is \(-1.2\) and they grow.</p>
+<p>With several parameters, the curvature that matters is the largest one over all directions. It is called the <em>sharpness</em>. Formally it is the largest eigenvalue of the Hessian, the table of second derivatives of the loss.</p>
+<p>Now apply this to our model at a solution, where the error is zero. From Step 3, the output changes with \(a\) at rate \(K u^{K-1} b\) and with \(b\) at rate \(K u^{K-1} a\). Collect the two rates in a vector \(g = K u^{K-1}(b,\, a)\).</p>
+<p>A small move \(\delta\) in \((a, b)\) changes the output, and so the error, by about \(g \cdot \delta\). The loss becomes about \(\tfrac12 (g \cdot \delta)^2\).</p>
+<p>A move at right angles to \(g\) leaves this loss at zero, so that direction is flat. A move of length \(t\) along \(g\) gives \(g \cdot \delta = |g|\,t\) and a loss of \(\tfrac12 |g|^2 t^2\). Comparing with the bowl \(\tfrac12 \lambda z^2\), the curvature is \(|g|^2\).</p>
+$$\text{sharpness} = \left(K u^{K-1}\right)^2 \left(a^2 + b^2\right)$$
+<p><b>Example.</b> Target \(s = 2\), \(w_0 = 1\), and a solution with \(a = b\). The ordinary layer has sharpness \(2.00\), so its limit is \(\eta = 1.0\). The looped layer has sharpness \(11.79\).</p>
+
+<details><summary>Pause and predict. What is the looped layer's step limit?</summary>
+<p>It is \(2 / 11.79 = 0.170\), about six times smaller. Check it below by moving the slider across \(0.17\).</p></details>
+
+<div class="panel">
+  <p class="try">Try it. Both runs start a hair away from a solution. Raise the learning rate and watch which run flies away first. This runs real gradient descent in your browser.</p>
+  <div class="ctrl">
+    <label for="lr2">learning rate \(\eta\) <input type="range" id="lr2" min="0.02" max="1.2" step="0.01" value="0.1"><output id="lr2o"></output></label>
+    <button id="r2" type="button">Reset</button>
+  </div>
+  <div id="plot2"></div>
+  <div class="read" id="read2"></div>
+</div>
+<p class="take">Takeaway. Looping multiplies sharpness by \((K u^{K-1})^2\), so plain gradient descent must take much smaller steps in a looped layer.</p>
+
+<h2><span class="step">Step 5</span>Optimizers that ignore gradient size</h2>
+<p>Nobody fine-tunes large models with plain gradient descent. The two optimizers Tinker offers are AdamW and Dimuon. Both rescale the gradient before using it, and that changes the story.</p>
+<p>The simplest rescaling optimizer is <em>sign descent</em>. It keeps only the direction of the gradient and always moves by exactly \(\eta\).</p>
+$$b \leftarrow b - \eta \cdot \operatorname{sign}\!\left(\frac{\partial L}{\partial b}\right)$$
+<p><b>Adam</b> keeps, for each gradient entry, a running average of its squared values. It divides the entry by the square root of that average. On the very first step the average holds only the current gradient \(g\), so the division gives \(g / |g|\), which is \(+1\) or \(-1\). Adam's first step is sign descent. On later steps the result is no longer exactly \(\pm 1\), but it still does not grow when every gradient is scaled up by the same factor.</p>
+<p> AdamW is Adam plus weight decay, which shrinks every weight a little each step.</p>
+<p><b>Muon</b> does the matrix version. Any matrix stretches space by certain factors along certain directions. Those factors are its <em>singular values</em>. Muon replaces the gradient matrix with one that has the same directions and all singular values near 1. For a single number that is again the sign. Dimuon is Thinking Machines' Muon-style optimizer for LoRA. Its exact rule is not published.</p>
+<p><b>Example.</b> One sign step with \(\eta = 0.001\) from the start of Step 3. Both layers move \(b\) by \(0.001\). The ordinary output changes by \(0.0005\). The looped output changes by \(0.0015\).</p>
+
+<div class="panel">
+  <p class="try">Try it. Switch between the two optimizers. Under gradient descent the looped layer takes a bigger weight step. Under sign descent the weight steps match and only the output step differs.</p>
+  <div class="ctrl">
+    <label><input type="radio" name="opt3" id="o3gd" value="gd"> gradient descent</label>
+    <label><input type="radio" name="opt3" id="o3sign" value="sign" checked> sign descent</label>
+    <button id="r3" type="button">Reset</button>
+  </div>
+  <div class="bars" id="bars3"></div>
+</div>
+<p class="take">Takeaway. A size-ignoring optimizer gives looped and ordinary layers the same weight step, so the loop's effect moves entirely into how far the output moves.</p>
+
+<h2><span class="step">Step 6</span>The real model and what we can touch</h2>
+<p>Inkling 2 Mini has 24 layers of weights. Layers 6 to 17 run three times, which gives 48 layer applications per token. This comes from the model's published configuration file.</p>
+<div class="panel">
+  <div class="layers" id="layers" aria-label="24 layers, layers 6 to 17 looped"></div>
+  <div class="axis"><span>layer 0</span><span class="loop">6 to 17, run 3 times</span><span>23</span></div>
+  <p class="try">Schematic, not a computation. Each box is one layer of weights.</p>
+</div>
+<p>Each layer has an attention block, which lets a token read from earlier tokens, and a mixture-of-experts block. A mixture of experts holds many small sub-networks (128 here) and sends each token through only a few of them (8 here).</p>
+<p>Tinker attaches a LoRA adapter to every attention matrix, every expert matrix and the output layer. There is one adapter per layer of weights. A looped layer's adapter is therefore reused on all three passes, exactly like \(ab\) in the toy model.</p>
+<div class="scroll"><table>
+<tr><th>We can set</th><th>We cannot set</th></tr>
+<tr><td>Adapter rank and random seed</td><td>Which layers get adapters</td></tr>
+<tr><td>Attention, experts and output layer on or off as groups</td><td>Separate learning rates per layer</td></tr>
+<tr><td>AdamW learning rate, weight decay, and how much each step reuses earlier gradients (momentum)</td><td>Weight decay for Dimuon</td></tr>
+<tr><td>Dimuon learning rate and momentum</td><td>Anything inside Dimuon's update rule</td></tr>
+</table></div>
+<p class="note">The model also has loop-specific parts that pass messages between the three passes. They get no adapter, so we cannot train them.</p>
+<p class="take">Takeaway. The real model gives us ordinary and looped layers side by side in one training run, with one shared adapter per looped layer.</p>
+
+<h2><span class="step">Step 7</span>What we measured</h2>
+<p>We trained a single step on one short chat example, once with AdamW and once with Dimuon, both at learning rate \(0.001\) and adapter rank 8. We downloaded the adapter before and after and compared them.</p>
+<div class="scroll"><table>
+<tr><th>Observation</th><th>AdamW</th><th>Dimuon</th></tr>
+<tr><td>Which factor moves</td><td>Only \(B\)</td><td>Only \(B\)</td></tr>
+<tr><td>Size of the update to one \(3072 \times 8\) attention \(B\)</td><td>0.157</td><td>0.00222</td></tr>
+<tr><td>Same in all 24 layers?</td><td>Yes</td><td>Yes</td></tr>
+<tr><td>Singular values of that update, largest over smallest</td><td>about 4</td><td>about 1.3</td></tr>
+<tr><td>Size of the whole-adapter update</td><td>5.71</td><td>0.093</td></tr>
+</table></div>
+<p>"Size" means the Frobenius norm, the square root of the sum of squared entries.</p>
+<p><b>Only \(B\) moves.</b> \(B\) starts at zero. The gradient on \(A\) is proportional to \(B\), so it is zero on the first step. This is the matrix version of \(b = 0\) in Step 1.</p>
+<p><b>AdamW takes a sign step.</b> Every entry of the update is close to \(0.001\) in size, as Step 5 predicts. A matrix with \(3072 \times 8 = 24576\) such entries has norm \(0.001 \times \sqrt{24576} = 0.157\).</p>
+<p><b>Dimuon takes a nearly even step.</b> Its singular values are almost equal, which is the Muon signature. Every attention matrix gets an update of the same norm whatever its shape. We cannot yet explain the value \(0.00222\). Eight equal singular values of \(0.001\) would give \(0.001 \times \sqrt{8} = 0.00283\).</p>
+<p><b>The updates are flat across layers.</b> Looped layers moved exactly as far as ordinary ones under both optimizers. That is Step 5 at full scale. It also means this measurement cannot tell us anything about the loop.</p>
+<p class="note">Over the whole adapter (\(5.71\) against \(0.093\)), AdamW's step is about 61 times larger than Dimuon's at the same learning rate. A learning rate for one optimizer means nothing for the other.</p>
+<p class="take">Takeaway. The first step behaves as the toy model says, and the loop is invisible in weight movement.</p>
+
+<h2><span class="step">Step 8</span>What we will test next</h2>
+<p>Step 5 says where to look. If weight steps are equal, the loop must show in the output. The quantity to measure is a ratio. Make the same-size weight change in a looped layer and in an ordinary layer, and divide the first output change by the second.</p>
+<p>The toy model predicts \(K u^{K-1}\), which is 3 when \(u\) is near 1 as it is at the start of fine-tuning. That assumes the three passes push the output the same way, so their effects add up to 3. If the three pushes pointed in unrelated directions they would add like the sides of a box, to a length of \(\sqrt{1 + 1 + 1} = \sqrt{3} \approx 1.7\). The measured ratio tells us how much the passes agree.</p>
+<ol>
+  <li><b>Perturbation test.</b> Add a small change of fixed size to one layer's adapter, upload it, and measure how much the loss moves. Repeat for all 24 layers and for several random changes, so that the 12 looped layers can be compared with the 12 ordinary ones above the noise. This first needs a check that uploads work on the free tier.</li>
+  <li><b>Training profiles.</b> Train both optimizers for a few hundred steps and track each layer's adapter over time.</li>
+  <li><b>Weight-decay sweep.</b> Raise AdamW's weight decay until adapters collapse and see whether looped layers collapse at a different level.</li>
+</ol>
+
+<h2>Summary</h2>
+<p>An adapter adds a product \(ab\) to a frozen weight. Looping raises the effective weight to the power \(K\). That makes the output, and so the gradient, \(K u^{K-1}\) times more sensitive, and makes the loss \((K u^{K-1})^2\) times sharper. Plain gradient descent would feel all of this. AdamW and Dimuon discard gradient size, so they move looped and ordinary weights equally. Our first measurement on the real model shows exactly that. The loop's effect should therefore appear in output change per unit of weight change, which we have not measured yet.</p>
+
+<h2>Decisions so far</h2>
+<ul>
+  <li><b>Free tier only.</b> Every call uses the free model ID.</li>
+  <li><b>Framing.</b> Study the training mechanics of the looped layers with a minimal model first, then the real one.</li>
+  <li><b>Muon weight-decay wiring stays local.</b> Dimuon has no weight decay setting, so that older question cannot be studied on Tinker.</li>
+  <li><b>First hypothesis revised.</b> We dropped "looped layers get bigger updates" because the optimizers rule it out by design.</li>
+  <li><b>Pretraining claim withdrawn.</b> An earlier session said Inkling was pretrained with Muon. The model card does not say so. We treat it as unknown.</li>
+  <li><b>Records.</b> Every result has a script and a note in the repository. This page is rebuilt when findings change.</li>
+</ul>
+
+<h2>Common misconceptions</h2>
+<ul>
+  <li><b>"A looped layer gets three times the update."</b> Only under plain gradient descent. Under AdamW and Dimuon the weight update is the same size.</li>
+  <li><b>"Flat updates across layers mean the loop does nothing."</b> They mean the optimizer hides it. The output still moves more.</li>
+  <li><b>"The same learning rate is a fair comparison between optimizers."</b> Here it gave steps 61 times apart.</li>
+  <li><b>"The toy model is the real model."</b> The real passes are not identical. Each sees a different input and the model has extra parts linking them. The factor of 3 is an upper reference, which is why we measure it.</li>
+</ul>
+
+<h2>Blind spots</h2>
+<ul>
+  <li><b>Weight sharing across depth is an old idea.</b> Universal Transformers and deep equilibrium models reuse one block many times. Their training-stability results may already cover part of this.</li>
+  <li><b>Recurrent networks.</b> A loop is a short recurrence. The classic vanishing and exploding gradient analysis is the \(K u^{K-1}\) factor with large \(K\).</li>
+  <li><b>Edge of stability.</b> Real training often sits right at the \(2/\text{sharpness}\) limit and corrects itself. Step 4 treats the limit as a hard wall, which is a simplification.</li>
+  <li><b>LoRA learning-rate balance.</b> Work on LoRA+ argues that \(A\) and \(B\) want different learning rates. Tinker gives one rate for both.</li>
+  <li><b>A variable-loop sibling exists.</b> Thinking Machines released a research model trained with 1 to 5 passes. It would let us change \(K\) directly. It is not on Tinker today.</li>
+</ul>
+
+<h2>Sources</h2>
+<ul>
+  <li>Inkling 2 Mini model card and configuration on Hugging Face, read 26 Nov 2026. All architecture facts above come from these two files.</li>
+  <li>Tinker SDK 0.40.1 source code, for what the optimizers and LoRA settings expose.</li>
+  <li>Our scripts <code>00_probe_free_tier.py</code>, <code>01_inspect_probe.py</code> and <code>02_looped_abx_toy.py</code>, for every measured number.</li>
+  <li>Hu et al. (2021), LoRA. Kingma and Ba (2015), Adam. Jordan (2024), Muon blog post. Cohen et al. (2021), edge of stability. Dehghani et al. (2019), Universal Transformers. Bai, Kolter and Koltun (2019), deep equilibrium models. Hayou, Ghosh and Yu (2024), LoRA+. These are cited from memory and were not re-read today.</li>
+  <li>Simon et al., "There Will Be a Scientific Theory of Deep Learning" (arXiv 2604.21691). This framing paper was summarised in an earlier session and has not been re-read.</li>
+</ul>
+
+<h2>Notation</h2>
+<div class="scroll"><table>
+<tr><th>Symbol</th><th>Meaning</th></tr>
+<tr><td>\(w_0\)</td><td>Frozen base weight</td></tr>
+<tr><td>\(a,\ b\)</td><td>Trainable adapter factors. \(A\) and \(B\) are their matrix versions</td></tr>
+<tr><td>\(u = w_0 + ab\)</td><td>Effective weight</td></tr>
+<tr><td>\(K\)</td><td>Number of times the layer is applied. <span class="plain">1 is ordinary</span>, <span class="loop">3 is looped</span></td></tr>
+<tr><td>\(f = u^K x\)</td><td>Output for input \(x\)</td></tr>
+<tr><td>\(s,\ e,\ L\)</td><td>Target, error \(f - s\), loss \(\tfrac12 e^2\)</td></tr>
+<tr><td>\(\eta\)</td><td>Learning rate</td></tr>
+<tr><td>\(\lambda\)</td><td>Curvature of the loss. Its largest value is the sharpness</td></tr>
+</table></div>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<script>
+(function () {
+  if (window.renderMathInElement) renderMathInElement(document.body, { output: "mathml", throwOnError: false,
+    delimiters: [{ left: "$$", right: "$$", display: true }, { left: "\\(", right: "\\)", display: false }] });
+  const $ = id => document.getElementById(id);
+  const LOOP = "var(--loop)", PLAIN = "var(--plain)";
+  const fmt = (v, d = 3) => (Math.abs(v) >= 1e4 || (Math.abs(v) < 1e-3 && v !== 0)) ? v.toExponential(1) : v.toFixed(d);
+
+  // Generic line plot. series: [{pts:[[x,y]], color, label}]
+  function plot(el, series, o) {
+    const W = 660, H = 300, m = { l: 52, r: 78, t: 14, b: 40 };
+    const sx = x => m.l + (x - o.x0) / (o.x1 - o.x0) * (W - m.l - m.r);
+    const sy = y => H - m.b - (y - o.y0) / (o.y1 - o.y0) * (H - m.t - m.b);
+    let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${o.aria}">`;
+    s += `<rect x="${m.l}" y="${m.t}" width="${W - m.l - m.r}" height="${H - m.t - m.b}" fill="none" stroke="var(--line)"/>`;
+    o.xt.forEach(t => s += `<text x="${sx(t)}" y="${H - m.b + 18}" text-anchor="middle">${o.xf ? o.xf(t) : t}</text>`);
+    o.yt.forEach(t => s += `<text x="${m.l - 8}" y="${sy(t) + 4}" text-anchor="end">${o.yf ? o.yf(t) : t}</text><line x1="${m.l}" x2="${m.l + 5}" y1="${sy(t)}" y2="${sy(t)}" stroke="var(--line)"/>`);
+    s += `<text x="${(m.l + W - m.r) / 2}" y="${H - 4}" text-anchor="middle">${o.xl}</text>`;
+    s += `<text transform="translate(13 ${(H - m.b + m.t) / 2}) rotate(-90)" text-anchor="middle">${o.yl}</text>`;
+    (o.vlines || []).forEach(v => s += `<line x1="${sx(v)}" x2="${sx(v)}" y1="${m.t}" y2="${H - m.b}" stroke="var(--muted)" stroke-dasharray="3 4"/>`);
+    series.forEach(q => {
+      const c = q.pts.map(p => [sx(p[0]), sy(Math.max(o.y0, Math.min(o.y1, p[1])))]);
+      s += `<polyline fill="none" stroke="${q.color}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" points="${c.map(p => p.join(",")).join(" ")}"/>`;
+      const e = c[c.length - 1];
+      s += `<text x="${Math.min(e[0] + 8, W - m.r + 8)}" y="${e[1] + 4 + (q.dy || 0)}" style="fill:${q.color};font-weight:600">${q.label}</text>`;
+      if (q.mark) s += `<circle cx="${sx(q.mark[0])}" cy="${sy(q.mark[1])}" r="6" fill="${q.color}" stroke="var(--panel)" stroke-width="2"/>`;
+    });
+    el.innerHTML = s + "</svg>";
+  }
+
+  // Interactive 1: output versus adapter value.
+  function draw1() {
+    const p = +$("p1").value, w = +$("w1").value;
+    $("p1o").textContent = p.toFixed(2); $("w1o").textContent = w.toFixed(2);
+    const xs = []; for (let i = 0; i <= 80; i++) xs.push(-0.4 + i * 0.01);
+    const f = K => q => Math.pow(w + q, K);
+    plot($("plot1"), [
+      { pts: xs.map(q => [q, f(1)(q)]), color: PLAIN, label: "K = 1", mark: [p, f(1)(p)] },
+      { pts: xs.map(q => [q, f(3)(q)]), color: LOOP, label: "K = 3", mark: [p, f(3)(p)] }],
+      { x0: -0.4, x1: 0.4, y0: 0, y1: 6, xt: [-0.4, -0.2, 0, 0.2, 0.4], yt: [0, 2, 4, 6], xl: "adapter value ab", yl: "output f (input x = 1)", aria: "Output against adapter value for one and three passes" });
+    const u = w + p;
+    $("read1").innerHTML = `<span>effective weight u = ${u.toFixed(2)}</span><span style="color:${PLAIN}">K = 1  output ${fmt(u)}   slope 1.00</span><span style="color:${LOOP}">K = 3  output ${fmt(u * u * u)}   slope ${fmt(3 * u * u, 2)}</span>`;
+  }
+  ["p1", "w1"].forEach(i => $(i).addEventListener("input", draw1));
+  $("r1").addEventListener("click", () => { $("p1").value = 0.1; $("w1").value = 1; draw1(); });
+
+  // Interactive 2: real gradient descent near a solution, target s = 2, w0 = 1.
+  function run(K, lr) {
+    const s = 2, u = Math.pow(s, 1 / K), r = Math.sqrt(u - 1);
+    let a = r + 0.01, b = r - 0.02; const out = [];
+    for (let t = 0; t <= 60; t++) {
+      const uu = 1 + a * b, e = Math.pow(uu, K) - s, L = 0.5 * e * e;
+      out.push([t, Math.log10(Math.max(L, 1e-12))]);
+      if (!isFinite(L) || L > 1e6) break;
+      const g = e * K * Math.pow(uu, K - 1), ga = g * b, gb = g * a;
+      a -= lr * ga; b -= lr * gb;
+    }
+    return { pts: out, sharp: Math.pow(K * Math.pow(u, K - 1), 2) * 2 * (u - 1) };
+  }
+  function draw2() {
+    const lr = +$("lr2").value; $("lr2o").textContent = lr.toFixed(2);
+    const r1 = run(1, lr), r3 = run(3, lr);
+    plot($("plot2"), [{ pts: r1.pts, color: PLAIN, label: "K = 1", dy: 10 }, { pts: r3.pts, color: LOOP, label: "K = 3", dy: -6 }],
+      { x0: 0, x1: 60, y0: -12, y1: 6, xt: [0, 20, 40, 60], yt: [-12, -6, 0, 6], yf: t => "1e" + t, xl: "gradient descent step", yl: "loss (log scale)", aria: "Loss over gradient descent steps for one and three passes" });
+    const st = (r) => lr < 2 / r.sharp ? "settles" : "blows up";
+    $("read2").innerHTML = `<span style="color:${PLAIN}">K = 1  sharpness ${r1.sharp.toFixed(2)}  limit ${(2 / r1.sharp).toFixed(3)}  → ${st(r1)}</span><span style="color:${LOOP}">K = 3  sharpness ${r3.sharp.toFixed(2)}  limit ${(2 / r3.sharp).toFixed(3)}  → ${st(r3)}</span>`;
+  }
+  $("lr2").addEventListener("input", draw2);
+  $("r2").addEventListener("click", () => { $("lr2").value = 0.1; draw2(); });
+
+  // Interactive 3: one step from LoRA init (w0 = 1, a = 0.5, b = 0, error -0.3, lr 0.001).
+  function draw3() {
+    const sign = $("o3sign").checked, lr = 1e-3, a = 0.5, e = -0.3;
+    const rows = [1, 3].map(K => { const g = e * K * a, db = sign ? lr : -lr * g; return { K, db, df: Math.pow(1 + a * db, K) - 1 }; });
+    const mb = Math.max(...rows.map(r => r.db)), mf = Math.max(...rows.map(r => r.df));
+    let h = "";
+    rows.forEach(r => { const c = r.K === 1 ? PLAIN : LOOP;
+      h += `<span style="color:${c}">weight step, K = ${r.K}</span><span class="bar" style="background:${c};width:${100 * r.db / mb}%"></span><span class="v">${r.db.toExponential(2)}</span>`; });
+    rows.forEach(r => { const c = r.K === 1 ? PLAIN : LOOP;
+      h += `<span style="color:${c}">output step, K = ${r.K}</span><span class="bar" style="background:${c};width:${100 * r.df / mf}%"></span><span class="v">${r.df.toExponential(2)}</span>`; });
+    $("bars3").innerHTML = h;
+  }
+  ["o3gd", "o3sign"].forEach(i => $(i).addEventListener("change", draw3));
+  $("r3").addEventListener("click", () => { $("o3sign").checked = true; draw3(); });
+
+  $("layers").innerHTML = Array.from({ length: 24 }, (_, i) => `<span class="${i >= 6 && i < 18 ? "l" : ""}" title="layer ${i}"></span>`).join("");
+  draw1(); draw2(); draw3();
+})();
+</script>
