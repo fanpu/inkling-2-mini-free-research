@@ -1,7 +1,7 @@
 # Project State
 
 **Last updated:** 2026-11-26
-**Phase:** Phase 0 and the literature review are complete. Phase 1 starts with the two feasibility probes under Next actions.
+**Phase:** Phase 1. The feasibility probes are done. E0 (gradient readout by hop count) is running. Training runs (E2) come next.
 
 ## Verified facts
 
@@ -14,15 +14,23 @@ Details and sources are in the notes. Each line here has been checked by a scrip
 - At step one only B moves. AdamW takes a sign step. Dimuon takes a near-orthogonal step of the same Frobenius norm in every attention matrix. At the same learning rate the AdamW step is about 61 times larger (note 02).
 - The three passes are not chained. Each restarts from layer 5's output and reads a gated message from the previous pass, and the gate was closed at the start of TML's training (note 01, read from TML's release post).
 - In the gated scalar model the looped layer's relative sensitivity is between 1 and 3 times an ordinary layer's, depending on gate gain (note 03).
+- Uploading external weights is disabled for this organization (HTTP 400), so edited adapters cannot be evaluated (note 05).
+- `lora_alpha` is 32 at rank 2 as well as rank 8 (note 05).
+- Training clients must run one at a time. An unclosed `ServiceClient` stalls the next training client for over 15 minutes with "concurrent training clients rate limit hit". Sampling ran 433 and 213 requests with no throttling (notes 04, 06, 07).
+- `effort=0.0` does not stop reasoning. Prefilling `<|message_model|><|content_text|>Answer:` does (note 06).
+- Untuned accuracy on pointer chasing is 0.98, 1.00, 0.35, 0.10, 0.00, 0.00 for k = 0, 1, 2, 3, 4, 6, on 60 examples each (note 06).
+- Single-table reverse lookup is the hard one-hop control at 0.53 on 40 examples. Most of its errors are forward lookups (note 07).
+- One AdamW step with `eps = lr = 1e3` reads raw B gradients through the exact inverse $|g| = \epsilon u/(1-u)$, $u = |\Delta B|/\text{lr}$. Per-tensor norms reproduce within about 6% (note 04).
+- On small pointer-chasing batches the looped layers' B-gradient norms are about 2 times the unlooped ones after removing a linear depth trend (1.8 to 2.7 by module type). There is a sharp drop from layer 17 to 18 in every module type. The rise from layer 5 to 6 appears only in some. This suggests H1 but does not establish it (note 04).
 - In the pure-chain scalar model, looping multiplies the gradient by $K w_0^{K-1}$ and the sharpness by its square, and scale-free optimizers hide this in weight space (note 03).
 
 ## Unverified or unknown
 
 - How Inkling 2 Mini was pretrained. The Muon claim from the first session has no source (note 01).
 - Dimuon's update rule. We only have the step-one measurements.
-- Whether `external_weights_upload_*` works on the free tier. Experiment E1 depends on it.
-- Free-tier rate limits. The probe never hit one and the docs give no numbers. Storage is capped at 100 GB or 100 checkpoints per organization according to the docs review.
-- Whether `lora_alpha` stays 32 at other ranks.
+- The exact cap on concurrent training clients. Storage is capped at 100 GB or 100 checkpoints per organization according to the docs review.
+- Whether the gradient elevation in looped layers reflects output sensitivity. A B-gradient norm is a first-order loss sensitivity and sums over the 3 passes.
+- Whether reverse lookup is truly one hop inside the model.
 
 ## Hypotheses
 
@@ -32,15 +40,11 @@ Details and sources are in the notes. Each line here has been checked by a scrip
 
 ## Next actions
 
-1. **Feasibility probes (cheap, do first).**
-   - Large-`eps` AdamW step to read raw per-layer gradients. Precedent is in `notes/lit/03`.
-   - Upload an edited adapter and load it with `load_state` on the free tier.
-   - Base accuracy of the untuned model on pointer chasing for each hop count, with a prefilled answer start and `effort=0.0`, checking that no reasoning tokens appear.
-2. **E0, gradient readout (tests H1).** Per-layer gradient norms over several batches, looking for a jump at layers 6 and 18.
-3. **E1, perturbation sensitivity (tests H1).** Only if the upload probe works.
-4. **Dimuon probes.** Sweep learning rate, rank and seed for one to three steps to find its step rule and a matched step size.
-5. **E2, training profiles and hop sweep (tests H3).** AdamW and Dimuon on the task in D-011.
-6. **E3, learning-rate edge and AdamW weight-decay sweep (tests H2).** Only if E0 to E2 show a loop effect.
+1. **E0, gradient readout by hop count (running).** k = 1, 2, 3, 4, 6 and the reverse control, 2 seeds each, batch 32. Asks whether deeper tasks put a larger share of gradient in the looped layers. Output goes to `notes/08` and `artifacts/e0_grad_by_hops/`.
+2. **E1 is cancelled** because upload is disabled (D-015).
+3. **Dimuon probes.** Sweep learning rate, rank and seed for one to three steps to find its step rule and a matched step size.
+4. **E2, training profiles and hop sweep (tests H3).** AdamW and Dimuon on k in {2, 3, 4} and the reverse control. Keep k = 0, 1 as ceiling checks and k = 6 held out. One training client at a time.
+5. **E3, learning-rate edge and AdamW weight-decay sweep (tests H2).** Only if E0 and E2 show a loop effect.
 
 ## Files
 
@@ -48,6 +52,8 @@ Details and sources are in the notes. Each line here has been checked by a scrip
 - `DECISIONS.md` is the append-only decision log.
 - `RESEARCH_SEED.md` is the background from earlier threads. Some of its claims were later corrected. Where it disagrees with the notes, the notes win.
 - `notes/01_architecture_config.md`, `notes/02_tinker_probe.md`, `notes/03_looped_abx_theory.md`.
+- `notes/04_grad_readout_probe.md`, `notes/05_upload_probe.md`, `notes/06_task_base_accuracy.md`, `notes/07_control_search.md`.
+- `scripts/03` to `07` are the probes and their analysis. `scripts/task_pointer.py` is the task generator.
 - `notes/lit/01` to `04` are sub-agent literature and documentation reviews (see D-014).
 - `scripts/00_probe_free_tier.py`, `scripts/01_inspect_probe.py`, `scripts/02_looped_abx_toy.py`.
 - `docs/orientation.html` is the source of the human-facing orientation page, published privately at https://claude.ai/artifact/RNJnoBSSA7htrQbjwZVWhm. Republish to that URL after editing. It follows the owner's explainer rules: one 700px column, numbered steps with one idea each, KaTeX math (MathML output), live interactives with a reset, then summary, misconceptions, blind spots and sources.

@@ -47,3 +47,18 @@ Append-only chronological record of key architectural, experimental, and tooling
 
 - **D-014 — Literature notes are reviewer reports:**
   The files in `notes/lit/` were written by sub-agents that opened the sources. Treat a claim from them as verified only after someone reads the cited source directly. Papers dated after mid-2026 have not been read by the lead agent.
+
+- **D-015 — E1 cancelled, gradient readout is the H1 test:**
+  `external_weights_upload_start` returns 400 "Uploading external weights is not enabled for this organization" (note 05). Edited adapters cannot be evaluated, so the perturbation experiment is dropped. H1 is tested through the large-`eps` gradient readout only, which measures loss sensitivity, not output sensitivity.
+
+- **D-016 — Gradient readout uses the exact inverse:**
+  One AdamW step from the zero-B init with `eps = lr = 1e3`, then $|g| = \epsilon u/(1-u)$ with $u = |\Delta B|/\text{lr}$. The linear readout is wrong because some gradient entries are near 600 (note 04).
+
+- **D-017 — Direct answers are forced by prefill:**
+  Every training and eval prompt ends with the prefilled `<|message_model|><|content_text|>Answer:`. Only the first generated token is supervised and scored (note 06).
+
+- **D-018 — Training set and control:**
+  Train on k in {2, 3, 4}. k = 0 and 1 are ceiling checks and k = 6 is held out. Seed 2026 is reserved for eval. The difficulty control is single-table reverse lookup, reported with its share of forward-image answers because its difficulty is a direction bias (note 07). This replaces the larger-table control in D-011.
+
+- **D-019 — One training client at a time:**
+  Close every `ServiceClient` before opening the next. Subagents that train run sequentially (note 04).
