@@ -59,15 +59,15 @@ math { font-size: 1.05em; } math[display="block"] { margin: 0.3rem 0; overflow-x
 </style>
 
 <main>
-<span class="step">Orientation · updated 26 Nov 2026 · Phase 0 and literature review complete</span>
+<span class="step">Orientation · updated 26 Nov 2026 · Feasibility probes complete, training pilot running</span>
 <h1>What does looping a layer do to fine-tuning?</h1>
 <p class="lede">Inkling 2 Mini runs its middle 12 layers three times per token, reusing the same weights each time. We want to know how that reuse changes training when we fine-tune the model. This page teaches the ideas from scratch, then reports what we have measured and decided so far.</p>
 
 <div class="panel status">
-  <div><b>Where we are.</b> The free tier works end to end. We have trained one step with each optimizer, downloaded the adapters, checked a toy theory against code, and finished a literature review.</div>
-  <div><b>Main finding so far.</b> Both available optimizers ignore how large the gradient is. So the loop cannot show up in how far the weights move. It should show up in how much the model's output changes per unit of weight movement. That is the next thing to measure.</div>
+  <div><b>Where we are.</b> The feasibility probes are done. We can read the raw gradient of every layer from one optimizer step, the training task is calibrated against the untuned model, and a first check of gradient against task depth is finished. An AdamW training pilot is running now.</div>
+  <div><b>Main findings so far.</b> Both optimizers ignore how large the gradient is, so the loop does not show in how far the weights move (Step 7). The gradient itself is about two times larger in the looped layers once a steady trend with depth is removed, and it drops sharply right after the loop ends (Step 9). At the start of training, a deeper task does not put a larger share of the gradient into the loop (Step 10). These results suggest a loop effect but do not establish one.</div>
   <div><b>Correction from the review.</b> The model's three passes are not simply chained. Each pass restarts from the same input and receives a gated message from the previous pass. Step 6 explains this and Step 8 gives the revised prediction.</div>
-  <div><b>Nothing is blocked.</b> The API key works and every run so far cost $0.</div>
+  <div><b>Blocked.</b> Uploading an edited adapter is disabled on this account, so the planned perturbation test is cancelled. Training clients also have to run one at a time. Every run uses the free model.</div>
 </div>
 
 <h2>Why this is a question at all</h2>
@@ -83,15 +83,18 @@ math { font-size: 1.05em; } math[display="block"] { margin: 0.3rem 0; overflow-x
   <li>Why looped layers need smaller steps.</li>
   <li>Optimizers that ignore gradient size, and what they hide.</li>
   <li>The real model and what we can touch.</li>
-  <li>What we measured.</li>
-  <li>What we will test next.</li>
+  <li>What we measured in one optimizer step.</li>
+  <li>What the real loop predicts.</li>
+  <li>Reading the gradient through one Adam step.</li>
+  <li>Does a deeper task pull more gradient into the loop?</li>
 </ol>
+<p>After the steps come what we will do next, a summary, decisions, common misconceptions and blind spots.</p>
 
 <h2><span class="step">Step 1</span>An adapter shrunk to three numbers</h2>
 <p>Fine-tuning a large model usually leaves the original weights frozen and trains a small add-on called an adapter. The common kind is LoRA (low-rank adaptation). For a frozen weight matrix \(W_0\), LoRA trains two thin matrices \(B\) and \(A\) and uses \(W_0 + BA\) in place of \(W_0\).</p>
 <p>To see the mechanics, shrink every matrix to a single number. The frozen weight is \(w_0\). The two trainable numbers are \(a\) and \(b\). The layer multiplies its input \(x\) by the <em>effective weight</em></p>
 $$u = w_0 + ab.$$
-<p>\(B\) has \(r\) columns and \(A\) has \(r\) rows. The number \(r\) is the adapter's <em>rank</em>, and it is small. We use 8.</p>
+<p>\(B\) has \(r\) columns and \(A\) has \(r\) rows. The number \(r\) is the adapter's <em>rank</em>, and it is small. Our first probe used 8. The gradient probes in Steps 9 and 10 use 2.</p>
 <p><b>Example.</b> Take \(w_0 = 1\), \(a = 0.5\), \(b = 0.2\). Then \(u = 1 + 0.5 \times 0.2 = 1.1\), and an input of \(x = 1\) comes out as \(1.1\).</p>
 <p>LoRA starts with \(b = 0\) and \(a\) set to a small random value. The product \(ab\) is then zero, so the model starts out exactly as it was before fine-tuning.</p>
 <p class="take">Takeaway. An adapter is a product of two trainable factors added to a frozen weight, and it starts at zero.</p>
@@ -159,7 +162,7 @@ $$\text{sharpness} = \left(K u^{K-1}\right)^2 \left(a^2 + b^2\right)$$
 <p>Nobody fine-tunes large models with plain gradient descent. The two optimizers Tinker offers are AdamW and Dimuon. Both rescale the gradient before using it, and that changes the story.</p>
 <p>The simplest rescaling optimizer is <em>sign descent</em>. It keeps only the direction of the gradient and always moves by exactly \(\eta\).</p>
 $$b \leftarrow b - \eta \cdot \operatorname{sign}\!\left(\frac{\partial L}{\partial b}\right)$$
-<p><b>Adam</b> keeps, for each gradient entry, a running average of its squared values. It divides the entry by the square root of that average. On the very first step the average holds only the current gradient \(g\), so the division gives \(g / |g|\), which is \(+1\) or \(-1\). Adam's first step is sign descent. On later steps the result is no longer exactly \(\pm 1\), but it still does not grow when every gradient is scaled up by the same factor.</p>
+<p><b>Adam</b> keeps, for each gradient entry, a running average of its squared values. It divides the entry by the square root of that average plus a tiny constant \(\epsilon\) (epsilon), which is there to avoid dividing by zero. On the very first step the average holds only the current gradient \(g\), so the division gives \(g / (|g| + \epsilon)\). With the usual tiny \(\epsilon\) that is \(+1\) or \(-1\), so Adam's first step is sign descent. Step 9 uses what happens when \(\epsilon\) is not tiny. On later steps the result is no longer exactly \(\pm 1\), but it still does not grow when every gradient is scaled up by the same factor.</p>
 <p> AdamW is Adam plus weight decay, which shrinks every weight a little each step.</p>
 <p><b>Muon</b> does the matrix version. Any matrix stretches space by certain factors along certain directions. Those factors are its <em>singular values</em>. Muon replaces the gradient matrix with one that has the same directions and all singular values near 1. For a single number that is again the sign. Dimuon is Thinking Machines' Muon-style optimizer for LoRA. Its exact rule is not published.</p>
 <p><b>Example.</b> One sign step with \(\eta = 0.001\) from the start of Step 3. Both layers move \(b\) by \(0.001\). The ordinary output changes by \(0.0005\). The looped output changes by \(0.0015\).</p>
@@ -186,6 +189,7 @@ $$b \leftarrow b - \eta \cdot \operatorname{sign}\!\left(\frac{\partial L}{\part
 <p>The real loop is wired differently from our toy model. Thinking Machines' release post says every pass starts from the output of the first six layers. The second and third passes also read what the looped layers produced on the previous pass. That extra input is called the <em>message</em>. A learned <em>gate</em> decides how much of the message gets through. The gate began fully closed during the model's training and opened over time.</p>
 <p>So with the gate closed, the three passes are three identical copies of an ordinary layer stack, and only the last one feeds the rest of the model. With the gate wide open, each pass builds on the one before, which is the chain from Step 2. The real model sits somewhere in between.</p>
 <p>Tinker attaches a LoRA adapter to every attention matrix, every expert matrix and the output layer. There is one adapter per layer of weights. A looped layer's adapter is therefore reused on all three passes, exactly like \(ab\) in the toy model.</p>
+<p class="note">The gates and the parts that build the message get no adapter, so we cannot train them.</p>
 <div class="scroll"><table>
 <tr><th>We can set</th><th>We cannot set</th></tr>
 <tr><td>Adapter rank and random seed</td><td>Which layers get adapters</td></tr>
@@ -195,11 +199,28 @@ $$b \leftarrow b - \eta \cdot \operatorname{sign}\!\left(\frac{\partial L}{\part
 </table></div>
 <p>The training task is pointer chasing. The prompt holds a random lookup table over 26 letters, and the model must follow a given number of arrows from a starting letter and answer with the final letter only. The number of arrows is called the hop count. Training is supervised, with a known correct answer for every example.</p>
 <p>The review confirmed this is a standard task for studying depth. Thinking Machines used a close relative themselves and report that their variable-loop model follows longer chains when given more passes.</p>
-<p>The review also changed the design. A model can follow several arrows in one layer's worth of work by a doubling trick, so three hops needs only about one more layer than one hop. A harder task also draws more adapter weight everywhere. So we will sweep hop counts of 0, 1, 2, 3, 4 and 6, and add a control task that is harder without needing more steps.</p>
-<p class="note">The gates and the parts that build the message get no adapter, so we cannot train them.</p>
+<p>The review also changed the design. A model can follow several arrows in one layer's worth of work by a doubling trick, so three hops needs only about one more layer than one hop. A harder task also draws more adapter weight everywhere. So we sweep the hop count, written \(k\), over 0, 1, 2, 3, 4 and 6, and add a control task that is harder without needing more steps. Note that \(k\) counts arrows in the task, while \(K\) counts passes through a layer.</p>
+
+<h3>How the untuned model does</h3>
+<p>Before any training we measured the model as it is. Each prompt shows the 26 arrows in shuffled order, then a start letter and \(k\). Every letter is a single token, so the answer is one token.</p>
+<p>The model first had to be stopped from reasoning out loud. Turning its reasoning setting down to zero did not do it. All 6 test samples still opened with a thinking block. What worked was a <em>prefill</em>, where we write the first tokens of the model's reply ourselves. We end every prompt with the tokens that open a visible reply followed by <code>Answer:</code>. After that, all 6 test samples gave a letter first. Only that first token is scored, and training will supervise only that token.</p>
+<p>The table shows greedy accuracy, meaning we take the model's single most likely letter. It also shows the mean log-probability of the correct letter, the natural log of the probability the model gives it, averaged over examples. A value near 0 means the model is confident and right. Guessing among 26 letters gives an accuracy of 0.04 and a log-probability of \(\ln(1/26) = {-3.26}\).</p>
+<div class="scroll"><table>
+<tr><th>Hop count \(k\)</th><th>Accuracy</th><th>Mean log-probability</th><th>Answered the 1-hop letter</th><th>Answered the 2-hop letter</th></tr>
+<tr><td>0</td><td>0.98</td><td>-0.10</td><td></td><td></td></tr>
+<tr><td>1</td><td>1.00</td><td>-0.04</td><td>60</td><td></td></tr>
+<tr><td>2</td><td>0.35</td><td>-2.09</td><td>39</td><td>21</td></tr>
+<tr><td>3</td><td>0.10</td><td>-4.64</td><td>17</td><td>30</td></tr>
+<tr><td>4</td><td>0.00</td><td>-5.21</td><td>19</td><td>25</td></tr>
+<tr><td>6</td><td>0.00</td><td>-4.81</td><td>13</td><td>21</td></tr>
+</table></div>
+<p>Each row has 60 examples. The model follows one arrow perfectly and collapses from two arrows on. For \(k \ge 3\) its log-probability is below chance, so it is confidently wrong, and most of its answers are the letter one or two arrows away. It usually stops early.</p>
+<p>So we train on \(k = 2, 3, 4\), which sit below the ceiling with graded signal. \(k = 0\) and \(1\) are ceiling checks and \(k = 6\) is held out for testing.</p>
+<p>The control was harder to build than expected. A larger table, several tables, long keys, near-duplicate keys and long filler text all left one-hop accuracy at 0.90 or above. What worked is <em>reverse lookup</em>. The prompt gives a letter and asks which letter points to it. That is still one lookup, and the untuned model scores 0.53 on 40 examples with mean log-probability \(-1.50\), close to \(k = 2\).</p>
+<p class="note">Caveat. Most wrong reverse answers are the letter the given letter points to, which is a forward lookup. In 19 errors, 11 were the forward letter, 6 repeated the given letter and 2 were other letters. So reverse lookup is hard to elicit, not hard to retrieve. Training could remove that bias without adding any depth, and we report the share of forward answers next to its accuracy.</p>
 <p class="take">Takeaway. The real model gives us ordinary and looped layers side by side in one training run, with one shared adapter per looped layer.</p>
 
-<h2><span class="step">Step 7</span>What we measured</h2>
+<h2><span class="step">Step 7</span>What we measured in one optimizer step</h2>
 <p>We trained a single step on one short chat example, once with AdamW and once with Dimuon, both at learning rate \(0.001\) and adapter rank 8. We downloaded the adapter before and after and compared them.</p>
 <div class="scroll"><table>
 <tr><th>Observation</th><th>AdamW</th><th>Dimuon</th></tr>
@@ -217,23 +238,275 @@ $$b \leftarrow b - \eta \cdot \operatorname{sign}\!\left(\frac{\partial L}{\part
 <p class="note">Over the whole adapter (\(5.71\) against \(0.093\)), AdamW's step is about 61 times larger than Dimuon's at the same learning rate. A learning rate for one optimizer means nothing for the other.</p>
 <p class="take">Takeaway. The first step behaves as the toy model says, and the loop is invisible in weight movement.</p>
 
-<h2><span class="step">Step 8</span>What we will test next</h2>
+<h2><span class="step">Step 8</span>What the real loop predicts</h2>
 <p>Step 5 says where to look. If weight steps are equal, the loop must show in the output. The quantity to measure is a ratio. Make the same-size weight change in a looped layer and in an ordinary layer, and divide the first output change by the second.</p>
 <p>What should the ratio be? To compare fairly we use relative changes, meaning the percentage change in output per percentage change in weight. The chain from Step 2 gives a ratio of \(K = 3\).</p>
 <p>For the gated loop from Step 6, write \(g\) for how far the gate is open, with \(g = 0\) closed. Pass one produces \(h_1 = u x\). Each later pass produces \(h_k = u\,(x + g\,h_{k-1})\). The output is \(h_3\). Working through the algebra at \(u = 1\) gives the ratio</p>
 $$\frac{1 + 2g + 3g^2}{1 + g + g^2}.$$
 <p><b>Example.</b> At \(g = 0\) the ratio is \(1\), so a closed gate makes the looped layer behave like an ordinary one. At \(g = 1\) it is \(6/3 = 2\). As \(g\) grows it approaches \(3\). Our script confirms these values.</p>
 <p class="take">Takeaway. The measured ratio should fall between 1 and 3, and its value tells us how open the gates effectively are.</p>
+<p>The plan was to measure this ratio directly. Add a small change of fixed size to one layer's adapter, upload the edited adapter, and see how much the loss moves. Uploading turned out to be disabled on this account. The service refuses with "Uploading external weights is not enabled for this organization." Every other way to load weights takes a checkpoint already on the server, so this test is cancelled. Steps 9 and 10 use the best signal that is left, the gradient itself.</p>
+
+<h2><span class="step">Step 9</span>Reading the gradient through one Adam step</h2>
+<p>Tinker never shows us the gradient. It only returns the adapter after a step, and Step 7 showed that the step hides the gradient's size. But Adam's constant \(\epsilon\) from Step 5 lets that size leak through. If \(\epsilon\) is large next to the gradient, the division does almost nothing, and the step is close to the gradient times a fixed number.</p>
+<p>At the start of training \(B = 0\) and only \(B\) moves, so after one step the new \(B\) is the step itself. Take one entry of \(B\). Write \(\Delta\) for its change, \(\eta\) for the learning rate and \(g\) for that entry's gradient. In this step \(g\) is a gradient entry, not the gate of Step 8. Adam's first step is</p>
+$$\Delta = {-\eta}\,\frac{g}{|g| + \epsilon}.$$
+<p>We download \(B\) and we chose \(\eta\) and \(\epsilon\), so we can solve for \(g\). First define the step as a fraction of its largest possible size,</p>
+$$\rho = \frac{|\Delta|}{\eta}.$$
+<p>The project notes call this \(u\). Here it is \(\rho\) (rho), because \(u\) already means the effective weight on this page. Take absolute values in the step formula and divide by \(\eta\),</p>
+$$\rho = \frac{|g|}{|g| + \epsilon}.$$
+<p>Multiply both sides by \(|g| + \epsilon\),</p>
+$$\rho\,|g| + \rho\,\epsilon = |g|.$$
+<p>Collect the terms with \(|g|\) on the right,</p>
+$$\rho\,\epsilon = |g|\,(1 - \rho).$$
+<p>Divide by \(1 - \rho\), which is positive because \(\rho &lt; 1\),</p>
+$$|g| = \frac{\epsilon\,\rho}{1 - \rho}.$$
+<p>The sign comes from the direction of the step, which always goes against the gradient. So \(\operatorname{sign}(g) = {-\operatorname{sign}(\Delta)}\). One exported step therefore gives every gradient entry in every layer.</p>
+<p><b>Example.</b> We used \(\eta = \epsilon = 1000\). Suppose one entry has \(g = 600\). The step is \(\Delta = {-1000} \times 600 / 1600 = {-375}\), so \(\rho = 0.375\). The inverse gives \(|g| = 1000 \times 0.375 / 0.625 = 600\), the right answer. A shortcut that treats the step as linear, \(|g| \approx \epsilon\rho\), gives \(375\), which is 37.5% too low. This matters because the largest gradient entry we measured was \(599\).</p>
+
+<div class="panel">
+  <p class="try">Try it. Keep \(\epsilon\) at 1000 and slide \(|g|\) up. The linear shortcut falls behind once \(|g|\) nears \(\epsilon\), while the exact inverse stays right. Then set \(\epsilon\) to 1 and watch the step stick at the sign-step size \(\rho \approx 1\).</p>
+  <div class="ctrl">
+    <label for="g4">gradient \(|g|\) <input type="range" id="g4" min="-2" max="3" step="0.01" value="2.778"><output id="g4o"></output></label>
+    <label for="e4">constant \(\epsilon\) <input type="range" id="e4" min="0" max="4" step="0.01" value="3"><output id="e4o"></output></label>
+    <button id="r4" type="button">Reset</button>
+  </div>
+  <div class="bars" id="bars4"></div>
+  <div class="read" id="read4"></div>
+</div>
+<p class="note">A learning rate and \(\epsilon\) of 1000 are far outside normal training. They are a measuring trick for a single step, not a training setting.</p>
+
+<h3>Does the readout work?</h3>
+<p>We checked it three ways on the same batch of data. "Differ by" below means the size of the difference between two readouts divided by the size of one of them, with size measured by the Frobenius norm.</p>
+<ul>
+  <li><b>Scaling.</b> Doubling the weight on the loss should double every gradient. The readout's gradient norm grew by a factor of 2.012.</li>
+  <li><b>Two settings of \(\epsilon\).</b> Readouts at \(\epsilon = 1000\) and \(\epsilon = 10^4\) differ by 7.6%. Readouts at \(\epsilon = 1\) and \(\epsilon = 1000\) differ by 8.1%. With the linear shortcut that second gap would be 88%.</li>
+  <li><b>Repeats.</b> Each setting ran on a fresh training client. The gradient norm of each weight matrix agreed across clients to within about 6%, with ratios from 0.937 to 1.039.</li>
+</ul>
+<p>So the readout recovers gradients to within about 8%. That is small next to the differences between layers below.</p>
+
+<h3>The gradient by layer</h3>
+<p>We ran the readout on three small batches of 8 short pointer-chasing chats each, all with the same random \(A\) matrices. For each layer \(\ell\) and each weight type we take \(G_\ell\), the Frobenius norm of the gradient on \(B\). The chart shows three of the nine weight types that carry adapters. Two are attention matrices, the output matrix (wo_ud) and the key matrix (wk_dv). The third, w3, is one of the expert matrices.</p>
+<div class="panel">
+  <p class="try">Read the chart. Blue points are ordinary layers and orange points are looped layers. Grey segments cross an edge of the loop. Look at the step from layer 17 to 18, then at the step from 5 to 6.</p>
+<svg viewBox="0 0 660 330" role="img" aria-label="Gradient norm of the B matrix by layer for three weight types, log scale, with layers 6 to 17 shaded">
+<rect x="202.0" y="40" width="292.0" height="244" style="fill:var(--loop)" opacity="0.10"/>
+<text x="348.0" y="274" text-anchor="middle" style="fill:var(--loop);font-weight:600">looped block, run 3 times</text>
+<rect x="56" y="40" width="584" height="244" fill="none" stroke="var(--line)"/>
+<line x1="56" x2="640" y1="284.0" y2="284.0" stroke="var(--line)" stroke-dasharray="2 4"/>
+<text x="48" y="288.0" text-anchor="end">10</text>
+<line x1="56" x2="640" y1="225.8" y2="225.8" stroke="var(--line)" stroke-dasharray="2 4"/>
+<text x="48" y="229.8" text-anchor="end">30</text>
+<line x1="56" x2="640" y1="162.0" y2="162.0" stroke="var(--line)" stroke-dasharray="2 4"/>
+<text x="48" y="166.0" text-anchor="end">100</text>
+<line x1="56" x2="640" y1="103.8" y2="103.8" stroke="var(--line)" stroke-dasharray="2 4"/>
+<text x="48" y="107.8" text-anchor="end">300</text>
+<line x1="56" x2="640" y1="40.0" y2="40.0" stroke="var(--line)" stroke-dasharray="2 4"/>
+<text x="48" y="44.0" text-anchor="end">1000</text>
+<text x="68.2" y="302" text-anchor="middle">0</text>
+<text x="189.8" y="302" text-anchor="middle">5</text>
+<text x="214.2" y="302" text-anchor="middle">6</text>
+<text x="335.8" y="302" text-anchor="middle">11</text>
+<text x="481.8" y="302" text-anchor="middle">17</text>
+<text x="506.2" y="302" text-anchor="middle">18</text>
+<text x="627.8" y="302" text-anchor="middle">23</text>
+<text x="348.0" y="324" text-anchor="middle">layer</text>
+<text transform="translate(13 162.0) rotate(-90)" text-anchor="middle">B-gradient norm (log scale)</text>
+<line x1="56" x2="84" y1="14" y2="14" stroke="var(--fg)" stroke-width="2.5" stroke-dasharray=""/>
+<text x="90" y="18" style="fill:var(--fg)">attention output (wo_ud)</text>
+<line x1="284.8" x2="312.8" y1="14" y2="14" stroke="var(--fg)" stroke-width="2.5" stroke-dasharray="8 4"/>
+<text x="318.8" y="18" style="fill:var(--fg)">expert w3</text>
+<line x1="405.6" x2="433.6" y1="14" y2="14" stroke="var(--fg)" stroke-width="2.5" stroke-dasharray="2 4"/>
+<text x="439.6" y="18" style="fill:var(--fg)">attention key (wk_dv)</text>
+<line x1="68.2" y1="152.0" x2="92.5" y2="139.6" stroke="var(--plain)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray=""/>
+<line x1="92.5" y1="139.6" x2="116.8" y2="162.9" stroke="var(--plain)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray=""/>
+<line x1="116.8" y1="162.9" x2="141.2" y2="163.8" stroke="var(--plain)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray=""/>
+<line x1="141.2" y1="163.8" x2="165.5" y2="167.2" stroke="var(--plain)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray=""/>
+<line x1="165.5" y1="167.2" x2="189.8" y2="146.5" stroke="var(--plain)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray=""/>
+<line x1="189.8" y1="146.5" x2="214.2" y2="101.1" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray=""/>
+<line x1="214.2" y1="101.1" x2="238.5" y2="124.7" stroke="var(--loop)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray=""/>
+<line x1="238.5" y1="124.7" x2="262.8" y2="153.7" stroke="var(--loop)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray=""/>
+<line x1="262.8" y1="153.7" x2="287.2" y2="128.0" stroke="var(--loop)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray=""/>
+<line x1="287.2" y1="128.0" x2="311.5" y2="110.1" stroke="var(--loop)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray=""/>
+<line x1="311.5" y1="110.1" x2="335.8" y2="97.0" stroke="var(--loop)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray=""/>
+<line x1="335.8" y1="97.0" x2="360.2" y2="71.4" stroke="var(--loop)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray=""/>
+<line x1="360.2" y1="71.4" x2="384.5" y2="84.1" stroke="var(--loop)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray=""/>
+<line x1="384.5" y1="84.1" x2="408.8" y2="56.7" stroke="var(--loop)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray=""/>
+<line x1="408.8" y1="56.7" x2="433.2" y2="97.7" stroke="var(--loop)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray=""/>
+<line x1="433.2" y1="97.7" x2="457.5" y2="59.6" stroke="var(--loop)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray=""/>
+<line x1="457.5" y1="59.6" x2="481.8" y2="87.5" stroke="var(--loop)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray=""/>
+<line x1="481.8" y1="87.5" x2="506.2" y2="146.7" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray=""/>
+<line x1="506.2" y1="146.7" x2="530.5" y2="132.8" stroke="var(--plain)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray=""/>
+<line x1="530.5" y1="132.8" x2="554.8" y2="153.9" stroke="var(--plain)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray=""/>
+<line x1="554.8" y1="153.9" x2="579.2" y2="148.3" stroke="var(--plain)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray=""/>
+<line x1="579.2" y1="148.3" x2="603.5" y2="162.8" stroke="var(--plain)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray=""/>
+<line x1="603.5" y1="162.8" x2="627.8" y2="134.3" stroke="var(--plain)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray=""/>
+<circle cx="68.2" cy="152.0" r="3" fill="var(--plain)"/>
+<circle cx="92.5" cy="139.6" r="3" fill="var(--plain)"/>
+<circle cx="116.8" cy="162.9" r="3" fill="var(--plain)"/>
+<circle cx="141.2" cy="163.8" r="3" fill="var(--plain)"/>
+<circle cx="165.5" cy="167.2" r="3" fill="var(--plain)"/>
+<circle cx="189.8" cy="146.5" r="3" fill="var(--plain)"/>
+<circle cx="214.2" cy="101.1" r="3" fill="var(--loop)"/>
+<circle cx="238.5" cy="124.7" r="3" fill="var(--loop)"/>
+<circle cx="262.8" cy="153.7" r="3" fill="var(--loop)"/>
+<circle cx="287.2" cy="128.0" r="3" fill="var(--loop)"/>
+<circle cx="311.5" cy="110.1" r="3" fill="var(--loop)"/>
+<circle cx="335.8" cy="97.0" r="3" fill="var(--loop)"/>
+<circle cx="360.2" cy="71.4" r="3" fill="var(--loop)"/>
+<circle cx="384.5" cy="84.1" r="3" fill="var(--loop)"/>
+<circle cx="408.8" cy="56.7" r="3" fill="var(--loop)"/>
+<circle cx="433.2" cy="97.7" r="3" fill="var(--loop)"/>
+<circle cx="457.5" cy="59.6" r="3" fill="var(--loop)"/>
+<circle cx="481.8" cy="87.5" r="3" fill="var(--loop)"/>
+<circle cx="506.2" cy="146.7" r="3" fill="var(--plain)"/>
+<circle cx="530.5" cy="132.8" r="3" fill="var(--plain)"/>
+<circle cx="554.8" cy="153.9" r="3" fill="var(--plain)"/>
+<circle cx="579.2" cy="148.3" r="3" fill="var(--plain)"/>
+<circle cx="603.5" cy="162.8" r="3" fill="var(--plain)"/>
+<circle cx="627.8" cy="134.3" r="3" fill="var(--plain)"/>
+<line x1="68.2" y1="189.2" x2="92.5" y2="185.8" stroke="var(--plain)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="8 4"/>
+<line x1="92.5" y1="185.8" x2="116.8" y2="205.0" stroke="var(--plain)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="8 4"/>
+<line x1="116.8" y1="205.0" x2="141.2" y2="191.5" stroke="var(--plain)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="8 4"/>
+<line x1="141.2" y1="191.5" x2="165.5" y2="188.1" stroke="var(--plain)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="8 4"/>
+<line x1="165.5" y1="188.1" x2="189.8" y2="188.8" stroke="var(--plain)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="8 4"/>
+<line x1="189.8" y1="188.8" x2="214.2" y2="124.6" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="8 4"/>
+<line x1="214.2" y1="124.6" x2="238.5" y2="163.2" stroke="var(--loop)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="8 4"/>
+<line x1="238.5" y1="163.2" x2="262.8" y2="131.3" stroke="var(--loop)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="8 4"/>
+<line x1="262.8" y1="131.3" x2="287.2" y2="124.4" stroke="var(--loop)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="8 4"/>
+<line x1="287.2" y1="124.4" x2="311.5" y2="101.8" stroke="var(--loop)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="8 4"/>
+<line x1="311.5" y1="101.8" x2="335.8" y2="94.3" stroke="var(--loop)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="8 4"/>
+<line x1="335.8" y1="94.3" x2="360.2" y2="99.5" stroke="var(--loop)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="8 4"/>
+<line x1="360.2" y1="99.5" x2="384.5" y2="100.8" stroke="var(--loop)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="8 4"/>
+<line x1="384.5" y1="100.8" x2="408.8" y2="129.2" stroke="var(--loop)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="8 4"/>
+<line x1="408.8" y1="129.2" x2="433.2" y2="113.9" stroke="var(--loop)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="8 4"/>
+<line x1="433.2" y1="113.9" x2="457.5" y2="83.4" stroke="var(--loop)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="8 4"/>
+<line x1="457.5" y1="83.4" x2="481.8" y2="117.7" stroke="var(--loop)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="8 4"/>
+<line x1="481.8" y1="117.7" x2="506.2" y2="157.3" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="8 4"/>
+<line x1="506.2" y1="157.3" x2="530.5" y2="133.9" stroke="var(--plain)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="8 4"/>
+<line x1="530.5" y1="133.9" x2="554.8" y2="93.1" stroke="var(--plain)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="8 4"/>
+<line x1="554.8" y1="93.1" x2="579.2" y2="131.2" stroke="var(--plain)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="8 4"/>
+<line x1="579.2" y1="131.2" x2="603.5" y2="68.3" stroke="var(--plain)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="8 4"/>
+<line x1="603.5" y1="68.3" x2="627.8" y2="120.7" stroke="var(--plain)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="8 4"/>
+<circle cx="68.2" cy="189.2" r="3" fill="var(--plain)"/>
+<circle cx="92.5" cy="185.8" r="3" fill="var(--plain)"/>
+<circle cx="116.8" cy="205.0" r="3" fill="var(--plain)"/>
+<circle cx="141.2" cy="191.5" r="3" fill="var(--plain)"/>
+<circle cx="165.5" cy="188.1" r="3" fill="var(--plain)"/>
+<circle cx="189.8" cy="188.8" r="3" fill="var(--plain)"/>
+<circle cx="214.2" cy="124.6" r="3" fill="var(--loop)"/>
+<circle cx="238.5" cy="163.2" r="3" fill="var(--loop)"/>
+<circle cx="262.8" cy="131.3" r="3" fill="var(--loop)"/>
+<circle cx="287.2" cy="124.4" r="3" fill="var(--loop)"/>
+<circle cx="311.5" cy="101.8" r="3" fill="var(--loop)"/>
+<circle cx="335.8" cy="94.3" r="3" fill="var(--loop)"/>
+<circle cx="360.2" cy="99.5" r="3" fill="var(--loop)"/>
+<circle cx="384.5" cy="100.8" r="3" fill="var(--loop)"/>
+<circle cx="408.8" cy="129.2" r="3" fill="var(--loop)"/>
+<circle cx="433.2" cy="113.9" r="3" fill="var(--loop)"/>
+<circle cx="457.5" cy="83.4" r="3" fill="var(--loop)"/>
+<circle cx="481.8" cy="117.7" r="3" fill="var(--loop)"/>
+<circle cx="506.2" cy="157.3" r="3" fill="var(--plain)"/>
+<circle cx="530.5" cy="133.9" r="3" fill="var(--plain)"/>
+<circle cx="554.8" cy="93.1" r="3" fill="var(--plain)"/>
+<circle cx="579.2" cy="131.2" r="3" fill="var(--plain)"/>
+<circle cx="603.5" cy="68.3" r="3" fill="var(--plain)"/>
+<circle cx="627.8" cy="120.7" r="3" fill="var(--plain)"/>
+<line x1="68.2" y1="239.5" x2="92.5" y2="207.7" stroke="var(--plain)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="2 4"/>
+<line x1="92.5" y1="207.7" x2="116.8" y2="223.6" stroke="var(--plain)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="2 4"/>
+<line x1="116.8" y1="223.6" x2="141.2" y2="225.5" stroke="var(--plain)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="2 4"/>
+<line x1="141.2" y1="225.5" x2="165.5" y2="240.4" stroke="var(--plain)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="2 4"/>
+<line x1="165.5" y1="240.4" x2="189.8" y2="200.6" stroke="var(--plain)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="2 4"/>
+<line x1="189.8" y1="200.6" x2="214.2" y2="211.0" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="2 4"/>
+<line x1="214.2" y1="211.0" x2="238.5" y2="184.1" stroke="var(--loop)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="2 4"/>
+<line x1="238.5" y1="184.1" x2="262.8" y2="199.2" stroke="var(--loop)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="2 4"/>
+<line x1="262.8" y1="199.2" x2="287.2" y2="192.1" stroke="var(--loop)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="2 4"/>
+<line x1="287.2" y1="192.1" x2="311.5" y2="204.9" stroke="var(--loop)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="2 4"/>
+<line x1="311.5" y1="204.9" x2="335.8" y2="180.8" stroke="var(--loop)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="2 4"/>
+<line x1="335.8" y1="180.8" x2="360.2" y2="178.8" stroke="var(--loop)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="2 4"/>
+<line x1="360.2" y1="178.8" x2="384.5" y2="173.6" stroke="var(--loop)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="2 4"/>
+<line x1="384.5" y1="173.6" x2="408.8" y2="190.2" stroke="var(--loop)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="2 4"/>
+<line x1="408.8" y1="190.2" x2="433.2" y2="152.2" stroke="var(--loop)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="2 4"/>
+<line x1="433.2" y1="152.2" x2="457.5" y2="170.6" stroke="var(--loop)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="2 4"/>
+<line x1="457.5" y1="170.6" x2="481.8" y2="138.5" stroke="var(--loop)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="2 4"/>
+<line x1="481.8" y1="138.5" x2="506.2" y2="216.2" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="2 4"/>
+<line x1="506.2" y1="216.2" x2="530.5" y2="209.0" stroke="var(--plain)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="2 4"/>
+<line x1="530.5" y1="209.0" x2="554.8" y2="250.8" stroke="var(--plain)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="2 4"/>
+<line x1="554.8" y1="250.8" x2="579.2" y2="202.3" stroke="var(--plain)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="2 4"/>
+<line x1="579.2" y1="202.3" x2="603.5" y2="184.1" stroke="var(--plain)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="2 4"/>
+<line x1="603.5" y1="184.1" x2="627.8" y2="160.0" stroke="var(--plain)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="2 4"/>
+<circle cx="68.2" cy="239.5" r="3" fill="var(--plain)"/>
+<circle cx="92.5" cy="207.7" r="3" fill="var(--plain)"/>
+<circle cx="116.8" cy="223.6" r="3" fill="var(--plain)"/>
+<circle cx="141.2" cy="225.5" r="3" fill="var(--plain)"/>
+<circle cx="165.5" cy="240.4" r="3" fill="var(--plain)"/>
+<circle cx="189.8" cy="200.6" r="3" fill="var(--plain)"/>
+<circle cx="214.2" cy="211.0" r="3" fill="var(--loop)"/>
+<circle cx="238.5" cy="184.1" r="3" fill="var(--loop)"/>
+<circle cx="262.8" cy="199.2" r="3" fill="var(--loop)"/>
+<circle cx="287.2" cy="192.1" r="3" fill="var(--loop)"/>
+<circle cx="311.5" cy="204.9" r="3" fill="var(--loop)"/>
+<circle cx="335.8" cy="180.8" r="3" fill="var(--loop)"/>
+<circle cx="360.2" cy="178.8" r="3" fill="var(--loop)"/>
+<circle cx="384.5" cy="173.6" r="3" fill="var(--loop)"/>
+<circle cx="408.8" cy="190.2" r="3" fill="var(--loop)"/>
+<circle cx="433.2" cy="152.2" r="3" fill="var(--loop)"/>
+<circle cx="457.5" cy="170.6" r="3" fill="var(--loop)"/>
+<circle cx="481.8" cy="138.5" r="3" fill="var(--loop)"/>
+<circle cx="506.2" cy="216.2" r="3" fill="var(--plain)"/>
+<circle cx="530.5" cy="209.0" r="3" fill="var(--plain)"/>
+<circle cx="554.8" cy="250.8" r="3" fill="var(--plain)"/>
+<circle cx="579.2" cy="202.3" r="3" fill="var(--plain)"/>
+<circle cx="603.5" cy="184.1" r="3" fill="var(--plain)"/>
+<circle cx="627.8" cy="160.0" r="3" fill="var(--plain)"/>
+</svg>
+  <p class="try">Means over the three batches, from <code>per_layer_table.csv</code>. Each layer's spread over batches is mostly 5% to 25%. The vertical axis is logarithmic, so equal gaps mean equal ratios.</p>
+</div>
+<p><b>A sharp drop after the loop.</b> From layer 17 to 18 the gradient falls in every weight type and every batch. In 8 of the 9 types this drop is larger than at least 16 of the 20 other layer-to-layer steps it was compared with. A smooth trend with depth would not do this. Part of the drop comes from a peak at layers 16 and 17, since the gradient tends to rise along the looped block instead of sitting flat.</p>
+<p><b>A rise into the loop, but only for some types.</b> From layer 5 to 6 the gradient jumps up for the attention output and query matrices and for the expert matrices w1 and w3. For the key matrix, the value matrix (wv_dv) and a gating matrix inside attention (gate_attn), the step is no larger than ordinary steps between neighbouring layers. In the chart the key matrix even dips.</p>
+<p><b>About two times higher once depth is removed.</b> The gradient also drifts with depth, so comparing raw values is unfair. For each weight type we fit a straight line in depth to \(\log(G_\ell)\), plus one extra term for the looped block,</p>
+$$\log(G_\ell) = \beta_0 + \beta_1\,\ell + c\, I_\ell.$$
+<p>Here \(I_\ell\) is 1 when layer \(\ell\) is looped (6 to 17) and 0 otherwise, so \(e^c\) says how many times larger the looped layers are than the line predicts. Across the nine weight types \(e^c\) is 1.8 to 2.7, and every 95% interval excludes 1. With a curved (quadratic) depth trend in place of the line, the intervals widen and their lower ends fall to between 1.0 and 2.1.</p>
+<p>That factor sits in the same 1 to 3 range as the prediction in Step 8, though the prediction is about output change and this is a gradient. It suggests a loop effect. It cannot pin the factor or rule out depth effects at the loop's edges.</p>
+<p class="note">What this does not show. A gradient norm measures how fast the loss changes when a weight changes, not how far the output moves, and activation sizes also differ between layers. A looped layer's gradient is summed over its 3 passes, so it cannot tell how open the gates are. And this is one small task, one random initialisation of \(A\), three batches and a single step.</p>
+<p class="take">Takeaway. One Adam step with a huge \(\epsilon\) reads out the raw gradient, and in the looped layers that gradient is about two times what a depth trend predicts.</p>
+
+<h2><span class="step">Step 10</span>Does a deeper task pull more gradient into the loop?</h2>
+<p>If the looped layers do the extra work of following more arrows, a deeper task might put more of its gradient there. We tested this with the readout from Step 9, at the very start of training.</p>
+<p>Each run is a fresh rank-2 adapter with the same \(A\) matrices, 32 pointer-chasing examples, and one step from \(B = 0\) with \(\eta = \epsilon = 1000\). Only the answer token is supervised. We ran \(k = 1, 2, 3, 4, 6\) and the reverse-lookup control, each on two batches of data (seeds 1 and 2).</p>
+<p>The summary number is the <em>looped share</em> \(S\), the fraction of the squared gradient norm that sits in layers 6 to 17. Write \(n_{\ell,m}\) for the Frobenius norm of the \(B\) gradient for weight type \(m\) in layer \(\ell\). Then</p>
+$$S = \frac{\sum_{\ell=6}^{17} \sum_m n_{\ell,m}^2}{\sum_{\ell=0}^{23} \sum_m n_{\ell,m}^2}.$$
+<p>The output layer is left out. Twelve of the 24 layers are looped, so if every layer had the same gradient, \(S\) would be 0.5.</p>
+
+<details><summary>Pause and predict. If the loop does the extra hops, what should \(S\) do as \(k\) goes from 2 to 6?</summary>
+<p>It should rise. It does not. The table below shows it staying flat.</p></details>
+
+<div class="scroll"><table>
+<tr><th>Task</th><th>Mean log-probability, seeds 1 and 2</th><th>Looped share \(S\), seeds 1 and 2</th></tr>
+<tr><td>\(k = 1\)</td><td>-0.05, -0.04</td><td>0.929, 0.928</td></tr>
+<tr><td>\(k = 2\)</td><td>-2.21, -2.15</td><td>0.949, 0.951</td></tr>
+<tr><td>\(k = 3\)</td><td>-5.40, -4.82</td><td>0.949, 0.949</td></tr>
+<tr><td>\(k = 4\)</td><td>-5.01, -5.10</td><td>0.951, 0.953</td></tr>
+<tr><td>\(k = 6\)</td><td>-4.87, -4.85</td><td>0.939, 0.949</td></tr>
+<tr><td>reverse lookup (one hop)</td><td>-1.69, -1.24</td><td>0.951, 0.946</td></tr>
+</table></div>
+<p>The share is about 0.93 at \(k = 1\) and about 0.95 for every \(k\) from 2 to 6. Between \(k = 2\) and \(k = 6\) the two-seed averages move by at most 0.006, no more than the gap between seeds at \(k = 6\), which is 0.010. The one-hop reverse control also gives about 0.95.</p>
+<p>The only step is between \(k = 1\), which the model already solves, and everything harder. It comes from the late layers 18 to 23, which hold 0.019 to 0.028 of the squared norm at \(k = 1\) and 0.004 to 0.013 in the other runs. The reverse control needs one lookup yet matches \(k = 2\) in both log-probability and share. So at initialisation the share seems to track whether the model is wrong more than how deep the task is. Two seeds cannot fully separate these readings.</p>
+<p>Part of the high share is built in. A looped layer runs three times, so its weight gradient adds up the contributions of three passes. For comparison, the batches of Step 9 gave shares of 0.76 to 0.79. Those used different prompts and supervised whole replies, not just the answer token, so the comparison says only that this setup concentrates gradient in the loop more than those batches did.</p>
+<p class="note">Limits. This is one step at initialisation, on \(B\) only, at rank 2, with one initialisation of \(A\). Where the gradient points at the start need not match where adapter weight lands after many steps. The training runs below test that.</p>
+<p class="take">Takeaway. At the start of training a deeper task does not put a larger share of the gradient into the loop. The share seems to track being wrong more than being deep.</p>
+
+<h2>What comes next</h2>
+<p>Two practical limits shape the plan. Edited adapters cannot be uploaded, so the perturbation test from Step 8 is cancelled. And training clients must run one at a time. In one probe, a client left open made the next one stall for over 15 minutes with the message "concurrent training clients rate limit hit". With each client closed first, later clients started in 89 to 162 seconds. Sampling showed no such limit, with runs of 433 and 213 requests and no throttling.</p>
 <ol>
-  <li><b>Gradient readout.</b> Adam divides the gradient by its typical size plus a small constant. If we make that constant huge, the division does almost nothing and the step becomes the raw gradient times a fixed number. One step would then show the true gradient in every layer, with no upload needed. This is untested and the service may refuse the setting.</li>
-  <li><b>Perturbation test.</b> Add a small change of fixed size to one layer's adapter, upload it, and measure how much the loss moves. Repeat for all 24 layers and for several random changes, so that the 12 looped layers can be compared with the 12 ordinary ones above the noise. This first needs a check that uploads work on the free tier.</li>
-  <li><b>What is Dimuon?</b> Short runs at different learning rates and ranks to find its step rule. The documentation recommends 10 to 100 times the AdamW learning rate, which fits the gap we measured.</li>
-  <li><b>Training profiles and hop sweep.</b> Train both optimizers on the pointer-chasing task at each hop count and track each layer's adapter over time.</li>
-  <li><b>Weight-decay sweep.</b> Raise AdamW's weight decay until adapters collapse and see whether looped layers collapse at a different level.</li>
+  <li><b>AdamW training pilot (running now).</b> A first multi-step AdamW run on the pointer-chasing task.</li>
+  <li><b>AdamW against Dimuon.</b> Train both optimizers on \(k = 2, 3, 4\) and the reverse control, matched by measured step size, and compare where the adapter weight lands by layer. Step 10 says the starting gradient does not depend on depth, so this asks whether the trained weights do. Matching first needs short Dimuon runs at different learning rates and ranks to find its step rule. The documentation recommends 10 to 100 times the AdamW learning rate, which fits the gap from Step 7.</li>
+  <li><b>Learning-rate edge and weight-decay sweep.</b> Only if the training runs show a loop effect. Raise the learning rate, and AdamW's weight decay, and see whether the looped layers fail first.</li>
 </ol>
 
 <h2>Summary</h2>
-<p>An adapter adds a product \(ab\) to a frozen weight. Looping raises the effective weight to the power \(K\). That makes the output, and so the gradient, \(K u^{K-1}\) times more sensitive, and makes the loss \((K u^{K-1})^2\) times sharper. Plain gradient descent would feel all of this. AdamW and Dimuon discard gradient size, so they move looped and ordinary weights equally. Our first measurement on the real model shows exactly that. The loop's effect should therefore appear in output change per unit of weight change, which we have not measured yet.</p>
+<p>An adapter adds a product \(ab\) to a frozen weight. Looping raises the effective weight to the power \(K\). That makes the output, and so the gradient, \(K u^{K-1}\) times more sensitive, and makes the loss \((K u^{K-1})^2\) times sharper. Plain gradient descent would feel all of this. AdamW and Dimuon discard gradient size, so they move looped and ordinary weights equally, and our first measurement on the real model shows exactly that.</p>
+<p>We could not measure output change per unit of weight change, because edited adapters cannot be uploaded. Instead we read the raw gradient from one Adam step with a huge \(\epsilon\). The readout checks out to about 8%. In the looped layers the gradient is about two times what a depth trend predicts, with a sharp drop right after the loop. At the start of training a deeper task does not put a larger share of gradient into the loop. These results suggest a loop effect on the gradient but say nothing yet about where trained weights end up. The training runs come next.</p>
 
 <h2>Decisions so far</h2>
 <ul>
@@ -243,6 +516,11 @@ $$\frac{1 + 2g + 3g^2}{1 + g + g^2}.$$
   <li><b>First hypothesis revised.</b> We dropped "looped layers get bigger updates" because the optimizers rule it out by design.</li>
   <li><b>Toy model amended.</b> The gated loop replaces the pure chain for predictions about the real model.</li>
   <li><b>Task chosen.</b> Pointer chasing as a sweep over hop counts, with a difficulty control.</li>
+  <li><b>Perturbation test cancelled.</b> Uploading edited adapters is disabled on this account. The first hypothesis is tested through the gradient readout only, which measures loss sensitivity, not output sensitivity.</li>
+  <li><b>Gradient readout uses the exact inverse.</b> One AdamW step from \(B = 0\) with \(\eta = \epsilon = 1000\), read back with \(|g| = \epsilon\rho/(1-\rho)\). The linear shortcut is wrong because some gradient entries are near 600.</li>
+  <li><b>Direct answers are forced by prefill.</b> Every prompt ends with the prefilled start of a visible reply and <code>Answer:</code>. Only the first generated token is supervised and scored.</li>
+  <li><b>Training set and control.</b> Train on \(k = 2, 3, 4\). \(k = 0\) and \(1\) are ceiling checks and \(k = 6\) is held out. Seed 2026 is kept for evaluation. The control is single-table reverse lookup, reported with its share of forward answers. It replaces the larger-table control, which turned out to be easy.</li>
+  <li><b>One training client at a time.</b> Close every client before opening the next, and run training jobs in sequence.</li>
   <li><b>Pretraining claim withdrawn.</b> An earlier session said Inkling was pretrained with Muon. The model card does not say so. We treat it as unknown.</li>
   <li><b>Records.</b> Every result has a script and a note in the repository. This page is rebuilt when findings change.</li>
 </ul>
@@ -254,10 +532,21 @@ $$\frac{1 + 2g + 3g^2}{1 + g + g^2}.$$
   <li><b>"The same learning rate is a fair comparison between optimizers."</b> Here it gave steps 61 times apart.</li>
   <li><b>"The three passes are chained end to end."</b> They are not. Each restarts from the same input and is linked to the previous pass only through a gated message. The factor of 3 is an upper reference.</li>
   <li><b>"More hops need proportionally more layers."</b> A doubling trick lets a model do \(k\) hops in about \(\log_2 k\) layers.</li>
+  <li><b>"A larger gradient in a layer means its output is more sensitive."</b> The gradient measures how fast the loss changes. Output sensitivity is a different quantity, and we could not measure it here.</li>
+  <li><b>"A looped share of 0.95 means the loop does almost all the work."</b> Part of it is built in, because a looped layer's gradient adds up three passes. And the share barely moves with task depth.</li>
+  <li><b>"The model fails reverse lookup because it cannot find the answer."</b> Most of its errors are forward lookups. It does the familiar direction instead of the asked one.</li>
 </ul>
 
 <h2>Blind spots</h2>
-<p>These come from the literature review. A reviewing agent opened each source. I have not read them myself, so treat them as leads.</p>
+<p>First, the limits of our own measurements.</p>
+<ul>
+  <li><b>Loss, not output.</b> Every loop result so far is a gradient, which is a first-order loss sensitivity. Activation sizes differ between layers, and the readout cannot say how open the cross-pass gates are.</li>
+  <li><b>Start of training only.</b> Steps 9 and 10 use one step from \(B = 0\), at rank 2, with one random \(A\). Nothing yet says where adapter weight lands after many steps.</li>
+  <li><b>Small data.</b> Step 9 uses three batches of 8 chats and Step 10 uses two seeds per task. In Step 9 the loss was about 9.2 nats per supervised token, so formatting tokens may dominate that gradient.</li>
+  <li><b>Experts.</b> Expert gradients come only from the experts a token was routed to. Three passes may reach more experts, which the saved norms cannot test.</li>
+  <li><b>The control.</b> We do not know that reverse lookup is truly one hop inside the model.</li>
+</ul>
+<p>The rest come from the literature review. A reviewing agent opened each source. I have not read them myself, so treat them as leads.</p>
 <ul>
   <li><b>Looped models already have a training literature.</b> Loop-μP (arXiv 2606.18524) reportedly shows that updates to a shared layer add up across passes, so output change per step grows with the number of loops. DeepLoop (2607.13491) makes a related point. Neither was found to analyse sharpness.</li>
   <li><b>LoRA on looped models.</b> Loop Dropout (2609.34218) reportedly finds that standard LoRA on a looped model adapts mostly in the late passes.</li>
@@ -273,7 +562,7 @@ $$\frac{1 + 2g + 3g^2}{1 + g + g^2}.$$
   <li>Inkling 2 Mini model card and configuration on Hugging Face, and Thinking Machines' release post of 20 Nov 2026, all read directly on 26 Nov 2026. The architecture facts and the description of the gated message come from these.</li>
   <li>Four review notes in the repository under <code>notes/lit/</code>, written by reviewing agents.</li>
   <li>Tinker SDK 0.40.1 source code, for what the optimizers and LoRA settings expose.</li>
-  <li>Our scripts <code>00_probe_free_tier.py</code>, <code>01_inspect_probe.py</code> and <code>02_looped_abx_toy.py</code>, for every measured number.</li>
+  <li>Our scripts <code>00_probe_free_tier.py</code> to <code>08_e0_grad_by_hops.py</code> and the task generator <code>task_pointer.py</code>, for every measured number. Notes 04 to 08 in the repository describe the gradient readout, the upload probe, base accuracy, the control search and the depth check.</li>
   <li>Hu et al. (2021), LoRA. Kingma and Ba (2015), Adam. Jordan (2024), Muon blog post. Cohen et al. (2021), edge of stability. Dehghani et al. (2019), Universal Transformers. Bai, Kolter and Koltun (2019), deep equilibrium models. Hayou, Ghosh and Yu (2024), LoRA+. These are cited from memory and were not re-read today.</li>
   <li>Simon et al., "There Will Be a Scientific Theory of Deep Learning" (arXiv 2604.21691). This framing paper was summarised in an earlier session and has not been re-read.</li>
 </ul>
@@ -287,7 +576,13 @@ $$\frac{1 + 2g + 3g^2}{1 + g + g^2}.$$
 <tr><td>\(K\)</td><td>Number of times the layer is applied. <span class="plain">1 is ordinary</span>, <span class="loop">3 is looped</span></td></tr>
 <tr><td>\(f = u^K x\)</td><td>Output for input \(x\)</td></tr>
 <tr><td>\(s,\ e,\ L\)</td><td>Target, error \(f - s\), loss \(\tfrac12 e^2\)</td></tr>
-<tr><td>\(g\)</td><td>How far the cross-pass gate is open. 0 is closed</td></tr>
+<tr><td>\(g\)</td><td>Step 4, the vector of output rates. Step 8, how far the cross-pass gate is open (0 is closed). Step 9, one entry of the gradient</td></tr>
+<tr><td>\(\epsilon\)</td><td>Adam's constant in the denominator</td></tr>
+<tr><td>\(\Delta,\ \rho\)</td><td>Change in one entry of \(B\) after one step, and \(\rho = |\Delta|/\eta\)</td></tr>
+<tr><td>\(I_\ell\)</td><td>1 if layer \(\ell\) is looped (6 to 17), else 0</td></tr>
+<tr><td>\(G_\ell,\ n_{\ell,m}\)</td><td>Frobenius norm of the \(B\) gradient in layer \(\ell\), for one weight type or for type \(m\)</td></tr>
+<tr><td>\(k\)</td><td>Hop count of the pointer-chasing task</td></tr>
+<tr><td>\(S\)</td><td>Looped share, the fraction of squared gradient norm in layers 6 to 17</td></tr>
 <tr><td>\(h_k\)</td><td>Output of pass \(k\) through the looped layers</td></tr>
 <tr><td>\(\eta\)</td><td>Learning rate</td></tr>
 <tr><td>\(\lambda\)</td><td>Curvature of the loss. Its largest value is the sharpness</td></tr>
@@ -381,7 +676,19 @@ $$\frac{1 + 2g + 3g^2}{1 + g + g^2}.$$
   ["o3gd", "o3sign"].forEach(i => $(i).addEventListener("change", draw3));
   $("r3").addEventListener("click", () => { $("o3sign").checked = true; draw3(); });
 
+  // Interactive 4: Adam's first step with constant eps, and two ways to read the gradient back.
+  function draw4() {
+    const g = Math.pow(10, +$("g4").value), eps = Math.pow(10, +$("e4").value);
+    $("g4o").textContent = g.toPrecision(3); $("e4o").textContent = eps.toPrecision(3);
+    const rho = g / (g + eps), lin = eps * rho, ex = eps * rho / (1 - rho), mx = Math.max(g, lin, ex);
+    const rows = [["true gradient", g, "var(--fg)"], ["linear shortcut", lin, "var(--warn)"], ["exact inverse", ex, "var(--ok)"]];
+    $("bars4").innerHTML = rows.map(r => `<span style="color:${r[2]}">${r[0]}</span><span class="bar" style="background:${r[2]};width:${100 * r[1] / mx}%"></span><span class="v">${r[1].toPrecision(3)}</span>`).join("");
+    $("read4").innerHTML = `<span>step as a fraction of its maximum (rho) = ${rho.toFixed(4)}</span><span style="color:var(--warn)">linear shortcut is ${(100 * (1 - lin / g)).toFixed(1)}% too low</span>`;
+  }
+  ["g4", "e4"].forEach(i => $(i).addEventListener("input", draw4));
+  $("r4").addEventListener("click", () => { $("g4").value = 2.778; $("e4").value = 3; draw4(); });
+
   $("layers").innerHTML = Array.from({ length: 24 }, (_, i) => `<span class="${i >= 6 && i < 18 ? "l" : ""}" title="layer ${i}"></span>`).join("");
-  draw1(); draw2(); draw3();
+  draw1(); draw2(); draw3(); draw4();
 })();
 </script>
