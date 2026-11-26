@@ -1,0 +1,776 @@
+[
+ {
+  "variant": "passage1500",
+  "k": 1,
+  "answer": "z",
+  "path": [
+   "m",
+   "z"
+  ],
+  "table": "A",
+  "prompt_tokens": 1901,
+  "greedy_token": " z",
+  "greedy_logprob": -0.002526725409552455,
+  "greedy_correct": true,
+  "greedy_is_letter": true,
+  "logprob_correct": -0.002526725409552455,
+  "best_letter": "z",
+  "best_letter_correct": true,
+  "letter_mass_top20": 0.9979582285535514,
+  "top20_letters": [
+   [
+    "z",
+    -0.002526725409552455
+   ],
+   [
+    "m",
+    -8.266587257385254
+   ],
+   [
+    "d",
+    -9.521246910095215
+   ],
+   [
+    "y",
+    -9.8450345993042
+   ],
+   [
+    "x",
+    -10.027300834655762
+   ],
+   [
+    "s",
+    -10.40101146697998
+   ],
+   [
+    "w",
+    -10.640093803405762
+   ]
+  ],
+  "top5": [
+   [
+    " z",
+    -0.002526725409552455
+   ],
+   [
+    " $",
+    -7.694783687591553
+   ],
+   [
+    " ",
+    -8.091689109802246
+   ],
+   [
+    " m",
+    -8.266587257385254
+   ],
+   [
+    " **",
+    -8.679678916931152
+   ]
+  ],
+  "greedy_path_index": 1,
+  "prompt": "Function A maps each letter to a letter:\n\nb -> q\no -> b\nt -> f\np -> s\nw -> c\nz -> m\nl -> g\ni -> i\nn -> k\nf -> n\nd -> o\ns -> x\ng -> v\nv -> u\nr -> j\ny -> y\nh -> l\nk -> h\na -> t\nj -> w\nx -> d\nm -> z\nc -> r\ne -> p\nq -> e\nu -> a\n\nThe following passage is unrelated to the question.\n\nWith that green at harbor harbor library letter built as carried for in. Warm for walked of letter river returned market be this. Simple to stone station opened of and carried this harbor long built as built. To noticed cold built and window window with for at. Be a distant early a morning forest as simple village.\nStation old to watched from and field morning morning window simple distant garden by simple bridge. Village table from built bright library kitchen by paper opened valley morning table found to. Stone morning to letter cold found was watched bridge morning from kept simple. Market and market and noticed it watched for walked watched. Kept noticed distant morning noticed moved built at is a this by as by a in.\nWindow bright old it distant built harbor with valley quiet. Kept is paper from bridge opened stone of returned. Bright watched with road distant that be village by moved. River from kept letter library library quiet village quiet noticed are garden slow. For this of letter cold stone slow window moved slow table of market was.\nPaper with slow garden kitchen with the small built valley harbor moved carried be. Are a warm window bright this it long window. As kept morning watched green with letter opened at on table library on. As is kept small watched from small window watched early light window. Watched for are kitchen evening light road light early harbor this for are.\nKitchen built station with village warm moved stone light carried library small built green. Quiet harbor slow station the that at watched of stone are library noticed cold watched. For and library at small table moved of paper river. Old small forest light early library harbor carried. Is window field harbor market returned morning quiet table letter for green watched letter simple slow.\nOld was warm be are a returned found the it distant. On that window for station found is watched the valley a. Bright river to forest of this of to window opened it. Carried that noticed cold from old with on this and from long cold. Light long table paper to from bright green road bright.\nA light slow forest and library village with valley market. Kept is harbor found slow from the found morning watched small carried from moved returned morning. Field bridge letter distant garden carried small library a. Green light returned quiet stone from paper cold village long. At found green old field as this paper quiet bridge kept of warm are.\nFrom bright opened are watched and the letter simple slow. Window of bridge the morning it by light quiet by light to paper evening and returned. Station bright watched window are early and library returned noticed. Station distant in a on it bright from. Carried be letter light returned paper built valley.\nStone from valley valley window in moved for watched bridge road from is bright. Light from simple on in on is morning found small on station distant that. Long be forest bridge light the a small river by watched stone. Market it found is library to that library are the of a paper. To as letter morning market on valley noticed for morning library as simple opened.\nStation to bright simple carried light field this was that garden. Are walked cold simple paper moved for village watched by noticed stone river valley on this. It moved on field walked are in station by was on was. Window road paper market distant of library of. Station bridge letter morning was field this are from small quiet.\nTable as found kitchen returned bridge slow to carried quiet of distant and. Library with watched opened from by that green it from. Morning the carried distant road in and it evening green. Be long walked walked distant moved kitchen walked letter kept green early. Station simple as noticed watched from a by.\nKept walked noticed and for warm garden are bright that slow. Morning valley moved kept valley a the is kept field walked that. Built green slow to returned this at long. Simple watched river small slow for long slow on returned moved simple. Valley window quiet moved returned it paper built market field.\nTo valley are long to morning library field this bright it morning field. Opened long opened on station field it forest is this noticed. Village quiet in light field is cold forest village are village. Walked this paper green library morning are built. Green warm forest found a market are simple is warm be.\nTo river long light and of and the walked paper built to to morning to. Morning a returned from built slow paper of simple this moved. Walked from road at quiet at to green built. Kitchen carried of small that be morning green a it slow stone. Simple watched returned for on green and market for.\nEvening built kitchen bridge moved kitchen opened library watched quiet. Forest a light early noticed to found distant at. Noticed by opened village harbor is letter forest quiet with early stone garden valley with quiet. Be forest to distant the watched forest valley stone noticed letter was of as found. Letter early on field table forest on kept as light that stone evening it library.\nKept station that simple village returned the as valley station market walked field library morning. River valley and noticed of garden early for kitchen as library paper garden opened village letter. On field morning distant returned at small and. Village old old walked paper that long paper. And road cold old slow river field the carried in slow garden noticed on noticed river.\nWindow paper with station the a walked distant by cold quiet simple watched library. Morning from harbor early village as be letter evening market kitchen. On small with forest bridge long letter walked warm forest noticed opened. By be returned valley distant was stone simple this cold noticed. Light that returned small to on returned to simple carried table it forest.\nReturned letter for be with at found carried slow. A forest evening forest be cold moved forest are as old window returned light. Station field early stone long library library with window. Village early as slow market field evening table. It long market cold letter of that letter by library cold is on.\nNoticed are this kitchen kitchen from built the of garden from built kept. Opened for it warm returned built is light for cold to table field. This on it of window kitchen stone of market warm by harbor in valley old is. River walked simple watched window garden it forest. By moved in on noticed returned distant to.\nQuiet this window be village with bridge village early this with old. A for old from early distant quiet at found returned distant. And small light was simple morning long slow morning river warm at it. Long station at evening returned library a village long on at road. Stone evening old moved slow and field and a.\nStation built forest with kitchen moved was it simple. Market kitchen carried it are letter light built as opened. From morning for station noticed field valley as opened by. Green green road harbor was the quiet that on at field simple by. Stone the built on moved warm noticed of warm in found walked this at paper.\nThe returned noticed field and slow for simple for garden. Are the and cold kitchen from quiet bright station watched on simple walked morning returned. Is in be simple moved for are found for forest as stone small. Table with paper evening returned river letter early small kept that. Valley early this at paper road field on is.\nStone early market on letter old forest morning and. Of opened letter window carried evening be evening. Long road station on quiet returned watched table at for on village this with was. Carried warm kitchen bright in small from library. Was and stone the quiet distant built and old in garden was valley that.\nFor that bright found valley green on bright of was morning light carried garden. Kept slow morning opened bridge bright distant cold and the. Distant table to road that opened with opened opened as bright walked library green valley in. Warm forest quiet found green is from river kitchen library with for long light it. Bridge village noticed road moved was library village green village.\nAt as watched be it kitchen bright that garden warm village market are by. Built field table and village walked early bright road bridge for window window paper quiet. Kitchen letter opened forest as built with slow long. Was it noticed paper this stone field slow returned river on the by carried garden early. Warm old returned library window bright as are.\nA window it early it as station quiet be old harbor bright of long. Kitchen carried at long kept letter kept be this slow village green kept market paper. Window from kitchen forest paper small library in opened paper bright river be.\n\nStart letter: m\nNumber of steps: 1\nFollow function A from the start letter for that number of steps (0 steps means stay on the start letter). Reply with the final letter only."
+ },
+ {
+  "variant": "passage1500",
+  "k": 1,
+  "answer": "m",
+  "path": [
+   "u",
+   "m"
+  ],
+  "table": "A",
+  "prompt_tokens": 1906,
+  "greedy_token": " m",
+  "greedy_logprob": -0.003993511199951172,
+  "greedy_correct": true,
+  "greedy_is_letter": true,
+  "logprob_correct": -0.003993511199951172,
+  "best_letter": "m",
+  "best_letter_correct": true,
+  "letter_mass_top20": 0.9961511734413908,
+  "top20_letters": [
+   [
+    "m",
+    -0.003993511199951172
+   ],
+   [
+    "u",
+    -9.24166488647461
+   ],
+   [
+    "l",
+    -10.568145751953125
+   ],
+   [
+    "o",
+    -12.033227920532227
+   ],
+   [
+    "i",
+    -12.283014297485352
+   ],
+   [
+    "q",
+    -12.560041427612305
+   ]
+  ],
+  "top5": [
+   [
+    " m",
+    -0.003993511199951172
+   ],
+   [
+    "<|end_message|>",
+    -5.617387294769287
+   ],
+   [
+    " u",
+    -9.24166488647461
+   ],
+   [
+    " $",
+    -10.195734024047852
+   ],
+   [
+    "m",
+    -10.323486328125
+   ]
+  ],
+  "greedy_path_index": 1,
+  "prompt": "Function A maps each letter to a letter:\n\nf -> t\nt -> y\nv -> r\nq -> a\ne -> g\nl -> s\nm -> k\nr -> w\nh -> j\ny -> c\ns -> h\nb -> p\nw -> o\nn -> f\no -> v\np -> l\nu -> m\ni -> n\nd -> u\na -> q\nz -> x\nk -> e\nx -> d\nc -> z\nj -> i\ng -> b\n\nThe following passage is unrelated to the question.\n\nWatched morning road table station be to with with small bridge opened cold garden by was. Was a that forest in built this returned with as library. Walked it for built garden walked that village found village. Village harbor be old found opened cold from road village. Kitchen was paper opened window with valley paper this for kept light.\nKitchen library that window kept a in kept. Returned field by bridge this by watched library. Simple moved garden was valley kept by found that is stone village it with old is. Window quiet to forest for old field station river for opened from the field green this. Are river market evening bright watched stone carried it old road by harbor.\nSlow cold bright this morning old valley watched. In river be letter small that a evening. Is the by distant returned morning simple forest was. Harbor moved watched built as watched slow evening morning road harbor distant. Evening it noticed noticed was returned is window of be.\nFrom carried letter it found table evening bridge was found station watched watched of valley. Garden and the was light are carried forest slow moved carried morning field stone. A kitchen long it garden returned to a small that library station. From that simple old in be window table. The field and stone warm moved watched warm letter in.\nLetter and green it for garden noticed garden village river. Harbor green small warm old quiet for found warm opened on station light light. Kept distant paper village at warm opened from river. Green kept bright is field letter returned letter old kept are quiet harbor evening quiet warm. Valley moved this green built be in for watched.\nRiver by field opened old it to returned are early. Harbor walked green distant was simple window are built letter of. Are noticed early was carried kept watched green small green to bright forest village in warm. Bridge that simple letter with the as slow kitchen paper walked harbor built distant carried. Be on as road it field window long quiet this station from cold.\nQuiet small found of valley village at library forest small evening at station small a of. Returned window the the at cold as are road station paper. Green green green be walked carried for garden green slow table with harbor river kitchen evening. Bridge library on window a are early as of cold returned from. To river morning the road of window kept that be warm cold returned.\nWarm harbor that that as forest found old slow for bright paper paper built as. Market kept slow moved bright on and from noticed of forest as. The slow that garden quiet carried this kitchen the quiet. Carried market are simple simple bright returned is carried with of opened valley light moved noticed. Early from built small table and of road light harbor.\nDistant small forest library be as that on. Bridge long station a market evening window long. The built in on field early cold simple. Old returned garden walked bright from paper be table. Cold found watched that built distant be small forest quiet.\nWatched on market river field kitchen found kept bridge valley from slow watched old. Quiet of kitchen harbor slow river bright warm letter. Evening was harbor station noticed it this morning table quiet long morning. River bridge cold table was in watched village table walked. Bridge be field returned window road old evening.\nMoved watched and quiet to old kept simple and be paper small is be carried. Returned garden garden of paper a on are bright. This kept in be early paper road found walked garden in bright and small. From small by carried green that window village by in walked that at bridge paper. Field station evening noticed built forest valley and it is be carried village.\nTable valley and cold village early road are on table found. Quiet early distant by be evening by bridge warm valley carried simple old is forest walked. Field with as kitchen be letter are window opened found was. Garden as was bright a window this bridge light by are moved. Quiet returned library paper to stone a early the warm built evening is was.\nReturned found carried be valley for warm early paper kept warm carried. Kitchen as be slow paper at that built. Kitchen market valley warm letter kept morning found bright. River as found are field in carried carried road cold found. Distant village built are distant bright in opened early with that old library opened distant forest.\nOld small is window field as market window a on cold bridge noticed kitchen. Quiet from road kitchen paper carried carried table evening stone river valley for simple. This from warm by small by be walked on letter from. Station morning carried garden are slow on table on. Field cold stone early with are simple field market on market from bridge a market.\nLibrary walked a stone river distant that market table with. Forest window road on as opened to bridge it station light. Village of as opened noticed noticed early of. Slow small stone library that bridge at station early of evening. Noticed cold distant library returned letter that a it kept the from light library river built.\nLong by that with watched with noticed by stone be. Library in morning bridge watched warm it at. And to returned letter for station light paper in on built long slow as valley. Table stone was noticed morning with with kitchen stone bright moved it carried green. Of a small carried to station cold small light valley green long small.\nValley it in early distant be warm for harbor built and watched from. Early is from garden bright is early a quiet station market warm. Early is a long green was by of stone market bridge was. Letter it opened the field long stone old stone table found long garden evening distant. A road green station paper river green a valley of opened bridge market.\nIs quiet green a garden be the stone simple window forest moved that at. Old kept kitchen bridge valley found warm long evening early on a cold slow. To forest was warm cold watched simple stone in harbor noticed. Market field evening village that with morning returned are at the. Walked light distant noticed green window and found that valley bridge it as that table.\nReturned library by simple harbor carried and warm watched kept. Carried long bright to be old noticed morning. Table early built by a small road that kitchen. A and was river window bright forest long by at by by. Village distant noticed bright are small village to morning stone kept simple for.\nMoved station by to morning found river table was on field warm. Green built carried light warm that of was long stone river that. From quiet harbor distant kitchen found table road slow moved morning warm early station. In returned road noticed to was early road by kitchen. Morning by morning as forest the old quiet quiet.\nBe harbor walked valley forest paper of kept forest. Valley stone harbor forest green and station cold distant road paper evening. Kitchen it this evening old evening and letter for harbor for found be bridge be letter. Stone valley paper simple harbor as and evening. Old be as be by bright returned for and this it.\nVillage on kept paper a carried it evening road green. Carried morning found light river opened station this built cold this morning in are returned. Morning light of light this cold paper bridge at village. In evening watched market moved was window paper at at harbor found from. Found that simple on as and and opened long as.\nEvening returned market valley early watched evening as bright built small early light of field. Station warm kept green station watched on light green harbor a small evening garden. Small on returned harbor by found on morning light valley. Light found station is kitchen market the road letter old bright warm light. Library kitchen at opened letter be garden library forest built.\nCold is this by it that window found was long and for. It cold opened distant returned are walked field that in it. On kept be cold slow opened walked green a. Moved that bridge quiet in found moved garden this be on bridge. Window light green to paper road as and garden from table noticed with.\nValley kitchen letter and bright to table as a by watched returned moved morning this. Opened by field valley at with for from. Old village at warm returned kitchen paper be stone. Village stone morning with paper for cold light that moved kept and. Quiet library green by paper and returned of evening with returned cold is valley as.\nForest simple light valley valley station of bright opened kitchen. Paper bridge on for early market road at a watched. By watched forest returned window green kept carried village small valley village.\n\nStart letter: u\nNumber of steps: 1\nFollow function A from the start letter for that number of steps (0 steps means stay on the start letter). Reply with the final letter only."
+ },
+ {
+  "variant": "passage1500",
+  "k": 1,
+  "answer": "e",
+  "path": [
+   "h",
+   "e"
+  ],
+  "table": "A",
+  "prompt_tokens": 1890,
+  "greedy_token": " e",
+  "greedy_logprob": -0.04787788540124893,
+  "greedy_correct": true,
+  "greedy_is_letter": true,
+  "logprob_correct": -0.04787788540124893,
+  "best_letter": "e",
+  "best_letter_correct": true,
+  "letter_mass_top20": 0.9558831338067841,
+  "top20_letters": [
+   [
+    "e",
+    -0.04787788540124893
+   ],
+   [
+    "o",
+    -6.22992467880249
+   ],
+   [
+    "i",
+    -8.107110977172852
+   ],
+   [
+    "f",
+    -9.09475326538086
+   ],
+   [
+    "g",
+    -9.376411437988281
+   ],
+   [
+    "n",
+    -9.835570335388184
+   ],
+   [
+    "h",
+    -10.600834846496582
+   ],
+   [
+    "s",
+    -10.860405921936035
+   ],
+   [
+    "c",
+    -11.036222457885742
+   ],
+   [
+    "r",
+    -11.054452896118164
+   ],
+   [
+    "u",
+    -11.245976448059082
+   ],
+   [
+    "m",
+    -11.355789184570312
+   ],
+   [
+    "y",
+    -11.444381713867188
+   ]
+  ],
+  "top5": [
+   [
+    " e",
+    -0.04787788540124893
+   ],
+   [
+    "<|end_message|>",
+    -3.1269774436950684
+   ],
+   [
+    " o",
+    -6.22992467880249
+   ],
+   [
+    " i",
+    -8.107110977172852
+   ],
+   [
+    " f",
+    -9.09475326538086
+   ]
+  ],
+  "greedy_path_index": 1,
+  "prompt": "Function A maps each letter to a letter:\n\nf -> h\nl -> j\nx -> s\nm -> b\nc -> t\nd -> r\nj -> i\nn -> u\ng -> c\np -> v\nt -> d\ns -> f\nw -> g\no -> a\nk -> q\nb -> l\nq -> p\nz -> z\nh -> e\ni -> m\ne -> o\nu -> n\nr -> w\ny -> k\nv -> x\na -> y\n\nThe following passage is unrelated to the question.\n\nCold in was valley river built from watched slow window in letter road by letter. Returned at moved slow bridge evening field field early simple to harbor. Distant forest harbor road table small watched cold that. Stone it station garden are paper for distant small from early. Noticed cold harbor morning market returned at noticed long a at.\nAnd moved from cold noticed in as harbor window are light at station kitchen the. Stone the quiet at early window bright of that bright on returned as. With small moved in valley road for early quiet. At was cold early warm light kept carried green with simple. Bridge market distant table for noticed with for.\nMarket table valley small distant it paper letter carried bright found letter light village to. Slow green green road on with be bridge. Carried a light cold was valley quiet long paper was noticed forest warm long. The light kept carried early letter field are as a of returned. Early carried with kept cold is table in carried quiet watched.\nMarket watched built road with and the warm. This forest from at old was garden for on with quiet kept village forest. Window it noticed bridge returned with cold market market valley are garden morning. Valley small returned from window from opened library walked long as as. Be with watched built letter as it moved as village built was garden garden harbor.\nAre as table of field this from is bridge long as watched long. In field and is paper kitchen as warm light garden. Be kitchen of cold bright for in simple the be garden paper in of. Valley by and old the for as road light warm field built. In simple bridge garden station early are that warm old kept noticed small.\nFound stone that market are table old early early the paper warm opened. Letter of built returned library long was small from village in. Old early this slow in old bridge was light bright that. Be found on valley this with bridge valley green harbor garden. Small walked market light quiet bridge long it with garden opened.\nIs to paper long evening bright this for walked window on station to light. Market watched market it old library slow from morning this valley. At library kitchen market forest in by letter village table. Light was opened noticed market with built bright green kept small watched moved. Opened old be garden station early market moved simple stone of on morning stone are this.\nSlow is and kept valley this with station distant. Be distant road window morning old warm this light quiet walked. Paper station as village in old as be kitchen long are warm the garden station in. Slow forest bridge distant green on distant library kitchen harbor this harbor for. Market this warm moved library this returned carried garden garden bright as.\nKitchen river bright long field of is moved letter river on returned river kitchen noticed by. Letter are window old as window early morning field kept by be that watched. The the of early letter be a valley. Library window long it river on table garden returned forest is for window kept. To light station village this market forest library warm.\nCold be watched distant paper walked walked a from library letter bright with for cold. Window quiet station a village was distant for bridge. Cold cold library station be river from river library opened garden. Harbor letter by with table it found market distant. A at watched library light road kept river kept in to it.\nRiver is field built kept forest field bridge bright found a that and. Harbor opened stone walked at slow for warm. Garden village small with evening this was from green light slow old at stone it. Of are it quiet river that letter library opened on found built for for warm valley. It road station and paper as garden this.\nSlow river on valley it river a noticed garden quiet station garden moved. Market quiet was early light kitchen and found and harbor kitchen valley. Green evening moved paper kitchen noticed a old road green bright from. As market river it slow built market bright that at. Letter garden slow it walked distant road harbor quiet early.\nA river window small paper distant library slow light forest small. Kitchen green cold station from as table garden cold. Was found watched harbor letter stone cold is evening watched bright walked evening forest slow a. A is that with distant from letter small is morning watched morning small. It stone green warm field at for harbor opened letter road moved river.\nStation in green light carried by noticed that market. Evening morning stone simple warm window forest light from road by market bright. This bridge bright valley built was field quiet on bright window on this distant paper carried. Is paper with on from valley of that quiet old that watched. Cold for quiet road valley evening be opened library library green quiet from.\nField morning warm road market stone the garden be in. Quiet letter carried harbor library distant on with walked station at evening. A garden table market carried village from to at. Cold old long from was to from long noticed kept early long that walked for cold. On garden green moved small are early village cold.\nEvening on window river in long long long old opened it library the. The the at with of and carried that table village. Warm to carried simple in and old is the slow. That forest valley a was as light to small road stone river. Built table returned evening distant returned it evening letter bridge.\nTable harbor this opened early harbor it slow watched. Kept it library early in as of noticed garden returned. Kitchen of on in is was bridge early the slow green by of kitchen road. As and kitchen valley stone it found light by old be. By letter watched the for light kitchen to green long.\nAs to returned was light be of it kitchen to road warm. Market paper station warm cold harbor distant letter at. Station quiet was bright river this old built. Small warm are with window window market for quiet on quiet slow that light that of. Long green from with kept kept garden and from from letter kept light.\nStone window village returned green found village at paper noticed at noticed library of to. Evening forest river distant station this carried for evening from small library road was stone built. Window moved old by and road harbor to moved the. The river bridge kitchen built a are returned early. Warm carried evening harbor at bright on noticed garden small.\nOn be valley field library moved bright garden distant long warm green carried carried. Long moved it garden that station long garden returned cold for watched for it station. Garden river returned paper by noticed watched bridge of be moved built carried that opened on. Long a old as bridge letter for found small library long in that green and. As quiet the bridge long library village station it for are station.\nOf evening to is the green walked window. Found small table morning at was a watched. Kept by opened of walked stone as paper opened station opened found. Cold from in and village from paper on valley early carried stone paper for. Carried library garden station built quiet quiet walked.\nFound as this a table returned moved a at. Moved kept harbor it that this quiet that a letter early was distant. Garden village that village are carried village of the moved kitchen cold green kitchen carried noticed. Is bright watched station long bridge be paper paper by kept it are cold early. Opened moved library small moved with window morning library.\nSlow simple noticed forest kitchen by built built distant stone slow. The that cold station old was watched a field. At cold noticed opened moved station carried carried distant morning for long. A kept walked early on light with simple early valley small the to. Field as found this watched road river that watched bridge stone was that.\nIt cold road is from as bridge with that the watched found warm are. The in on of light road was old. Cold with kitchen cold field cold as from with are and stone kept are. Harbor distant cold green window long by the. Kept long green carried kitchen are to of.\nTable bridge and simple opened be green found warm garden returned from. Field cold green distant by village distant by to bright station field to. Morning is at warm bridge opened simple of library window window. By simple morning forest that field green opened kept. Built warm small field stone carried early green opened kept small.\nOld simple library kitchen and as garden stone light this library paper. On light for found moved at a cold morning forest. From garden bridge for harbor are in paper market morning window.\n\nStart letter: h\nNumber of steps: 1\nFollow function A from the start letter for that number of steps (0 steps means stay on the start letter). Reply with the final letter only."
+ },
+ {
+  "variant": "passage1500",
+  "k": 1,
+  "answer": "n",
+  "path": [
+   "q",
+   "n"
+  ],
+  "table": "A",
+  "prompt_tokens": 1894,
+  "greedy_token": " n",
+  "greedy_logprob": -0.022029053419828415,
+  "greedy_correct": true,
+  "greedy_is_letter": true,
+  "logprob_correct": -0.022029053419828415,
+  "best_letter": "n",
+  "best_letter_correct": true,
+  "letter_mass_top20": 0.9803460621157196,
+  "top20_letters": [
+   [
+    "n",
+    -0.022029053419828415
+   ],
+   [
+    "q",
+    -6.159867286682129
+   ],
+   [
+    "r",
+    -11.493029594421387
+   ],
+   [
+    "o",
+    -12.274731636047363
+   ],
+   [
+    "u",
+    -12.457141876220703
+   ],
+   [
+    "g",
+    -12.731929779052734
+   ]
+  ],
+  "top5": [
+   [
+    " n",
+    -0.022029053419828415
+   ],
+   [
+    "<|end_message|>",
+    -3.938441514968872
+   ],
+   [
+    " q",
+    -6.159867286682129
+   ],
+   [
+    " ",
+    -9.387343406677246
+   ],
+   [
+    "\t",
+    -11.257529258728027
+   ]
+  ],
+  "greedy_path_index": 1,
+  "prompt": "Function A maps each letter to a letter:\n\nf -> t\nu -> r\nd -> h\ng -> b\na -> d\ny -> y\nt -> m\nk -> q\nj -> e\nx -> k\np -> j\nw -> z\nz -> s\nh -> p\nb -> c\nc -> x\ni -> o\nm -> v\no -> a\nr -> l\nv -> w\nl -> i\ne -> g\nq -> n\nn -> u\ns -> f\n\nThe following passage is unrelated to the question.\n\nDistant simple cold this bridge opened be are valley. Library warm of field moved with market is as distant valley distant that field. Bridge window garden built on moved simple evening library window forest simple cold garden. Market noticed be river found built be kitchen with bridge kitchen warm. Road cold found distant carried walked it is.\nForest this a village kept by forest small village carried. Opened to valley walked kept market field from evening is in early small field old by. Window paper be bright on at in is evening early light. Opened kept small returned letter field small field garden watched long. Cold harbor kept of moved from moved slow as warm from.\nField built that cold small watched walked quiet early at morning distant watched. In opened carried of simple moved long that stone noticed is in noticed quiet slow. Village noticed table as road found a village the are by simple from was evening. Harbor is bright simple market village old green green in station on. To walked and is the moved the the and slow old in village.\nBy old quiet watched for warm the this old. The in letter early valley river carried warm bright green table light river. Road table this a quiet market bridge village warm watched. Paper simple road distant opened watched with as slow moved letter it light found as. To distant river opened moved of is cold warm simple.\nA moved kept by old field river on light harbor valley. A kept walked green forest warm found stone road moved watched at evening station is. For valley green in watched the for old market walked field. Market it that the by as morning noticed quiet built kept field river small green of. Built station green forest are moved table a.\nBridge garden are by a moved walked old long. Green simple built old simple light light river letter at. By slow it morning forest are letter a light simple old be it. Warm warm returned found morning and village village with. Quiet returned evening paper noticed harbor are moved garden.\nThis opened walked village with light was are table field. This the river be library be kitchen to quiet found. Light be with for is green warm road. Cold evening at as this kitchen it bridge. That on by on watched carried table stone by.\nBridge road village paper library for light that warm forest field found letter it. Road small bright returned simple and was in long it moved this library simple evening simple. To distant simple found stone kitchen it are in valley slow bright bridge this bright. Stone at slow long green paper harbor bright green. Forest morning of as cold watched bright light letter.\nSmall returned early on by bright moved table window old harbor distant harbor noticed with watched. Table is garden by bridge on found bright window for slow. Early river kept warm opened as valley watched kept of distant was early kept field window. Light at green kitchen evening of found distant kept garden simple small distant. Village this green with distant garden kitchen was was.\nLibrary small small harbor river light a field simple as morning old. In a and it field a watched in simple paper on library stone quiet noticed. Forest kitchen at in built to from kitchen for. Morning window it that of carried in at early quiet old. Garden bridge with as station it field garden.\nAt evening opened kept kept market as cold market. Bridge light stone simple carried that for market quiet cold walked market. Was this stone at walked in window be station station quiet opened cold returned. Stone garden station watched is in moved kitchen built at bright kitchen road bright bright carried. From it it slow evening it letter bridge market that warm.\nOld stone village light are kept was returned slow. Noticed valley was in from warm road and of walked on. It from found built simple are green on in with opened harbor found market. To distant returned on old small bridge in opened paper green for. Walked to on this harbor on returned watched station.\nTable road found from found cold market on kitchen. Valley found opened simple kitchen window small old distant. Distant morning early carried paper library garden village table library garden walked built light station slow. Village kitchen village was built valley are morning table by walked watched. Long a to stone valley by light kept carried this to kitchen.\nMarket of walked green warm opened light window small are from the was noticed old. Warm kept valley window table by quiet small. For found for slow library was on field village garden to distant simple forest field in. On morning warm of was the old long kept. Is valley the noticed found the cold long be valley market in.\nIs village moved and green window field old road road bridge found opened from market. Be warm long slow slow opened harbor to built green forest market. Paper table is to are by simple window that on. Morning at simple was village window this to. Watched distant to harbor light distant the the distant valley.\nWatched are of watched river at table of light. Forest bridge in carried river village it with found small on moved opened to early market. Village small of cold quiet window evening this paper. That kept kept moved early noticed small by of stone. As warm and of forest that river that from letter cold quiet distant.\nMorning as walked and on green of distant slow built. Moved that by from road in of moved green stone kitchen watched river watched for kept. Kept returned library early light the the watched market built evening watched window. At with kept it slow library long green letter. Was a noticed morning garden cold watched simple long morning forest at on slow at opened.\nLetter to old evening as for warm forest table village cold warm. Light to be walked from green for be warm kept kitchen. At kitchen returned green this bright the valley morning for village light. At stone found kitchen warm carried station simple warm built to distant. Be warm for early walked are as was.\nOn found distant returned for moved slow warm found found long harbor early found and market. Of kitchen for of that table with road village slow bridge carried. Window opened to distant be evening kitchen it and are noticed are on a this. Evening early was slow kept kept market returned long simple kept and long field. Bridge field was river bright carried slow of the window moved.\nOld built carried old of returned garden the that distant that. At on long that for stone table slow noticed distant old village kept this. Road built this opened are moved green carried with station cold kitchen be distant table are. Old station village noticed village kept walked the noticed paper harbor field are moved bridge distant. Morning opened library library river green harbor quiet a to market road bridge.\nAnd with it long market village garden table quiet be with field on this stone for. Small carried quiet market distant light table it. Of walked by stone it valley stone found from. Old station found paper paper is found of by library simple opened noticed walked market. Cold morning library moved village letter morning forest.\nReturned evening letter distant quiet warm returned slow it warm garden distant market of. And morning garden at returned watched forest green harbor to returned at is valley. Table field of quiet moved watched road window road slow valley as built distant. Simple found cold market found noticed market forest light with road. Cold carried letter a cold simple on table bright opened this.\nQuiet simple evening bright of harbor on bridge it a opened the. This forest by at valley library by moved this. Is garden by cold found old that paper paper with. Distant bright built as forest and it it green is. Carried it early carried this early old it kept harbor.\nForest for morning road is road village with by with quiet market opened bridge window. Morning with a evening returned returned station kept be. Small bright to a cold light the garden warm cold river. And from for paper at green slow village built table kept long. Letter library noticed kept is to noticed walked old slow harbor.\nFrom built it road cold at a table returned forest. To built returned is returned warm green distant letter. Valley distant simple green watched small green from. Of market green by slow moved built slow it old. A quiet from light valley morning be opened moved small early market from a.\nAt kitchen returned stone carried for a built. Distant forest for it for field light road a. Forest field old for this quiet cold road of valley be garden letter walked by. The in village the stone simple watched valley early at river green it library old valley.\n\nStart letter: q\nNumber of steps: 1\nFollow function A from the start letter for that number of steps (0 steps means stay on the start letter). Reply with the final letter only."
+ },
+ {
+  "variant": "passage1500",
+  "k": 1,
+  "answer": "r",
+  "path": [
+   "m",
+   "r"
+  ],
+  "table": "A",
+  "prompt_tokens": 1910,
+  "greedy_token": " r",
+  "greedy_logprob": -0.18091703951358795,
+  "greedy_correct": true,
+  "greedy_is_letter": true,
+  "logprob_correct": -0.18091703951358795,
+  "best_letter": "r",
+  "best_letter_correct": true,
+  "letter_mass_top20": 0.8346422568832398,
+  "top20_letters": [
+   [
+    "r",
+    -0.18091703951358795
+   ],
+   [
+    "m",
+    -9.365984916687012
+   ],
+   [
+    "g",
+    -10.757920265197754
+   ],
+   [
+    "q",
+    -11.410658836364746
+   ],
+   [
+    "a",
+    -11.498031616210938
+   ],
+   [
+    "c",
+    -11.555754661560059
+   ]
+  ],
+  "top5": [
+   [
+    " r",
+    -0.18091703951358795
+   ],
+   [
+    "<|end_message|>",
+    -1.805396318435669
+   ],
+   [
+    "r",
+    -7.828652858734131
+   ],
+   [
+    "\n\n\n\n",
+    -9.204964637756348
+   ],
+   [
+    " m",
+    -9.365984916687012
+   ]
+  ],
+  "greedy_path_index": 1,
+  "prompt": "Function A maps each letter to a letter:\n\ne -> z\nb -> g\nm -> r\nu -> w\ns -> a\nd -> d\nq -> f\nx -> u\nw -> i\nz -> s\nl -> m\nt -> q\np -> y\nf -> c\nc -> l\nv -> k\nk -> e\ng -> b\nj -> n\na -> v\nh -> t\ni -> x\nr -> h\no -> o\ny -> j\nn -> p\n\nThe following passage is unrelated to the question.\n\nEarly market stone built moved harbor kitchen with moved with carried with letter village was. Bright on small road green stone market cold. Carried station this market on to watched of built harbor this evening kept in walked old. Garden be field garden it be simple this bridge field green road. Small warm from are kept in slow slow morning for to at table is of.\nFrom warm is distant the on road green at station. Are on evening as found kept as in morning kitchen and. Forest slow cold bridge paper a evening watched of evening be evening light slow as it. Harbor that of at river was warm returned the. Kept found morning with stone by market forest.\nWith with as opened early small bridge found that forest and slow is. On in harbor field village small are bridge bridge as by morning be it. A built stone harbor be a road returned with it slow. Morning is green returned river old slow for. Light found bridge bridge village field from on green noticed.\nForest library found long and river forest stone warm forest old paper. By evening as walked letter cold from of. Slow road by table village bright carried be that bridge moved the small be built. Letter the in road forest green built opened noticed. Moved early quiet found long of harbor field market on carried.\nVillage slow river the warm forest be in of of. For on harbor station kept from warm with. Slow of distant be market returned returned early table carried carried evening noticed cold road and. Carried small light quiet found library kitchen long station opened. Road it be early on stone garden early on window was.\nDistant by with stone that quiet kept at to small returned in. Library cold library bright to warm be and window slow a station stone in distant noticed. Early road library as is road simple this warm the opened it. Walked from and table early with in be noticed library bridge road. That kept market quiet and quiet noticed returned.\nSlow distant opened was long bright bright light valley stone. And returned opened be watched in river window letter was. Kitchen library table kept evening found garden warm cold as small library. Green in letter be kitchen bridge small walked of warm table library road table light quiet. For found for road kitchen long forest by and road.\nMoved village early with it early and the was old quiet walked early. Watched by this field kitchen be simple warm as light. Walked road in library early market returned walked forest is early river and watched. Slow forest kept village paper forest built early library letter in morning be of warm walked. Early light on forest for this in quiet.\nMoved the bright at bright a on built. Noticed cold library are garden at slow long road was river and village is simple. Slow carried with found for moved window for bright. Forest window village forest slow to kept stone river with. By simple as river garden in library as.\nSimple carried be from this market road for. Stone kitchen bridge this it at bright morning kept. Library noticed at found are slow are watched kitchen paper to. Quiet and moved village morning simple from that opened early early window. Old morning long bright built watched harbor that road kitchen are are and kitchen.\nWatched early in are built as moved kitchen a watched by are. River valley bright evening found morning harbor stone this cold garden long old watched on library. A was station kept that old garden that and letter quiet paper watched. Bridge at built found letter is a noticed warm with. On stone noticed that bridge noticed village window built kept field simple small.\nAnd window bridge field valley market kept opened old kept kept long that be warm quiet. Market are that table warm road in a paper by early forest letter window. Walked noticed letter carried kitchen light harbor a this. On light letter at are station slow evening morning returned old moved. From at this watched on warm slow watched on field kitchen letter built valley.\nMorning the by watched a harbor table simple be old from long built light for window. On kitchen of on paper station and the returned moved. Early kept by stone that road watched simple warm kitchen stone quiet village found returned. Bridge morning noticed returned paper early quiet valley station are kitchen was. Built at on carried returned village forest warm long on kept.\nFound garden that moved slow found harbor long. Found light early kept evening bright paper kept returned this bridge returned. On a this simple a bright moved found valley found warm river old to opened. Library on returned was letter long road simple in river market kept station. Are at walked be river old evening letter of garden river distant by river simple.\nTo the light was moved river this paper is stone built village of. Quiet table as road harbor old that are it walked slow simple as the harbor village. Carried green library is of on early to it early it valley this with. Station table for of in returned that simple at on road stone cold garden. Walked as with village and window distant warm green this watched market table noticed stone cold.\nWas kept a station this from field kept this carried slow that light. Road are moved is built field slow forest table garden stone bridge noticed window bright. Quiet field harbor in moved bright green kitchen kitchen opened are bright road bridge. And letter bright walked light and are by library was morning carried found quiet. Forest morning on green old is of is station noticed paper forest by at green.\nIs the light and garden simple kitchen that valley a on it. Distant slow slow and slow market warm to warm returned for station. Distant built quiet built bright kept distant forest moved cold river. Found on at small on early early simple moved be market returned with from at kitchen. Library are was this quiet be harbor simple is.\nIs slow of distant harbor harbor was on to opened of distant. Bright stone early noticed for is for are quiet cold library in by. Watched station distant field for field and green stone. Simple are and green moved green found simple river watched harbor from field green the early. Early field market in with table built on warm built garden garden at noticed forest.\nField with simple at watched from old of valley it station is it. Morning for moved was bright was valley valley quiet. Bright and from station that to morning on green walked garden walked paper green evening noticed. Valley by harbor station for evening long for. Bright in station watched library for as slow found slow of green that.\nBridge watched opened at moved built kitchen and of. In distant to field watched to small valley forest field to. A in village for market light and valley. Field slow and moved garden window long quiet with by. Window green and river stone to paper long carried.\nField long carried that opened returned noticed quiet returned be for warm slow kept. Stone the this river window built station watched garden. This is slow for built paper from paper quiet by station slow paper evening. Carried in walked slow slow early returned letter long this road moved for. This of station opened kitchen are slow distant long.\nValley as simple garden forest table kept from opened light. Paper it slow light river valley is it it garden by of. Harbor light by and noticed of kept window paper morning garden. Be from quiet moved distant the distant walked as be on quiet for that. River field small carried early walked built moved kept with field.\nBe of at station watched in green found that noticed be letter small window be quiet. Garden returned garden small on in field simple. Table small library this is walked harbor carried. Was village morning stone valley slow this built by stone with simple simple. Market station market from of this and it bright.\nTo village as be on that small simple kitchen that. Bright cold slow opened from of the early are forest field returned. Long this moved road by quiet the carried at distant was library kept. To kitchen road noticed is morning the moved small that moved. Paper are from stone morning for distant market forest green.\nReturned that warm slow moved table for opened at and at with. It valley old long built with bright opened. Distant found small found evening watched walked cold river station evening of light early cold. Table as are morning kept of built table table table by of paper. Long it paper long garden warm warm station warm paper.\nSimple simple kept quiet for in on noticed returned harbor it library a was. Garden old a warm early and warm market valley.\n\nStart letter: m\nNumber of steps: 1\nFollow function A from the start letter for that number of steps (0 steps means stay on the start letter). Reply with the final letter only."
+ },
+ {
+  "variant": "passage1500",
+  "k": 1,
+  "answer": "q",
+  "path": [
+   "v",
+   "q"
+  ],
+  "table": "A",
+  "prompt_tokens": 1883,
+  "greedy_token": " q",
+  "greedy_logprob": -0.028543746098876,
+  "greedy_correct": true,
+  "greedy_is_letter": true,
+  "logprob_correct": -0.028543746098876,
+  "best_letter": "q",
+  "best_letter_correct": true,
+  "letter_mass_top20": 0.9805701970851705,
+  "top20_letters": [
+   [
+    "q",
+    -0.028543746098876
+   ],
+   [
+    "v",
+    -5.108091831207275
+   ],
+   [
+    "z",
+    -6.738291263580322
+   ],
+   [
+    "c",
+    -7.566162586212158
+   ],
+   [
+    "p",
+    -7.737959384918213
+   ],
+   [
+    "g",
+    -8.748014450073242
+   ],
+   [
+    "w",
+    -9.388410568237305
+   ],
+   [
+    "r",
+    -9.523920059204102
+   ],
+   [
+    "u",
+    -9.871299743652344
+   ],
+   [
+    "y",
+    -10.030744552612305
+   ],
+   [
+    "x",
+    -10.123703002929688
+   ],
+   [
+    "k",
+    -10.510820388793945
+   ],
+   [
+    "t",
+    -10.66402816772461
+   ],
+   [
+    "f",
+    -10.699079513549805
+   ]
+  ],
+  "top5": [
+   [
+    " q",
+    -0.028543746098876
+   ],
+   [
+    "<|end_message|>",
+    -3.966198205947876
+   ],
+   [
+    " v",
+    -5.108091831207275
+   ],
+   [
+    " z",
+    -6.738291263580322
+   ],
+   [
+    " c",
+    -7.566162586212158
+   ]
+  ],
+  "greedy_path_index": 1,
+  "prompt": "Function A maps each letter to a letter:\n\ng -> k\nw -> m\nq -> r\nr -> s\nz -> t\nn -> b\nx -> x\no -> p\ne -> v\ni -> y\np -> l\nu -> i\nd -> d\nh -> o\ns -> h\nj -> c\nb -> j\nv -> q\nt -> f\ny -> z\nm -> e\nf -> a\nc -> w\na -> g\nk -> n\nl -> u\n\nThe following passage is unrelated to the question.\n\nCarried letter harbor watched as as by of small light found. Green market stone from to road this in are was kept road. Opened long forest are light in built a it. Bright opened road that on kept old kitchen valley walked. Morning at in on noticed distant and simple morning station at.\nMarket paper and village walked small green it watched by be kitchen as in forest library. Of from early found light library warm built with the carried light window cold it in. Be cold kept road that warm garden cold stone walked built of. Village for built quiet valley long old valley in for noticed stone. In evening valley is found green a from in noticed be by quiet be library moved.\nKitchen bright library as and from watched found noticed of and walked built. Table river harbor evening a walked bridge was. Is kitchen carried and quiet garden the on forest is distant long valley letter bridge and. It this field garden bright warm with stone at slow and cold. And slow kept is the this field are village letter stone bridge watched.\nReturned slow library opened as station river at it and. Distant road of old this it stone it. Be distant stone it on found carried long opened in evening for as is to. For old quiet kept warm table library quiet field evening moved in bridge are it market. A at light paper by by kept that early moved.\nForest old that letter the slow walked by road the be found. From are harbor distant valley station harbor was slow. Quiet evening as bright at bridge and valley watched morning green and. Stone on watched library distant river be as field of bright. This light market by from river library for.\nLibrary bridge for bridge found are from library table window found the kitchen warm noticed. Table was watched bridge village valley table at it quiet opened river bridge slow. By field simple slow stone paper slow to are harbor walked as it. Is to small small returned built field noticed a. Found it light found table and was morning to carried market evening the.\nBy kept stone that at built walked opened. Are letter forest are are it opened kitchen. Quiet light walked cold kitchen garden bright slow cold letter long. And quiet harbor library are harbor kitchen small with walked distant. Valley be paper window bridge market village be forest with opened the by early by road.\nBuilt river returned at built distant at market kitchen slow warm table. Long moved field letter be it it on cold at. Old in returned paper as by for opened a noticed opened of long opened garden. Was a simple field with from watched to quiet evening to quiet to. Station old market bridge from river station road library is a letter bright old with the.\nOf built village was found evening moved distant that stone in the cold valley. Field road paper river station slow opened morning library. Warm found watched cold returned quiet are by in be station. Kitchen garden paper of letter by moved morning at distant field found station. Distant harbor that was harbor opened warm it garden is.\nTable from market on walked it moved and light window distant distant this on. Green kept bridge stone in kitchen found road bright kept long long on. Be slow kept opened quiet from for valley village old bright. Station road cold in morning built window distant are that long at to returned. Watched village letter built warm table old of.\nSmall that window table light carried was of village was. Harbor that slow a is harbor kitchen river green that green for bridge kept. Kitchen warm letter walked forest simple kept in valley. Light be the simple is be as walked paper. Village the as be kept it by table.\nTo forest by paper by as morning built a this is a are quiet. And evening returned of the kitchen carried that was field kept for long. Window window library noticed river simple simple carried cold harbor garden slow. Old river table cold road returned returned cold morning with built morning this with small village. Of kitchen station river evening table a valley slow.\nLetter was returned that returned stone in small of carried valley. Old it on built are slow returned cold and this garden light letter. The long forest garden with warm quiet found of slow forest and. Green warm is table paper found quiet field simple are noticed slow returned bridge. Be window a harbor and returned are found for at.\nIn window distant by old early is village. Returned bridge is station it to walked with is of field village old long. Morning walked and it a garden kitchen are walked this table small built watched and cold. With as library walked road as old this stone returned watched bright. Simple bright warm library this road opened are.\nRoad simple old green slow simple old for field are morning. With station old paper letter that built bridge and valley it. Returned paper stone kitchen is with letter the on valley old and. This harbor stone bright from paper long old slow for of warm bright. Moved kept simple valley noticed is bridge be.\nTable forest slow by early slow letter walked slow kept watched market small long. Are this field garden old window evening found a harbor road the is returned is. Green bridge road paper evening slow walked village moved early old walked. Station green with as moved slow warm field to market small found built from old. Are as harbor this the slow bright paper are noticed small bright field carried be road.\nLibrary long by letter light stone small and stone road forest cold. Opened this of slow on market in by station simple slow letter bridge simple. Quiet with distant river forest from watched opened quiet light. Morning warm by morning moved market this long station of early and village was. It field on paper early kitchen at bridge road for market that built table as.\nWarm be opened are is small forest from bright opened to. Simple simple for be moved cold evening evening. Market kept as garden is paper green kept on built. In for for built of walked as that river kept distant moved returned garden. Watched window window warm small stone station with of stone watched light valley with village returned.\nBridge evening with river opened early bridge field it by forest kept. Light from is built opened road by table library is kept station moved. Old road carried bridge old bright market carried. Market road noticed carried found valley letter kitchen are found the noticed. Long valley are to it light harbor table as opened.\nPaper a with village in old small for bright and distant. Station built carried light early library kept evening is the letter be this carried returned. Letter bright morning by slow this found old slow station was kept to. Light is in for village stone river a road walked river it watched with found. Found paper window warm slow slow the simple on simple.\nDistant old on was letter by moved long letter quiet. Letter noticed as market kept field letter slow this be harbor by quiet. Light harbor village station in to small watched village cold warm bridge this moved forest simple. Opened window in distant walked library river bright small of field. Stone slow that kept letter to at the light opened light walked stone by warm.\nIn is river simple and quiet light early slow found and walked a slow stone early. Window old returned be kitchen valley quiet bright morning from be to simple. As a village carried window library as library. Simple paper for it noticed in this letter be it river by walked valley simple old. Bridge and be distant light letter to bridge it cold library and.\nRiver was carried of was table slow of with kept window paper bridge window garden small. Small quiet forest the evening river window this green be. Valley valley found was window cold station returned valley built harbor. By to and by light by by river village market it as with library. Library a long small moved market station found warm kitchen bridge of the cold green.\nLight harbor evening of distant forest river that noticed. To on letter from carried for distant cold as. To market a stone light was on market road as letter quiet early simple warm light. Kitchen that it market kitchen for bright to road a warm window. Quiet garden morning station library noticed garden table.\nForest valley light walked village kept village field. By window as at kitchen early market is bridge evening. Green market moved table river warm the old and evening valley of. Evening at garden a harbor garden found a. Valley kitchen warm green this letter for returned that river garden walked noticed.\n\nStart letter: v\nNumber of steps: 1\nFollow function A from the start letter for that number of steps (0 steps means stay on the start letter). Reply with the final letter only."
+ },
+ {
+  "variant": "passage1500",
+  "k": 1,
+  "answer": "j",
+  "path": [
+   "a",
+   "j"
+  ],
+  "table": "A",
+  "prompt_tokens": 1912,
+  "greedy_token": " j",
+  "greedy_logprob": -0.019479334354400635,
+  "greedy_correct": true,
+  "greedy_is_letter": true,
+  "logprob_correct": -0.019479334354400635,
+  "best_letter": "j",
+  "best_letter_correct": true,
+  "letter_mass_top20": 0.9828980206034267,
+  "top20_letters": [
+   [
+    "j",
+    -0.019479334354400635
+   ],
+   [
+    "i",
+    -6.6968607902526855
+   ],
+   [
+    "l",
+    -8.265350341796875
+   ],
+   [
+    "g",
+    -8.695367813110352
+   ],
+   [
+    "a",
+    -8.816719055175781
+   ],
+   [
+    "f",
+    -8.829673767089844
+   ],
+   [
+    "y",
+    -9.393407821655273
+   ],
+   [
+    "q",
+    -9.649505615234375
+   ],
+   [
+    "z",
+    -10.52987289428711
+   ],
+   [
+    "c",
+    -10.65481948852539
+   ],
+   [
+    "b",
+    -10.655600547790527
+   ],
+   [
+    "k",
+    -11.230106353759766
+   ]
+  ],
+  "top5": [
+   [
+    " j",
+    -0.019479334354400635
+   ],
+   [
+    "<|end_message|>",
+    -4.098733425140381
+   ],
+   [
+    " i",
+    -6.6968607902526855
+   ],
+   [
+    " l",
+    -8.265350341796875
+   ],
+   [
+    " g",
+    -8.695367813110352
+   ]
+  ],
+  "greedy_path_index": 1,
+  "prompt": "Function A maps each letter to a letter:\n\nd -> x\nr -> u\nx -> h\nv -> d\nq -> q\nm -> a\ni -> l\na -> j\nj -> v\ne -> c\nk -> i\nu -> g\ny -> w\nt -> z\nn -> r\nf -> f\no -> b\nc -> n\nz -> t\nw -> y\nl -> s\nb -> k\np -> p\ng -> m\nh -> o\ns -> e\n\nThe following passage is unrelated to the question.\n\nHarbor early on bright walked opened table kept light for from old. Moved light window forest quiet watched distant found to from by moved found old this early. Kept early forest green library built harbor built early. Forest paper quiet this letter stone and returned evening found garden is and. Valley kitchen stone for to in warm opened moved built small returned opened harbor returned.\nMorning walked this warm a kitchen old simple. It quiet from built that on this moved. Library and moved returned letter evening built by kitchen warm walked old simple. Moved valley station be market library a that. Was in built simple distant stone built of moved.\nRiver at green kitchen is valley kept of by quiet simple harbor green carried. Station opened quiet to noticed that with kept village moved valley from morning paper. For simple early returned built warm field paper on in forest old table warm old. Evening opened slow for on evening opened in field field river village noticed station old. Forest field stone long carried watched green bright simple river.\nAnd old on old paper forest kitchen evening evening bridge for is. Window noticed as quiet watched simple morning walked walked bright slow morning. This carried field light harbor stone table to market table. Evening forest slow as opened found walked bright watched for moved valley quiet this. Cold walked small it window table old road.\nNoticed stone walked on letter stone long a of paper harbor. Cold old was noticed distant old as evening window small a morning was to stone. Station walked green garden was kept market simple road opened that letter river road field is. Quiet library stone quiet river bridge evening village was green letter distant simple distant walked. Table that table that light letter and it and by letter bridge simple slow.\nIs with kept kitchen in opened with at for by quiet be kitchen. Green long from river distant station station it library moved river are is. Stone quiet road green early warm that a river cold green. Distant small evening simple walked early bright early a distant valley station quiet kitchen. Distant market cold walked kept be this the watched is long of on.\nOn it that on and be built on simple returned village kitchen light cold harbor. Kitchen by stone window to distant library field noticed bridge. Forest with village field slow kitchen kept are slow to quiet market carried. Paper returned long table the village was returned found found moved walked opened is harbor garden. Bright watched forest window with garden quiet in simple evening.\nWith by bridge small a in forest old distant harbor with valley light. Long for to harbor to simple bridge bridge light this harbor garden with letter green. Window long the from the river it found was noticed evening warm. Field carried long village river window at are table are station letter. Long quiet old market evening found bright library stone for cold by.\nKitchen as village by bridge library library in harbor. At quiet road by walked with old the that in for slow cold. Found for light window table this morning paper of opened paper walked letter carried long carried. Watched in table paper in bright with for market. From window window on distant carried as library is.\nDistant that carried and that found returned be river. Window field by market station opened harbor station was moved bridge simple walked market opened for. Distant morning is walked stone library with light light at. Road valley carried was kept stone the cold morning kept library old slow from river moved. Forest found distant light letter bright field early to.\nWarm it it long at valley is a simple slow valley with. Window distant quiet built letter table in distant with the on river table stone. Warm cold bright market paper library field walked bridge is evening. It early opened evening library small simple in village long at returned a. Distant of window as market quiet the paper walked green bridge kept.\nDistant are morning valley cold built warm village simple. Be market of distant with kept river the is cold old long. Valley early with river from quiet early harbor walked light old opened. Library harbor letter slow small in kitchen kitchen moved in long evening simple. Paper harbor to in window walked simple opened is distant market garden watched field.\nCarried bright this as window as as walked be returned kitchen evening market. Library of by kitchen with distant built stone bright simple early field. Returned road letter in are in evening stone is by. From opened warm distant market harbor as old harbor light long library. Field found carried long long harbor was by old from simple by.\nA carried distant village letter library green harbor paper quiet river carried long simple opened. Long are on kitchen distant light is opened to bridge market with evening and. Field market harbor slow cold bright noticed noticed this valley bridge are and walked a. And walked harbor carried morning road with be green station road of early distant station. Table valley in market noticed built field for to forest library found from carried river.\nBridge of harbor bridge forest distant moved in and as cold kitchen evening returned by. That built window forest watched station early quiet valley on field of table library this. Opened it by window window village is carried by. Simple be harbor with it built built bright found. Valley in small be was bright quiet kept bridge cold.\nLong it old field moved long be walked to bridge long at paper. A built to found station is field forest returned are. Old carried river kitchen bright by for letter green returned found on road are. Paper paper and walked are distant watched from kitchen field station field table. Letter noticed table market it window cold it that simple distant noticed.\nAre walked village quiet in kept cold forest this table forest kept this warm library. And built at distant for field watched morning green harbor. Noticed this returned long opened for station morning station slow library on found for noticed. Slow green table valley river noticed the letter green. Quiet opened returned morning a at built small watched library light letter old from library.\nIt from slow is of moved the a be to moved for with it built. Simple early garden opened table forest distant village the warm with kitchen is distant. Small cold returned slow road this are road for returned morning and. Bright simple walked returned found library evening at harbor kitchen it harbor carried that. The early at simple library quiet morning found a green warm bright early.\nWindow the to river garden field valley noticed as harbor valley table found valley slow. Morning village by quiet opened noticed letter in. Distant moved valley letter early watched and on river a valley watched. Window with forest old was light warm long valley watched evening opened window kept. Station be table kept a was this forest cold returned forest was valley.\nDistant green that simple as by small distant moved field early be. Slow village this opened old opened slow the this with. Kept are that harbor evening green bridge bridge a watched of village. Bright watched table bright road walked old light noticed harbor walked window small field on. Built was library letter forest built road simple kitchen cold found kept that with.\nOpened from harbor small the kept it paper evening it be. Garden early garden moved kitchen forest kept long warm found this at simple simple. Watched simple station market small field as simple harbor in the warm. From old opened moved watched bright of found to. Kitchen library and be watched noticed green green kept carried of quiet green for kept library.\nThis old is opened valley from road evening kept small bright moved old field. Old table warm quiet light on for on by station small. It light that moved in for by a paper long green station bridge letter. Moved and stone market table to are long to. Early road light bright to opened from this watched light for from of.\nLight was old found as letter harbor and light table field a morning. Found simple slow paper found slow kitchen found moved cold simple station window that moved. Village are moved by to station and paper from library. Returned valley in valley kitchen from that watched green with village. Distant opened a slow evening station for quiet market to letter kept early harbor stone evening.\nThe watched small evening moved early green from. Simple evening village warm to light warm with in distant market be as at. Was at stone warm station was for is window for for village. That are quiet that kept a noticed found this cold bridge evening. Stone found river garden cold opened walked are it quiet early evening harbor kept light.\nWalked station are returned bridge green harbor distant and the evening letter bridge slow river.\n\nStart letter: a\nNumber of steps: 1\nFollow function A from the start letter for that number of steps (0 steps means stay on the start letter). Reply with the final letter only."
+ },
+ {
+  "variant": "passage1500",
+  "k": 1,
+  "answer": "x",
+  "path": [
+   "u",
+   "x"
+  ],
+  "table": "A",
+  "prompt_tokens": 1888,
+  "greedy_token": " x",
+  "greedy_logprob": -0.1400146633386612,
+  "greedy_correct": true,
+  "greedy_is_letter": true,
+  "logprob_correct": -0.1400146633386612,
+  "best_letter": "x",
+  "best_letter_correct": true,
+  "letter_mass_top20": 0.8744330617342261,
+  "top20_letters": [
+   [
+    "x",
+    -0.1400146633386612
+   ],
+   [
+    "u",
+    -6.316276550292969
+   ],
+   [
+    "t",
+    -6.452800750732422
+   ],
+   [
+    "y",
+    -7.685367584228516
+   ],
+   [
+    "e",
+    -7.918706893920898
+   ],
+   [
+    "w",
+    -8.444709777832031
+   ],
+   [
+    "z",
+    -8.593008041381836
+   ],
+   [
+    "c",
+    -8.698726654052734
+   ],
+   [
+    "f",
+    -8.97313117980957
+   ],
+   [
+    "v",
+    -9.691600799560547
+   ],
+   [
+    "k",
+    -10.030839920043945
+   ],
+   [
+    "o",
+    -10.08686637878418
+   ],
+   [
+    "n",
+    -10.126771926879883
+   ]
+  ],
+  "top5": [
+   [
+    " x",
+    -0.1400146633386612
+   ],
+   [
+    "<|end_message|>",
+    -2.089824676513672
+   ],
+   [
+    " u",
+    -6.316276550292969
+   ],
+   [
+    " t",
+    -6.452800750732422
+   ],
+   [
+    " X",
+    -6.934564590454102
+   ]
+  ],
+  "greedy_path_index": 1,
+  "prompt": "Function A maps each letter to a letter:\n\nd -> e\nz -> r\nw -> v\nm -> b\nq -> f\nx -> t\nu -> x\ne -> y\nj -> m\na -> h\nr -> o\nt -> j\nh -> s\ni -> a\nk -> d\np -> k\nc -> l\ny -> p\no -> i\ns -> q\nn -> g\nl -> n\nv -> w\ng -> u\nb -> c\nf -> z\n\nThe following passage is unrelated to the question.\n\nBy table garden table garden garden opened long as from bright returned village are. Light light green paper road forest long market road old a small old kept long small. Letter on small kitchen with light are it a market from bridge quiet. Green field morning on opened in as table found. A was are road as is bridge moved in station.\nA slow that road green that moved are valley noticed moved. Simple old found was be it the from cold be market. Walked valley early be letter paper paper early this noticed window. Walked field table quiet table built with on built long at. Library from table opened quiet early library with letter stone bridge was stone paper slow.\nTable cold at carried noticed by of quiet it noticed village with road old be. The field table a green moved morning walked. Paper old village carried it on the by station harbor small bright market small in moved. Light be opened that forest was are warm kept found old early walked evening. Garden noticed it station as letter opened kitchen a paper walked with.\nBright bridge river as river warm road carried letter be morning long that in window. Warm are warm distant found early with the found noticed road quiet. Walked harbor station that light bright moved old valley as window evening road village to stone. Window bright at library watched paper built noticed harbor watched for. Of watched from morning in cold kept evening carried quiet river in.\nSlow forest table carried stone returned for walked library at walked walked harbor walked found. Noticed and watched stone green slow old was noticed village bridge. Paper station paper road field warm forest this river harbor station built market in. A slow that by warm from built opened and. To long warm green noticed village watched small field evening old window watched returned as returned.\nVillage quiet carried distant and station be library watched and is walked be as simple. Of opened with that that kitchen small opened market with a found early letter. Table warm warm table morning morning was found as with on field field from. Village from bridge and from built moved garden be as market. Road evening old returned quiet road morning this from road it this.\nGreen kitchen table bridge in paper that opened evening garden field. Harbor opened is small station distant village green. Kept stone forest watched carried valley small it are at bridge. Long the moved quiet table harbor as station stone bridge table road returned from this road. Moved slow market slow is from bridge quiet light to are.\nNoticed was field walked paper and window of market be the as watched by early. Warm river slow paper cold built a quiet is quiet green harbor built slow with is. Old market be to on from a kept cold long evening be it garden with. Station with of and window forest old market carried from kept. Bright quiet field letter in market bright are slow carried bridge market letter.\nField a are by kitchen kept simple forest found green road cold kept field stone. In window river market carried river in of stone green moved of. Station bridge bright by library walked is harbor. Letter evening opened and light window is a is simple on small. Of evening field field the this is old.\nRiver with small was bright valley cold be river market. Slow are at opened the small bright letter watched forest cold distant watched bright at. Warm the old valley returned are as bright noticed river field. Is was carried river warm evening the and harbor opened. Village was small field this in that light.\nBy moved the be warm kept station light to of morning forest green bright as the. Window built garden returned moved village cold is. It and slow for distant kept bridge garden river market long old field and. Built is kitchen returned is library village returned. Kept at kitchen to stone kept bridge walked kitchen.\nForest long light by it market river are village evening long watched. Stone field at small it found and returned found a returned as. Opened in bridge market cold garden for library warm. Long carried kept a walked forest library cold green in on of. From found that warm slow kept as of library library forest from in.\nThis evening it of found from of long morning as forest light field warm letter. Green was watched bright a kitchen with library field was noticed from morning field. Village bridge old in bridge by evening paper. Walked was light kitchen on green field with window this bridge. Light noticed simple paper station bright noticed simple stone warm on.\nAre old be returned cold table found a paper this carried by. Station valley walked moved stone found that station on to stone this letter valley found bridge. Stone paper with as opened be bright small harbor. From be a road opened window watched valley light road. With old cold carried library returned garden as with found valley kitchen quiet village letter to.\nWarm it simple simple library noticed opened for long that warm with. Simple distant was station was library kitchen kitchen carried. Window that noticed old simple on morning letter harbor window. Letter green kept road with kept paper stone road early in library green slow. By small warm of with road library valley at forest bridge walked valley light built it.\nBe opened walked valley station are bright bridge with watched. Distant market old watched morning walked noticed small evening. Noticed walked evening table are noticed bridge that simple village are morning warm garden at. Light for kept old a is as evening distant old field built valley on paper old. Built green garden early station on forest that distant letter.\nCarried early paper this kept station market opened library built paper slow by quiet with. Was letter for morning river a it market by it station. Table the paper harbor in cold simple opened light it warm is bright are. Kitchen bridge letter kitchen of warm stone letter by opened quiet cold. It kept of warm forest and harbor bridge built quiet green early cold kitchen returned.\nAt green noticed be field of window was village field moved. Bright cold distant a stone table slow it window at old with long watched forest station. Warm forest watched opened valley quiet library kept morning to old simple village distant. A carried returned warm light noticed watched evening at green returned. Moved early table small small found from with at built station walked early.\nDistant a with noticed bridge light at warm long station returned garden simple it from. On evening stone with green that that bridge built long village at is built. Slow are letter field this on and that opened window. Slow road forest small noticed the in the. The this market evening noticed on moved slow window village.\nThis harbor kept at noticed warm watched station kitchen simple library morning evening returned forest. Small carried noticed carried that built market harbor warm. On walked village for quiet as road road green this noticed with and green to station. Light road cold the small from kept the field by. From carried as long road are old and simple early light to morning simple from table.\nKept for at road to distant village green. Is this and bright village for returned opened warm. Built kept market to harbor a walked at road walked market the small. Library stone by forest letter with old station quiet. Bright it river harbor light noticed warm letter bright stone.\nBy stone distant forest kept be long to be. Old it table kept light walked in and old opened returned from warm. Opened cold of small harbor for the bridge to and early old be cold station. Is was on was at river market carried are distant forest bright the valley village carried. Bright garden that river quiet stone station bright evening.\nIs from cold slow a quiet old village. Village forest window distant kept table with valley warm cold. Watched are moved long of valley harbor letter as watched quiet the opened the small market. Library field and of kept cold warm old station opened is at long village. Forest found kept table bright and kept small a of in station morning.\nNoticed this window forest distant kitchen cold by road evening as early. As village noticed distant station forest a early station. Station library distant forest simple letter station carried found field paper simple. From the found at river this a library letter paper cold as this. Paper village evening kitchen kitchen distant on library river table to stone forest distant.\nLong field old this with bright bridge to for. To found distant green early window is watched cold is kitchen garden with for light. Be small letter valley is morning warm with the early field from road on small.\n\nStart letter: u\nNumber of steps: 1\nFollow function A from the start letter for that number of steps (0 steps means stay on the start letter). Reply with the final letter only."
+ },
+ {
+  "variant": "passage1500",
+  "k": 1,
+  "answer": "o",
+  "path": [
+   "o",
+   "o"
+  ],
+  "table": "A",
+  "prompt_tokens": 1906,
+  "greedy_token": " o",
+  "greedy_logprob": -0.003353868843987584,
+  "greedy_correct": true,
+  "greedy_is_letter": true,
+  "logprob_correct": -0.003353868843987584,
+  "best_letter": "o",
+  "best_letter_correct": true,
+  "letter_mass_top20": 0.9966517490917622,
+  "top20_letters": [
+   [
+    "o",
+    -0.003353868843987584
+   ]
+  ],
+  "top5": [
+   [
+    " o",
+    -0.003353868843987584
+   ],
+   [
+    "<|end_message|>",
+    -5.794503211975098
+   ],
+   [
+    "o",
+    -8.468968391418457
+   ],
+   [
+    " ",
+    -10.879816055297852
+   ],
+   [
+    "\t",
+    -11.581748008728027
+   ]
+  ],
+  "greedy_path_index": 0,
+  "prompt": "Function A maps each letter to a letter:\n\nb -> d\nc -> w\nf -> e\nu -> h\nn -> t\nt -> f\nd -> n\nq -> v\nz -> l\np -> k\ne -> q\na -> z\nk -> r\nw -> j\ni -> a\nj -> g\ng -> i\no -> o\nl -> m\nv -> c\nx -> x\nh -> s\nm -> b\ny -> u\ns -> p\nr -> y\n\nThe following passage is unrelated to the question.\n\nWith and found watched light it valley is slow. Are valley river simple field morning old returned on as. Bright market as returned letter small old are. Window table opened table returned that returned field river bright was. Quiet a built returned quiet walked quiet green stone old in valley is.\nBy and from letter bridge the window with road stone. Table bridge village river bright morning river morning. Noticed are carried with this is with garden be a station on walked harbor early this. Kept on it road old as quiet early. Moved letter it built for market to and window forest opened stone river.\nThat and kitchen to early is the bright in garden morning moved built village. This this small a that kept distant this on stone letter distant returned. Letter opened station quiet quiet for watched on. Is by found is light small table from simple light slow stone as. Noticed green window window by quiet noticed old letter walked window be.\nBe bright by station road evening returned small this. Found garden cold window built old is by returned old found long green. With this bright at bridge at moved long kept evening station of it. Stone opened by watched library carried harbor with bright kitchen walked at garden field. Paper light distant field morning long road for.\nGarden morning with field noticed this small be road is noticed opened harbor built simple. Is from kept valley noticed watched small evening small. Kept to letter with on by old for green window it field by quiet bridge. From found watched from small of station river library evening stone be bright noticed. Returned to slow kept old be found for quiet in.\nWatched valley garden and evening of paper table cold found be early from. By river this is is noticed for market returned it market kept. River old slow forest field simple old bridge that harbor. Forest at kept light road be paper cold opened village library. Harbor bridge garden stone forest noticed bright warm.\nReturned slow evening is moved watched library station walked light. Morning light built that from noticed carried bridge morning evening warm is as is. With be early kitchen found opened warm a warm green are. Of garden stone be morning window of slow to. Letter opened carried station station built from cold road cold from.\nBy window kept noticed market carried noticed that light found letter green quiet garden road. Morning from warm green green bright market at. Kitchen moved small river bridge cold village of to harbor river library. Bridge be is village evening library are is light of with station are as long. Kitchen from letter the distant is village old table.\nRoad letter from river carried forest this bridge warm noticed of is. At that carried in with that are warm small a table and. Simple valley early this evening and green to are was quiet early noticed quiet green. Green carried returned walked slow to kitchen returned be old table bright warm was. Warm built built garden carried library small in garden window for and cold.\nThe window returned river kitchen station at early long. Forest slow by of this opened returned cold. Built valley at window library as slow bridge warm quiet slow a with valley be. Noticed a carried and field are is by small market market simple station this market. For light watched as harbor it road cold a window road valley.\nAt on forest window kitchen river forest station distant and noticed light paper is. As in carried harbor letter at harbor long stone by that are evening distant. Slow as distant station quiet of early at be cold bright. Field light early warm garden carried kitchen distant evening watched letter was walked kitchen. Small field paper is morning river bright quiet light kept.\nIn from evening bridge are from of walked walked river are this road morning walked. Forest field for light as village kept was. Kept of distant as is at are a bright is warm carried. Green carried for in as for that noticed small. Warm small this river bridge it river quiet old valley walked simple paper on road distant.\nOld slow small carried harbor window of this be simple on. Of cold old and the simple on found. Of distant is evening letter with bright returned opened returned. Green garden this table at opened are kept harbor from small watched letter simple. Kitchen kept this at river of in found long with found cold distant in that the.\nAre as built library walked distant morning harbor window kept small kitchen long early table of. Market cold old garden paper for built this green garden. Kept as road valley of and harbor river with. By letter was early at simple a warm the window stone. Village old for library walked kept kept paper quiet on cold.\nNoticed was opened long watched table slow forest long of and. Be road to found small stone small and light letter station slow be quiet. A station small watched it station kitchen in light road in. Light village and river are kitchen as are kitchen built. Built old stone green valley old moved cold of green at at noticed.\nRoad that light in be a small in forest with slow in. In and it distant was table small on simple river. To was for from garden valley for from village of river paper garden simple bright. At valley forest is harbor forest small watched cold from paper is as station built. Field table on bright simple to library in field.\nBy as that walked library simple walked kept is the opened library forest. That from that and river and to slow forest found road from station small kept. Green to morning green by bright bright forest. Harbor with evening moved village walked market on of it quiet. Noticed bright moved paper it cold quiet that.\nBy noticed and river from paper quiet station bright was long a opened bright. Opened market station long to field is in forest valley bridge kitchen are. Village as are river by cold road light stone opened it returned are at field with. Be paper a village letter morning garden are in quiet market. Opened green as road from noticed distant for and small on carried harbor.\nFound window forest and light window distant valley bridge found village forest. Morning as evening be paper forest window table with long early it. Long warm harbor window paper station kitchen this early found that returned. Morning old early from bright returned of forest. Market early this kept river quiet this evening kitchen small forest market.\nSmall kitchen noticed village quiet built market evening of cold and for station of early. Walked and library light simple with carried at the carried moved morning. That market slow forest moved evening library evening. The kept was green forest valley library slow for valley old a the. Returned slow of kept station paper warm on as with found village for with by.\nBy station carried is by early by at. Table to in are found carried and early warm of stone small. Table this with road that as for on old table was harbor found long warm long. Library paper table a walked market watched old distant. Are moved garden table kept distant this of.\nIn paper are built kitchen road and the river returned small. Harbor a from forest table the the long paper at kitchen of village quiet forest green. Morning small window garden village was found garden green from was be a. Paper warm harbor quiet in long field distant at morning simple kept in at slow opened. Bright table is stone of table in slow table watched road.\nGarden carried village at cold it built library stone morning old on be. Library be valley kitchen garden window was green distant road market as with warm road. Table letter old moved for stone window river this cold. A by early letter as library old valley river cold. Forest green harbor with kitchen forest paper distant are of harbor at long village kept and.\nBridge letter garden it noticed small from quiet kitchen returned light carried kitchen it long early. Old returned is as are built market paper in walked stone garden with was slow carried. Library light morning found road small with by evening. In by built with valley by carried from and stone be found. Green light found by is and noticed forest warm harbor this a village light.\nEarly carried returned for old light quiet opened by found watched is carried the paper harbor. Valley paper stone kitchen to is river river old carried road cold. Watched station village simple carried evening forest market long. With village and it evening from the paper are river table. Kitchen quiet slow opened field forest river with opened quiet paper of from.\nSlow forest small a walked at valley valley harbor in watched on as library it in.\n\nStart letter: o\nNumber of steps: 1\nFollow function A from the start letter for that number of steps (0 steps means stay on the start letter). Reply with the final letter only."
+ },
+ {
+  "variant": "passage1500",
+  "k": 1,
+  "answer": "a",
+  "path": [
+   "t",
+   "a"
+  ],
+  "table": "A",
+  "prompt_tokens": 1908,
+  "greedy_token": " a",
+  "greedy_logprob": -0.007163420785218477,
+  "greedy_correct": true,
+  "greedy_is_letter": true,
+  "logprob_correct": -0.007163420785218477,
+  "best_letter": "a",
+  "best_letter_correct": true,
+  "letter_mass_top20": 0.992978721459269,
+  "top20_letters": [
+   [
+    "a",
+    -0.007163420785218477
+   ],
+   [
+    "t",
+    -9.289815902709961
+   ],
+   [
+    "s",
+    -10.629734992980957
+   ]
+  ],
+  "top5": [
+   [
+    " a",
+    -0.007163420785218477
+   ],
+   [
+    "<|end_message|>",
+    -5.875136852264404
+   ],
+   [
+    " ",
+    -6.238179683685303
+   ],
+   [
+    "\t",
+    -7.540563106536865
+   ],
+   [
+    " **",
+    -7.835168361663818
+   ]
+  ],
+  "greedy_path_index": 1,
+  "prompt": "Function A maps each letter to a letter:\n\nc -> t\nh -> v\nx -> m\nz -> b\ng -> x\nf -> u\nt -> a\np -> l\ni -> n\no -> z\ny -> y\nk -> h\nn -> w\na -> s\ne -> i\nj -> o\nu -> k\nr -> g\nw -> q\nv -> e\nm -> r\nl -> p\nb -> d\nq -> f\nd -> j\ns -> c\n\nThe following passage is unrelated to the question.\n\nGreen it paper this for carried built early. Market it built harbor table the stone kept station garden simple that on built walked light. Old old distant be that as evening garden table window paper with road and river. Watched forest from simple slow moved letter it moved river station window and paper paper. River window in station walked slow paper to carried market.\nIn the be in found that it it light. On this found old paper light table window a returned light garden river. Letter that moved with returned old distant old harbor station carried long for. Old valley road kitchen kitchen light morning from for noticed for field small. Stone is simple letter are kept walked and that road bright that.\nPaper this station a the market old long from. Stone with on kitchen the found kept carried village market light simple by. Field small as evening valley kept evening kitchen stone cold. Carried market table bright be slow stone to bridge slow market river bridge. Walked bridge the from are forest table road road garden on.\nForest quiet this warm noticed are this opened. It harbor carried was bridge of on quiet library returned stone as walked station. Quiet to library harbor in old that it small. Market early this to on at old by with simple of noticed on distant long kitchen. Cold long valley small with is as and field is long of garden as built on.\nWith paper the cold garden returned with stone from this. Evening opened distant early morning valley kept old with garden small on built old. To watched table cold bridge that quiet harbor window green cold. Warm valley slow market stone it early the it was quiet paper station table and. Garden morning returned bridge the slow stone walked paper stone market the the of are.\nWindow and and light table to valley station. Slow by to cold station station table window market small stone. Be it kitchen kept on from watched river. Noticed library it market the at light watched stone kept morning morning was be. And kept simple small green green that as and by market long with.\nAt slow table distant from this it window with paper. It green stone are cold watched noticed built returned in forest was old stone. Distant forest distant simple valley garden light on to. Distant paper be kitchen stone in be are stone built village built warm. That this village valley from are returned kept kitchen valley library light small slow.\nTable bridge stone evening built light it by on found table small. Carried is morning window kitchen this station for river window light long evening. Small for was as carried road as cold noticed walked table letter a it moved valley. Noticed morning quiet to for the paper from a. Harbor evening bright moved garden this by stone table walked window and with.\nFrom kitchen by of by market the warm and. Watched the that it village early river garden the. Bridge morning small forest letter to opened for. Distant slow long station distant by by quiet bridge green early. Harbor for on is paper station bridge slow it.\nOn is station it field carried of in kept village in long a. Garden library road early at be that was walked stone was built valley distant forest found. To with letter forest it early forest by the at opened. Of village with it from evening found to and built are. From evening to of slow quiet built returned are noticed table noticed old.\nMorning valley station quiet warm distant kept cold carried this a. Market table with road long are early forest with and carried evening morning at. Cold found that bridge moved bright in window. Bright was distant library from river small distant with kitchen. Is paper in light quiet letter for stone moved.\nSimple village in this long a that opened are. Returned in warm built on slow bridge long to with village paper evening field found. Distant to warm forest quiet stone at village bright this opened in stone the are. Moved small are noticed carried quiet and market is forest forest paper and. For walked small are returned moved simple valley to moved as.\nIt from noticed found walked simple by early. Was market it in paper old opened bright. Morning of noticed early of carried long long kitchen library be found table watched. At this field bridge to to warm village moved quiet. Stone is by green noticed small be station small river.\nKitchen green stone this bridge on kitchen slow. Quiet is this green river the evening bridge is green it letter. Opened kept was table and old in the window station small small are found. Letter the noticed valley warm by that with for built green noticed returned distant. On moved noticed moved distant river was was field market to.\nThat green built found simple walked library window table found of kept noticed watched bridge. Are on evening warm garden warm table morning watched bridge paper. Bridge returned simple as bridge that road market at. Quiet early table that bridge forest stone returned from valley are moved. Market old evening at warm harbor evening watched green bridge it for returned simple in cold.\nRiver to green library slow slow valley it harbor bright with slow paper at forest at. Bridge noticed it the warm for and distant light that. Noticed watched of letter bright watched moved by noticed walked distant with road to. Forest from as and noticed slow market with slow long noticed to. For carried found built noticed watched simple field old bright this simple moved slow.\nDistant light morning bridge noticed bridge stone letter garden window kept as found. Watched be field long light evening watched light harbor returned old. Bright cold in long is letter are slow paper harbor in to small river. Harbor evening and harbor light station evening from bright kitchen with it stone valley. Market river forest kept slow this cold at warm and and evening letter.\nBy warm moved a in from of by the stone valley noticed. Carried cold stone as light are warm from morning valley garden river built long it quiet. That library at bright with by carried built old letter distant slow bright. Was old bridge kept noticed green early on river. Field to simple garden green built for moved old returned built warm distant bridge valley.\nEarly cold is cold is slow it walked table kitchen quiet slow kept early. Table opened that built are table warm road valley garden built village kept for harbor. For distant forest at evening for at morning to market in. Warm at as library market kitchen moved forest this. This stone for evening light from noticed at.\nKitchen valley old morning field evening in on stone evening this kept. Market opened village window noticed found the morning watched harbor a letter. Kitchen forest market walked carried table this early kitchen walked the bright table kitchen kitchen. Morning long field warm paper simple as of harbor from table kitchen green returned. A paper quiet quiet road distant early opened a opened it opened.\nStation old bright returned returned harbor to library valley garden. Green walked simple letter carried stone bridge paper library at watched the moved long garden. Morning river the and walked this table found returned. Is is kitchen garden in returned kitchen by paper bright returned. Are paper station stone long small evening was found by and it at road.\nIn bright warm small green letter light quiet for by river built built was field was. Village was market green with village it forest valley is be small. Kitchen opened table from is old as early bright garden evening library that forest light. Letter long are small early the light in station table. Bridge carried paper this warm was the built green bright of.\nCold stone small table that kitchen on a are quiet forest from. Station the noticed to simple field that with and in valley paper is. Morning old bright kitchen carried to carried small found cold to table. A to was light valley opened was simple. Warm moved garden table old harbor of library found.\nWith and the as is river market bright was village market. Harbor returned small light river river on long it old built built. Watched valley station walked returned at paper walked noticed kitchen river library from moved early. Built as quiet old field be market is slow bright be a a on. Green as morning is quiet as bright table moved as bright village stone be.\nStone a it from library in is stone letter window opened cold walked light built. Is light river is table are road window noticed as kitchen simple with with green are. Early station in evening moved bridge river be market noticed slow. Watched of bridge harbor bright for from road is from by. Bridge watched distant on harbor field village forest station early library opened evening at harbor that.\n\nStart letter: t\nNumber of steps: 1\nFollow function A from the start letter for that number of steps (0 steps means stay on the start letter). Reply with the final letter only."
+ }
+]

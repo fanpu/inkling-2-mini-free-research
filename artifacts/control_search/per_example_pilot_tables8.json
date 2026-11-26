@@ -1,0 +1,716 @@
+[
+ {
+  "variant": "tables8",
+  "k": 1,
+  "answer": "l",
+  "path": [
+   "z",
+   "l"
+  ],
+  "table": "G",
+  "prompt_tokens": 948,
+  "greedy_token": " l",
+  "greedy_logprob": -0.1927240788936615,
+  "greedy_correct": true,
+  "greedy_is_letter": true,
+  "logprob_correct": -0.1927240788936615,
+  "best_letter": "l",
+  "best_letter_correct": true,
+  "letter_mass_top20": 0.8253876171827003,
+  "top20_letters": [
+   [
+    "l",
+    -0.1927240788936615
+   ],
+   [
+    "z",
+    -7.53581428527832
+   ],
+   [
+    "s",
+    -9.674432754516602
+   ],
+   [
+    "c",
+    -9.812559127807617
+   ],
+   [
+    "a",
+    -10.524759292602539
+   ]
+  ],
+  "top5": [
+   [
+    " l",
+    -0.1927240788936615
+   ],
+   [
+    "<|end_message|>",
+    -1.781387209892273
+   ],
+   [
+    "\n",
+    -5.653224945068359
+   ],
+   [
+    " \n",
+    -7.392278671264648
+   ],
+   [
+    " z",
+    -7.53581428527832
+   ]
+  ],
+  "greedy_path_index": 1,
+  "prompt": "Functions A, B, C, D, E, F, G and H each map every letter to a letter.\n\nFunction A:\no -> p\na -> w\np -> r\nn -> i\nl -> k\nt -> b\ni -> n\nj -> q\nx -> z\ns -> h\nz -> o\nu -> e\nq -> m\nh -> y\nr -> g\nk -> l\ne -> s\nv -> f\nm -> u\nf -> d\nd -> v\nw -> x\nb -> j\ny -> t\nc -> a\ng -> c\n\nFunction B:\nw -> v\na -> k\ny -> m\nj -> r\nl -> y\nn -> h\nb -> a\np -> d\nv -> l\nf -> b\no -> j\nx -> g\ns -> s\nm -> f\nc -> p\nh -> z\ni -> w\nk -> t\nu -> e\nt -> i\nz -> c\ng -> n\nr -> x\ne -> o\nd -> q\nq -> u\n\nFunction C:\nl -> f\nj -> t\nc -> l\nt -> y\nf -> v\nb -> q\nx -> n\nv -> x\ns -> c\nq -> w\nm -> b\no -> i\ne -> m\nr -> h\nz -> j\ng -> s\ny -> g\nu -> o\nd -> k\nw -> r\np -> d\nn -> e\nk -> u\na -> z\ni -> a\nh -> p\n\nFunction D:\nt -> n\ny -> d\ng -> s\nz -> w\nd -> f\na -> m\nu -> i\ne -> a\nx -> b\nn -> p\nj -> j\nr -> t\nc -> c\nh -> y\nw -> r\nv -> k\nb -> z\nl -> u\ns -> e\nk -> g\nq -> q\ni -> o\nm -> l\no -> h\nf -> x\np -> v\n\nFunction E:\nj -> o\no -> p\ni -> h\na -> z\nv -> y\ny -> l\np -> s\nr -> a\nf -> f\nn -> g\nq -> v\nh -> i\nu -> m\nl -> b\nx -> u\nb -> d\nk -> r\nw -> n\nm -> e\nc -> q\nd -> k\ng -> w\nz -> x\nt -> t\ns -> j\ne -> c\n\nFunction F:\nz -> t\nm -> l\nq -> h\na -> n\nn -> c\nd -> k\np -> g\no -> f\ne -> r\nr -> q\nb -> i\nw -> y\nc -> d\nx -> u\ni -> x\nf -> z\nh -> s\nv -> j\ny -> b\nt -> v\nu -> a\ns -> m\nk -> o\nl -> p\ng -> w\nj -> e\n\nFunction G:\nx -> g\nv -> e\ne -> f\ns -> q\no -> k\nd -> x\nq -> c\nc -> s\nb -> v\nz -> l\ny -> u\nh -> b\nj -> t\nf -> d\nr -> p\nt -> w\nm -> o\np -> z\nu -> y\nw -> n\ng -> h\nn -> r\ni -> i\nl -> a\na -> j\nk -> m\n\nFunction H:\nq -> q\nf -> o\nn -> t\nt -> s\nx -> h\na -> f\ng -> k\nz -> n\nc -> c\nj -> u\ne -> m\nd -> r\nv -> l\nk -> i\nh -> w\ni -> v\no -> x\nu -> a\nl -> y\nb -> j\nm -> d\ns -> e\ny -> z\nw -> p\nr -> g\np -> b\n\nStart letter: z\nNumber of steps: 1\nFollow function G from the start letter for that number of steps (0 steps means stay on the start letter). Reply with the final letter only."
+ },
+ {
+  "variant": "tables8",
+  "k": 1,
+  "answer": "d",
+  "path": [
+   "v",
+   "d"
+  ],
+  "table": "F",
+  "prompt_tokens": 948,
+  "greedy_token": " d",
+  "greedy_logprob": -0.1420731395483017,
+  "greedy_correct": true,
+  "greedy_is_letter": true,
+  "logprob_correct": -0.1420731395483017,
+  "best_letter": "d",
+  "best_letter_correct": true,
+  "letter_mass_top20": 0.8758387929312265,
+  "top20_letters": [
+   [
+    "d",
+    -0.1420731395483017
+   ],
+   [
+    "v",
+    -4.849302768707275
+   ],
+   [
+    "f",
+    -8.135419845581055
+   ],
+   [
+    "a",
+    -9.432247161865234
+   ],
+   [
+    "g",
+    -9.510379791259766
+   ]
+  ],
+  "top5": [
+   [
+    " d",
+    -0.1420731395483017
+   ],
+   [
+    "<|end_message|>",
+    -2.2071633338928223
+   ],
+   [
+    " v",
+    -4.849302768707275
+   ],
+   [
+    " $",
+    -5.261528491973877
+   ],
+   [
+    "\n",
+    -5.934563159942627
+   ]
+  ],
+  "greedy_path_index": 1,
+  "prompt": "Functions A, B, C, D, E, F, G and H each map every letter to a letter.\n\nFunction A:\np -> a\nc -> d\ns -> x\nm -> i\nk -> b\nl -> f\nn -> t\nf -> m\nb -> u\nq -> l\ne -> v\nr -> z\nt -> c\ny -> r\nu -> e\ng -> g\nz -> n\nx -> j\ni -> y\nh -> s\no -> w\nd -> k\na -> p\nv -> q\nw -> h\nj -> o\n\nFunction B:\nm -> s\np -> i\nb -> t\no -> v\nl -> h\ny -> g\nt -> u\ng -> d\nx -> c\nj -> f\nq -> q\nc -> z\nf -> p\ne -> w\nh -> l\nv -> o\nd -> r\nn -> x\nz -> b\ni -> k\nu -> m\ns -> j\nk -> a\nr -> e\nw -> n\na -> y\n\nFunction C:\na -> y\nv -> l\no -> c\nz -> m\np -> b\nt -> x\ns -> u\nk -> z\nu -> t\nx -> g\nw -> d\nh -> v\ng -> h\nd -> w\nb -> k\nl -> i\nm -> e\nn -> j\ny -> n\ni -> f\nj -> a\nr -> s\nc -> r\ne -> p\nq -> o\nf -> q\n\nFunction D:\nf -> g\nj -> w\nd -> f\nb -> y\nq -> e\nm -> r\nx -> o\ns -> t\nt -> u\na -> a\nl -> m\no -> c\nu -> b\nz -> l\nw -> z\nk -> d\nr -> p\ng -> n\ni -> i\nc -> j\ne -> k\nv -> q\nh -> s\ny -> h\nn -> x\np -> v\n\nFunction E:\nq -> m\nn -> l\nv -> j\ny -> r\nt -> g\nb -> f\nk -> t\na -> w\nm -> c\ni -> v\nz -> o\nd -> h\ng -> e\nj -> n\nh -> a\nw -> z\ns -> q\no -> p\np -> k\nx -> b\nc -> u\nu -> d\ne -> s\nl -> i\nr -> y\nf -> x\n\nFunction F:\nk -> m\nl -> j\ni -> e\nj -> o\np -> x\nx -> i\nw -> s\nt -> k\nd -> p\no -> t\nn -> b\ng -> h\nq -> c\ns -> q\nm -> z\na -> w\nc -> n\nf -> g\nv -> d\nz -> r\nh -> a\nu -> v\ne -> y\nr -> l\ny -> u\nb -> f\n\nFunction G:\nt -> k\ni -> j\nc -> r\nh -> v\ne -> c\ns -> f\nb -> o\nu -> u\nf -> e\nw -> i\nd -> d\no -> z\nr -> p\nz -> t\nn -> l\nk -> w\nv -> g\np -> b\ny -> q\na -> y\ng -> x\nm -> a\nj -> m\nl -> h\nq -> s\nx -> n\n\nFunction H:\np -> i\nf -> h\nl -> j\nq -> d\nb -> u\nx -> v\nr -> e\nd -> f\ns -> a\nz -> t\nv -> r\nu -> o\ny -> l\nj -> p\nm -> m\nc -> z\nt -> s\nn -> b\ni -> q\na -> w\ne -> y\ng -> c\nh -> g\nw -> x\nk -> k\no -> n\n\nStart letter: v\nNumber of steps: 1\nFollow function F from the start letter for that number of steps (0 steps means stay on the start letter). Reply with the final letter only."
+ },
+ {
+  "variant": "tables8",
+  "k": 1,
+  "answer": "t",
+  "path": [
+   "z",
+   "t"
+  ],
+  "table": "C",
+  "prompt_tokens": 948,
+  "greedy_token": " t",
+  "greedy_logprob": -0.5945723652839661,
+  "greedy_correct": true,
+  "greedy_is_letter": true,
+  "logprob_correct": -0.5945723652839661,
+  "best_letter": "t",
+  "best_letter_correct": true,
+  "letter_mass_top20": 0.5639488018476202,
+  "top20_letters": [
+   [
+    "t",
+    -0.5945723652839661
+   ],
+   [
+    "z",
+    -4.792341709136963
+   ],
+   [
+    "c",
+    -6.5996785163879395
+   ],
+   [
+    "s",
+    -6.757177829742432
+   ],
+   [
+    "d",
+    -7.2064995765686035
+   ],
+   [
+    "f",
+    -8.655879974365234
+   ],
+   [
+    "g",
+    -8.983985900878906
+   ],
+   [
+    "n",
+    -9.059440612792969
+   ],
+   [
+    "a",
+    -9.324934005737305
+   ],
+   [
+    "y",
+    -9.346382141113281
+   ]
+  ],
+  "top5": [
+   [
+    " t",
+    -0.5945723652839661
+   ],
+   [
+    "<|end_message|>",
+    -0.8411906361579895
+   ],
+   [
+    " z",
+    -4.792341709136963
+   ],
+   [
+    " c",
+    -6.5996785163879395
+   ],
+   [
+    " s",
+    -6.757177829742432
+   ]
+  ],
+  "greedy_path_index": 1,
+  "prompt": "Functions A, B, C, D, E, F, G and H each map every letter to a letter.\n\nFunction A:\ng -> r\np -> h\nk -> m\nu -> w\nx -> j\nj -> t\nq -> n\nr -> k\nd -> l\nz -> a\nm -> z\nl -> e\ns -> v\nh -> p\ny -> c\na -> b\nv -> d\nw -> i\ni -> x\nn -> u\nf -> q\ne -> y\nb -> g\nc -> o\nt -> f\no -> s\n\nFunction B:\nk -> u\nn -> f\nb -> o\nz -> y\ne -> e\na -> p\nt -> n\nj -> b\nq -> i\nf -> r\nr -> w\ns -> z\nc -> k\nu -> s\ny -> a\nv -> c\nm -> m\nx -> h\nw -> q\ni -> d\nd -> g\no -> x\np -> v\ng -> l\nl -> j\nh -> t\n\nFunction C:\nw -> a\no -> e\nh -> g\ne -> z\np -> i\nt -> d\nm -> p\ns -> o\nx -> v\nu -> u\ny -> y\nv -> l\ni -> j\ng -> q\nr -> m\nn -> f\nq -> c\nj -> h\nb -> x\nf -> r\nl -> w\nc -> k\nz -> t\nd -> s\nk -> b\na -> n\n\nFunction D:\ny -> r\na -> w\nk -> i\nm -> o\nd -> a\nn -> q\nq -> m\nb -> f\nf -> g\nr -> h\nw -> e\nv -> x\nl -> l\nh -> y\nc -> z\np -> v\ne -> p\nj -> b\ns -> c\ng -> u\ni -> j\no -> t\nu -> k\nx -> n\nt -> s\nz -> d\n\nFunction E:\np -> x\nw -> o\nu -> i\nc -> z\ns -> c\ne -> y\no -> b\nx -> r\nk -> q\nh -> v\nt -> s\nd -> t\ng -> h\nq -> u\nl -> k\nm -> a\nn -> f\nf -> g\ni -> j\ny -> d\nr -> m\nj -> w\na -> l\nz -> e\nb -> p\nv -> n\n\nFunction F:\nr -> n\nx -> w\nt -> o\nu -> a\nc -> j\ne -> f\nj -> m\nl -> b\nk -> c\nd -> h\ni -> e\nq -> d\nv -> g\no -> q\na -> k\np -> x\nb -> l\nn -> i\nf -> u\ny -> z\nw -> r\nh -> s\ng -> y\nz -> p\ns -> t\nm -> v\n\nFunction G:\nw -> b\nm -> m\nl -> q\ns -> f\nt -> r\no -> z\nk -> h\nz -> y\nd -> i\nr -> e\ni -> a\nj -> o\np -> d\nh -> u\ny -> t\na -> g\nu -> s\nq -> c\nn -> w\nv -> p\nb -> x\ne -> v\nf -> n\nc -> k\ng -> j\nx -> l\n\nFunction H:\nk -> g\nr -> q\nh -> w\nv -> a\no -> e\nw -> l\nm -> p\nn -> x\nd -> v\nc -> k\ns -> h\nb -> n\ne -> b\ny -> u\nq -> z\na -> t\nt -> f\nu -> y\np -> c\ng -> r\nx -> s\nz -> d\nf -> m\nl -> i\ni -> o\nj -> j\n\nStart letter: z\nNumber of steps: 1\nFollow function C from the start letter for that number of steps (0 steps means stay on the start letter). Reply with the final letter only."
+ },
+ {
+  "variant": "tables8",
+  "k": 1,
+  "answer": "a",
+  "path": [
+   "e",
+   "a"
+  ],
+  "table": "A",
+  "prompt_tokens": 948,
+  "greedy_token": " a",
+  "greedy_logprob": -0.06977485865354538,
+  "greedy_correct": true,
+  "greedy_is_letter": true,
+  "logprob_correct": -0.06977485865354538,
+  "best_letter": "a",
+  "best_letter_correct": true,
+  "letter_mass_top20": 0.9499308160230202,
+  "top20_letters": [
+   [
+    "a",
+    -0.06977485865354538
+   ],
+   [
+    "e",
+    -4.42564582824707
+   ],
+   [
+    "v",
+    -5.841987609863281
+   ],
+   [
+    "n",
+    -6.1636962890625
+   ],
+   [
+    "s",
+    -8.483299255371094
+   ],
+   [
+    "c",
+    -8.830879211425781
+   ]
+  ],
+  "top5": [
+   [
+    " a",
+    -0.06977485865354538
+   ],
+   [
+    "<|end_message|>",
+    -3.4679911136627197
+   ],
+   [
+    " e",
+    -4.42564582824707
+   ],
+   [
+    "\n",
+    -5.395534515380859
+   ],
+   [
+    " $",
+    -5.486024856567383
+   ]
+  ],
+  "greedy_path_index": 1,
+  "prompt": "Functions A, B, C, D, E, F, G and H each map every letter to a letter.\n\nFunction A:\nt -> w\nu -> f\nz -> l\nc -> x\nh -> y\ny -> b\nb -> i\nm -> v\nd -> d\ng -> t\nr -> z\nq -> r\nw -> k\nj -> g\nf -> q\no -> p\nn -> e\ns -> j\nx -> m\nk -> s\ni -> o\np -> u\nl -> h\ne -> a\na -> n\nv -> c\n\nFunction B:\nq -> a\nh -> y\nn -> q\nu -> d\nl -> o\nm -> f\nw -> h\na -> x\nd -> p\ns -> m\nj -> u\ni -> j\nv -> l\nk -> k\nx -> i\ng -> v\nb -> t\nz -> g\nt -> z\nr -> n\nc -> b\no -> r\ny -> w\np -> s\ne -> c\nf -> e\n\nFunction C:\nc -> x\nh -> k\nm -> h\nr -> d\na -> m\nu -> e\nj -> i\nk -> r\ne -> n\ni -> q\ng -> o\nx -> g\nz -> y\np -> j\nl -> u\nt -> z\ny -> f\nb -> v\nd -> b\nv -> w\nn -> a\ns -> l\nw -> p\nq -> t\nf -> s\no -> c\n\nFunction D:\nl -> q\ni -> w\nv -> a\na -> h\nk -> r\nx -> x\nj -> v\nr -> t\ns -> g\nd -> i\ng -> f\nc -> u\no -> b\nn -> m\nf -> s\ne -> p\nh -> o\ny -> k\np -> e\nb -> n\nu -> y\nz -> j\nw -> d\nq -> l\nt -> c\nm -> z\n\nFunction E:\ni -> m\nm -> x\nq -> k\nf -> l\nj -> p\nx -> d\nt -> c\ny -> w\nz -> a\nb -> r\nh -> y\nr -> t\nd -> j\nk -> n\nv -> z\nc -> i\nw -> o\no -> g\nn -> e\na -> s\ne -> v\ns -> q\ng -> h\np -> f\nl -> b\nu -> u\n\nFunction F:\ne -> z\nw -> b\nt -> g\nq -> c\ns -> l\nx -> p\nb -> e\nl -> y\ng -> k\nd -> h\nu -> q\nv -> v\nr -> n\nm -> r\np -> a\nn -> u\ni -> f\nk -> s\na -> j\ny -> i\nf -> t\nz -> d\nc -> o\nj -> m\no -> w\nh -> x\n\nFunction G:\nf -> g\nz -> q\nl -> m\ns -> j\nx -> a\no -> i\nb -> w\ny -> o\na -> s\nj -> v\ni -> k\nh -> h\nc -> f\nk -> t\nu -> c\np -> r\nt -> x\nv -> l\nd -> u\nm -> y\ne -> n\ng -> b\nw -> d\nq -> z\nr -> e\nn -> p\n\nFunction H:\nz -> c\nq -> g\np -> a\nc -> x\nm -> i\nw -> v\no -> w\nr -> h\nl -> m\nn -> l\nb -> t\ng -> e\nj -> y\nf -> z\ni -> d\nd -> s\nt -> b\ns -> f\nh -> p\nx -> r\nk -> k\nu -> q\ne -> u\na -> o\nv -> j\ny -> n\n\nStart letter: e\nNumber of steps: 1\nFollow function A from the start letter for that number of steps (0 steps means stay on the start letter). Reply with the final letter only."
+ },
+ {
+  "variant": "tables8",
+  "k": 1,
+  "answer": "p",
+  "path": [
+   "w",
+   "p"
+  ],
+  "table": "G",
+  "prompt_tokens": 948,
+  "greedy_token": " p",
+  "greedy_logprob": -0.1494487076997757,
+  "greedy_correct": true,
+  "greedy_is_letter": true,
+  "logprob_correct": -0.1494487076997757,
+  "best_letter": "p",
+  "best_letter_correct": true,
+  "letter_mass_top20": 0.869725279529198,
+  "top20_letters": [
+   [
+    "p",
+    -0.1494487076997757
+   ],
+   [
+    "w",
+    -4.834890842437744
+   ],
+   [
+    "o",
+    -8.288322448730469
+   ],
+   [
+    "c",
+    -8.514720916748047
+   ],
+   [
+    "q",
+    -8.851381301879883
+   ]
+  ],
+  "top5": [
+   [
+    " p",
+    -0.1494487076997757
+   ],
+   [
+    "<|end_message|>",
+    -2.226450204849243
+   ],
+   [
+    " w",
+    -4.834890842437744
+   ],
+   [
+    "\n",
+    -5.309162616729736
+   ],
+   [
+    " $",
+    -5.71123743057251
+   ]
+  ],
+  "greedy_path_index": 1,
+  "prompt": "Functions A, B, C, D, E, F, G and H each map every letter to a letter.\n\nFunction A:\ne -> e\nt -> w\nk -> y\no -> i\np -> t\nx -> k\nl -> g\nc -> z\ny -> b\nb -> l\nj -> r\ng -> d\na -> n\nh -> c\nv -> a\nd -> m\nr -> u\nm -> q\nz -> o\ns -> x\ni -> p\nn -> f\nf -> v\nq -> s\nw -> h\nu -> j\n\nFunction B:\nc -> i\nq -> l\nd -> j\nu -> m\ng -> r\ns -> w\ny -> a\nw -> k\nj -> u\nf -> q\nk -> y\nr -> o\nl -> c\nm -> x\nv -> g\nn -> b\nt -> z\ne -> e\nz -> t\no -> h\ni -> p\np -> f\nh -> v\nb -> d\na -> n\nx -> s\n\nFunction C:\nv -> w\nf -> j\ne -> x\nq -> c\nh -> i\nl -> f\nk -> q\nn -> v\nd -> s\nx -> z\np -> b\ni -> k\ng -> o\nt -> t\nc -> y\nm -> r\nj -> n\ny -> a\nz -> u\nr -> p\nu -> g\no -> e\ns -> l\nb -> h\nw -> d\na -> m\n\nFunction D:\ne -> b\nm -> q\np -> p\nk -> l\ns -> j\nj -> i\nq -> z\nt -> w\nw -> a\ny -> f\nd -> n\nn -> m\nz -> c\ni -> r\nr -> d\nc -> g\nb -> y\nx -> v\nh -> e\nl -> k\nf -> s\na -> h\ng -> u\nv -> t\nu -> o\no -> x\n\nFunction E:\ny -> m\nn -> v\nr -> l\nt -> u\np -> o\ng -> x\nm -> p\ni -> a\nd -> r\nj -> c\nu -> s\nb -> b\nv -> d\nk -> f\nw -> g\nz -> i\ne -> n\nq -> y\nl -> t\nc -> h\ns -> q\nf -> j\no -> w\nh -> e\na -> k\nx -> z\n\nFunction F:\nc -> b\nq -> v\na -> d\nd -> a\nx -> r\nh -> o\nz -> w\ng -> q\nf -> u\nu -> n\nk -> c\nv -> z\nt -> s\nr -> y\ny -> k\nn -> i\nl -> t\ne -> x\nj -> p\ns -> m\nm -> j\no -> g\nw -> h\ni -> l\np -> e\nb -> f\n\nFunction G:\nl -> t\nf -> q\ni -> i\nn -> g\nd -> o\nt -> k\nc -> e\nh -> c\ny -> y\np -> f\nq -> n\nv -> l\na -> j\nu -> v\nz -> r\nr -> d\nm -> x\nj -> s\ng -> w\nw -> p\ns -> h\ne -> a\no -> m\nx -> u\nb -> z\nk -> b\n\nFunction H:\nq -> a\na -> v\nl -> r\no -> s\np -> c\nw -> g\nk -> l\nn -> o\nx -> t\ne -> u\nj -> i\nd -> z\nf -> p\nr -> m\nm -> b\nv -> k\ns -> f\ng -> j\ni -> w\ny -> d\nc -> e\nb -> n\nu -> q\nz -> h\nt -> y\nh -> x\n\nStart letter: w\nNumber of steps: 1\nFollow function G from the start letter for that number of steps (0 steps means stay on the start letter). Reply with the final letter only."
+ },
+ {
+  "variant": "tables8",
+  "k": 1,
+  "answer": "f",
+  "path": [
+   "l",
+   "f"
+  ],
+  "table": "G",
+  "prompt_tokens": 948,
+  "greedy_token": " f",
+  "greedy_logprob": -0.10378208011388779,
+  "greedy_correct": true,
+  "greedy_is_letter": true,
+  "logprob_correct": -0.10378208011388779,
+  "best_letter": "f",
+  "best_letter_correct": true,
+  "letter_mass_top20": 0.9076220468791601,
+  "top20_letters": [
+   [
+    "f",
+    -0.10378208011388779
+   ],
+   [
+    "l",
+    -5.146371364593506
+   ],
+   [
+    "c",
+    -8.253100395202637
+   ],
+   [
+    "a",
+    -9.033061027526855
+   ]
+  ],
+  "top5": [
+   [
+    " f",
+    -0.10378208011388779
+   ],
+   [
+    "<|end_message|>",
+    -2.8364710807800293
+   ],
+   [
+    " $",
+    -3.698159694671631
+   ],
+   [
+    " l",
+    -5.146371364593506
+   ],
+   [
+    "\t",
+    -6.352778911590576
+   ]
+  ],
+  "greedy_path_index": 1,
+  "prompt": "Functions A, B, C, D, E, F, G and H each map every letter to a letter.\n\nFunction A:\nr -> k\nj -> i\nf -> a\nq -> o\nw -> v\no -> c\ne -> j\nd -> b\np -> m\nm -> q\nb -> n\nz -> s\nk -> r\ns -> l\ni -> w\nn -> t\nx -> p\nl -> z\nt -> h\ng -> x\nu -> d\nh -> g\na -> f\nv -> u\nc -> y\ny -> e\n\nFunction B:\nr -> c\nx -> a\nb -> x\nd -> l\nq -> i\nu -> b\np -> e\nw -> n\nc -> z\nj -> d\nv -> g\nk -> t\ni -> o\nm -> v\nl -> h\ng -> k\no -> r\nz -> q\nn -> u\na -> s\ns -> m\nf -> f\nt -> w\ne -> j\nh -> y\ny -> p\n\nFunction C:\nx -> d\ns -> a\nb -> f\nu -> m\np -> v\nj -> g\ni -> r\ng -> w\nh -> n\nr -> z\nk -> o\nf -> k\nc -> u\nl -> c\no -> e\nd -> s\nw -> p\nz -> x\nt -> h\nm -> i\ny -> b\nv -> q\ne -> l\nn -> t\na -> y\nq -> j\n\nFunction D:\nz -> t\no -> i\nu -> e\ng -> k\nk -> r\ny -> p\nd -> n\na -> g\nt -> q\nc -> b\nv -> s\nn -> d\nh -> a\ni -> l\nf -> j\nl -> x\nm -> z\np -> m\ne -> o\nj -> w\nx -> h\nr -> y\nb -> c\nw -> v\nq -> f\ns -> u\n\nFunction E:\ny -> p\nm -> q\ne -> b\nn -> h\na -> o\nh -> m\nf -> e\nd -> s\np -> c\nk -> t\nv -> a\nb -> f\nc -> n\nz -> l\ni -> g\ng -> r\nl -> j\nq -> v\ns -> u\nu -> z\nt -> d\nr -> i\nj -> x\nx -> k\nw -> y\no -> w\n\nFunction F:\nn -> t\ny -> h\nx -> b\nf -> s\ni -> i\ne -> r\nl -> a\ng -> j\nj -> u\nu -> d\na -> c\nd -> q\nr -> e\nv -> p\ns -> x\nh -> y\nq -> f\nz -> o\nc -> w\nt -> z\nm -> k\np -> n\nk -> l\nb -> m\nw -> g\no -> v\n\nFunction G:\nu -> g\nj -> b\nx -> o\ns -> y\nr -> j\nq -> h\nn -> w\nf -> z\nb -> c\nh -> x\no -> s\np -> u\nv -> m\nd -> r\nz -> v\ne -> i\nk -> t\ng -> a\nt -> d\ni -> q\ny -> k\nw -> n\nm -> e\na -> p\nc -> l\nl -> f\n\nFunction H:\nh -> d\ng -> h\nm -> c\np -> j\nr -> s\nv -> r\nk -> e\nf -> x\nu -> f\nj -> b\na -> w\ns -> k\nl -> g\nd -> u\nz -> t\ne -> p\nt -> i\nx -> o\nn -> n\nb -> m\nw -> y\nc -> z\nq -> q\no -> l\ni -> a\ny -> v\n\nStart letter: l\nNumber of steps: 1\nFollow function G from the start letter for that number of steps (0 steps means stay on the start letter). Reply with the final letter only."
+ },
+ {
+  "variant": "tables8",
+  "k": 1,
+  "answer": "y",
+  "path": [
+   "g",
+   "y"
+  ],
+  "table": "B",
+  "prompt_tokens": 948,
+  "greedy_token": " y",
+  "greedy_logprob": -0.13502906262874603,
+  "greedy_correct": true,
+  "greedy_is_letter": true,
+  "logprob_correct": -0.13502906262874603,
+  "best_letter": "y",
+  "best_letter_correct": true,
+  "letter_mass_top20": 0.9500430460204603,
+  "top20_letters": [
+   [
+    "y",
+    -0.13502906262874603
+   ],
+   [
+    "g",
+    -2.642051935195923
+   ],
+   [
+    "j",
+    -6.702116012573242
+   ],
+   [
+    "e",
+    -7.312843322753906
+   ],
+   [
+    "x",
+    -7.466436386108398
+   ],
+   [
+    "l",
+    -7.7828216552734375
+   ],
+   [
+    "p",
+    -7.85972785949707
+   ],
+   [
+    "a",
+    -8.004863739013672
+   ],
+   [
+    "n",
+    -8.011234283447266
+   ],
+   [
+    "d",
+    -8.182262420654297
+   ],
+   [
+    "b",
+    -8.292325973510742
+   ],
+   [
+    "c",
+    -8.362777709960938
+   ],
+   [
+    "z",
+    -8.410888671875
+   ],
+   [
+    "w",
+    -8.439519882202148
+   ]
+  ],
+  "top5": [
+   [
+    " y",
+    -0.13502906262874603
+   ],
+   [
+    " g",
+    -2.642051935195923
+   ],
+   [
+    "<|end_message|>",
+    -3.220003366470337
+   ],
+   [
+    " $",
+    -5.50550651550293
+   ],
+   [
+    " j",
+    -6.702116012573242
+   ]
+  ],
+  "greedy_path_index": 1,
+  "prompt": "Functions A, B, C, D, E, F, G and H each map every letter to a letter.\n\nFunction A:\nx -> o\nn -> g\nw -> r\ns -> c\nv -> w\ng -> p\nh -> x\nr -> v\nf -> z\nl -> l\nm -> a\ny -> m\nk -> u\ni -> k\np -> h\nu -> t\ne -> j\nj -> f\nt -> d\nc -> n\nq -> s\nd -> e\nz -> q\na -> i\no -> b\nb -> y\n\nFunction B:\ny -> r\nt -> j\nk -> l\nu -> c\ns -> t\nf -> a\ni -> i\nv -> h\nq -> d\np -> o\nx -> m\nz -> e\no -> p\nl -> w\nn -> g\ne -> q\nw -> v\nb -> n\na -> z\nh -> f\nd -> x\nj -> b\nm -> u\ng -> y\nc -> k\nr -> s\n\nFunction C:\nk -> n\nl -> e\nz -> v\nn -> m\nc -> q\nx -> b\nh -> z\nv -> c\nf -> g\nu -> h\np -> a\nb -> k\nd -> y\nj -> x\ng -> p\nq -> t\ny -> d\ns -> l\ne -> f\ni -> i\nt -> w\nm -> s\nw -> r\nr -> u\no -> j\na -> o\n\nFunction D:\nd -> g\nb -> s\nf -> k\nq -> i\ns -> d\nk -> a\nr -> h\nj -> x\ni -> l\nc -> y\no -> z\nz -> r\ng -> t\nu -> q\nx -> v\nn -> c\nt -> j\nw -> m\nh -> f\nl -> b\nm -> u\nv -> w\ny -> o\np -> p\na -> n\ne -> e\n\nFunction E:\ng -> l\nq -> z\nc -> a\nv -> s\ne -> t\no -> n\nz -> x\nf -> p\nw -> r\nm -> y\nt -> k\nu -> d\nx -> m\nl -> q\nk -> u\nn -> i\nh -> e\na -> w\ni -> j\nr -> h\ns -> v\np -> f\nd -> c\nb -> g\nj -> o\ny -> b\n\nFunction F:\na -> f\nv -> o\nr -> v\nz -> k\nb -> p\np -> n\ns -> x\nf -> z\no -> h\nc -> s\nd -> e\ng -> m\nt -> l\ny -> t\nj -> g\nh -> b\nu -> u\nx -> r\nq -> q\nw -> j\ni -> c\ne -> y\nk -> w\nn -> a\nl -> d\nm -> i\n\nFunction G:\nl -> p\nq -> v\nw -> g\ne -> f\nc -> k\nu -> w\nr -> s\ni -> j\no -> b\nj -> z\nz -> h\na -> m\nn -> y\nk -> n\ns -> q\nv -> x\nm -> e\nh -> t\np -> r\ng -> i\ny -> l\nx -> d\nt -> c\nf -> o\nb -> a\nd -> u\n\nFunction H:\no -> y\nq -> x\nk -> c\nr -> n\nc -> e\ni -> p\nu -> q\nx -> w\ne -> k\nw -> s\nt -> r\nh -> u\nv -> h\np -> o\nj -> i\ns -> m\nm -> v\nb -> b\nd -> z\nn -> a\na -> f\ng -> l\ny -> t\nz -> g\nl -> j\nf -> d\n\nStart letter: g\nNumber of steps: 1\nFollow function B from the start letter for that number of steps (0 steps means stay on the start letter). Reply with the final letter only."
+ },
+ {
+  "variant": "tables8",
+  "k": 1,
+  "answer": "j",
+  "path": [
+   "e",
+   "j"
+  ],
+  "table": "D",
+  "prompt_tokens": 948,
+  "greedy_token": " j",
+  "greedy_logprob": -0.06443853676319122,
+  "greedy_correct": true,
+  "greedy_is_letter": true,
+  "logprob_correct": -0.06443853676319122,
+  "best_letter": "j",
+  "best_letter_correct": true,
+  "letter_mass_top20": 0.9516091176492834,
+  "top20_letters": [
+   [
+    "j",
+    -0.06443853676319122
+   ],
+   [
+    "e",
+    -4.646936893463135
+   ],
+   [
+    "i",
+    -5.703554630279541
+   ],
+   [
+    "f",
+    -8.089329719543457
+   ],
+   [
+    "a",
+    -8.442950248718262
+   ],
+   [
+    "g",
+    -8.531107902526855
+   ],
+   [
+    "n",
+    -8.828740119934082
+   ],
+   [
+    "y",
+    -8.931153297424316
+   ],
+   [
+    "q",
+    -9.291157722473145
+   ]
+  ],
+  "top5": [
+   [
+    " j",
+    -0.06443853676319122
+   ],
+   [
+    " $",
+    -3.4714248180389404
+   ],
+   [
+    " J",
+    -4.366842746734619
+   ],
+   [
+    " e",
+    -4.646936893463135
+   ],
+   [
+    " i",
+    -5.703554630279541
+   ]
+  ],
+  "greedy_path_index": 1,
+  "prompt": "Functions A, B, C, D, E, F, G and H each map every letter to a letter.\n\nFunction A:\nx -> j\nq -> d\nj -> p\nz -> q\nv -> v\nt -> a\ni -> h\nd -> f\nm -> i\np -> r\no -> z\nn -> k\ny -> t\nh -> o\ns -> n\nb -> e\nu -> x\nc -> y\nf -> l\ne -> w\nw -> c\na -> u\nr -> s\ng -> g\nl -> b\nk -> m\n\nFunction B:\nk -> p\nj -> f\nm -> m\nr -> u\nt -> y\nf -> e\nw -> t\ns -> r\no -> v\nz -> c\na -> x\nc -> d\ng -> z\nv -> k\nx -> b\nb -> q\nq -> o\nn -> j\nu -> h\np -> l\ni -> g\nd -> n\ne -> a\nh -> i\ny -> w\nl -> s\n\nFunction C:\nw -> s\nq -> x\nr -> j\na -> q\ns -> d\nc -> l\nv -> r\nd -> m\ne -> c\ng -> k\nh -> p\nf -> y\nk -> v\nx -> a\np -> z\nj -> o\no -> e\nu -> b\nt -> f\ni -> w\nl -> i\ny -> g\nn -> t\nz -> h\nb -> n\nm -> u\n\nFunction D:\nd -> h\nv -> z\ns -> r\nl -> k\nk -> x\ng -> q\nh -> o\nn -> b\nq -> p\no -> t\nf -> g\nz -> s\ny -> e\na -> m\nx -> f\nt -> u\nb -> c\nm -> n\np -> i\ne -> j\ni -> w\nj -> l\nc -> y\nr -> d\nw -> v\nu -> a\n\nFunction E:\ns -> y\nl -> i\nx -> h\nu -> s\ny -> l\np -> x\nw -> e\nh -> k\nr -> d\nt -> o\ne -> v\nb -> c\nv -> j\nn -> z\nc -> f\nj -> g\nf -> a\ni -> w\na -> m\ng -> t\nd -> n\nq -> b\no -> r\nk -> u\nm -> q\nz -> p\n\nFunction F:\ni -> g\nt -> s\na -> k\nu -> b\np -> p\nn -> i\nw -> x\nx -> m\no -> a\ne -> q\nq -> u\nj -> j\nr -> w\nl -> r\ns -> y\ng -> l\nb -> d\nd -> z\ny -> n\nk -> h\nz -> o\nv -> t\nf -> e\nm -> c\nc -> f\nh -> v\n\nFunction G:\nc -> b\no -> d\nf -> v\nt -> q\np -> x\nk -> o\nw -> z\nj -> k\ne -> n\ns -> l\nn -> t\nr -> e\ny -> j\nd -> i\nv -> c\nl -> s\nx -> m\nh -> r\ni -> w\ng -> y\nb -> g\na -> p\nu -> u\nq -> h\nm -> a\nz -> f\n\nFunction H:\nb -> i\ni -> x\nv -> p\nc -> l\nr -> a\nq -> o\nl -> w\nx -> q\nw -> n\nm -> f\na -> v\ng -> m\nj -> h\nu -> z\ny -> j\nz -> c\ns -> b\nn -> g\nk -> r\ne -> t\nt -> s\no -> e\np -> y\nh -> d\nf -> k\nd -> u\n\nStart letter: e\nNumber of steps: 1\nFollow function D from the start letter for that number of steps (0 steps means stay on the start letter). Reply with the final letter only."
+ },
+ {
+  "variant": "tables8",
+  "k": 1,
+  "answer": "b",
+  "path": [
+   "c",
+   "b"
+  ],
+  "table": "D",
+  "prompt_tokens": 948,
+  "greedy_token": " b",
+  "greedy_logprob": -0.6741049289703369,
+  "greedy_correct": true,
+  "greedy_is_letter": true,
+  "logprob_correct": -0.6741049289703369,
+  "best_letter": "b",
+  "best_letter_correct": true,
+  "letter_mass_top20": 0.5490552135481803,
+  "top20_letters": [
+   [
+    "b",
+    -0.6741049289703369
+   ],
+   [
+    "c",
+    -3.2706491947174072
+   ],
+   [
+    "a",
+    -6.528568267822266
+   ]
+  ],
+  "top5": [
+   [
+    " b",
+    -0.6741049289703369
+   ],
+   [
+    "<|end_message|>",
+    -1.3469069004058838
+   ],
+   [
+    " $",
+    -1.76528000831604
+   ],
+   [
+    " c",
+    -3.2706491947174072
+   ],
+   [
+    " B",
+    -5.398578643798828
+   ]
+  ],
+  "greedy_path_index": 1,
+  "prompt": "Functions A, B, C, D, E, F, G and H each map every letter to a letter.\n\nFunction A:\nf -> g\ne -> w\nr -> q\nx -> l\nw -> c\nk -> e\nt -> z\np -> n\ns -> m\nj -> x\nc -> d\na -> u\nh -> y\ng -> p\nz -> a\nu -> v\nn -> h\nq -> b\ni -> k\nv -> r\nb -> o\nd -> i\ny -> f\nl -> j\nm -> s\no -> t\n\nFunction B:\nl -> q\ng -> o\ne -> b\nk -> w\nc -> p\nm -> s\nn -> r\nq -> v\ny -> u\nj -> f\nu -> j\nd -> t\nh -> c\nx -> k\np -> n\nv -> g\nr -> z\nt -> x\ni -> l\no -> d\nw -> h\na -> a\nz -> y\nf -> m\ns -> e\nb -> i\n\nFunction C:\nq -> s\ni -> j\nu -> u\nr -> y\nd -> k\nk -> b\nz -> l\no -> o\nw -> m\nm -> c\nl -> f\nt -> e\nx -> x\nj -> r\na -> v\nf -> h\ny -> w\nn -> n\nb -> t\np -> z\nc -> a\ns -> p\ne -> g\nh -> i\ng -> q\nv -> d\n\nFunction D:\nb -> e\nm -> k\nh -> m\ns -> u\np -> q\nv -> s\nt -> r\nl -> j\nr -> l\ny -> w\nz -> p\nf -> t\nk -> o\nq -> h\nx -> f\ne -> a\nw -> n\ni -> x\no -> g\nu -> z\nj -> v\nn -> c\ng -> y\nd -> i\na -> d\nc -> b\n\nFunction E:\nt -> o\nn -> w\no -> k\nu -> m\nj -> a\nk -> g\nv -> i\nz -> v\nh -> b\nq -> q\ns -> n\na -> u\nm -> h\ny -> c\nw -> d\nc -> j\ni -> s\nd -> z\nl -> r\ne -> l\np -> p\ng -> f\nx -> x\nr -> t\nf -> e\nb -> y\n\nFunction F:\na -> h\ni -> o\nl -> q\nn -> l\np -> p\ne -> c\nw -> z\nm -> e\ng -> n\ny -> u\ns -> w\nh -> x\nc -> i\nv -> d\nb -> s\nz -> b\nf -> v\nk -> g\no -> y\nq -> r\nt -> t\nj -> m\nx -> j\nd -> k\nr -> f\nu -> a\n\nFunction G:\nj -> y\nu -> n\nz -> g\nn -> w\no -> l\nv -> b\nh -> r\na -> x\nw -> f\ng -> u\nx -> q\np -> m\nk -> h\nf -> e\nl -> t\nr -> c\ny -> z\nb -> p\ni -> d\ne -> a\nd -> v\nc -> o\nm -> j\ns -> k\nt -> s\nq -> i\n\nFunction H:\nz -> b\nb -> c\nk -> h\nr -> e\nm -> f\ng -> d\nx -> u\ny -> v\ni -> x\nd -> r\nc -> n\nt -> i\ne -> o\ns -> q\nw -> k\nu -> y\nn -> a\na -> t\no -> p\nh -> g\np -> j\nq -> m\nl -> w\nv -> s\nj -> l\nf -> z\n\nStart letter: c\nNumber of steps: 1\nFollow function D from the start letter for that number of steps (0 steps means stay on the start letter). Reply with the final letter only."
+ },
+ {
+  "variant": "tables8",
+  "k": 1,
+  "answer": "z",
+  "path": [
+   "z",
+   "z"
+  ],
+  "table": "A",
+  "prompt_tokens": 948,
+  "greedy_token": " z",
+  "greedy_logprob": -0.0818253681063652,
+  "greedy_correct": true,
+  "greedy_is_letter": true,
+  "logprob_correct": -0.0818253681063652,
+  "best_letter": "z",
+  "best_letter_correct": true,
+  "letter_mass_top20": 0.9215871925058864,
+  "top20_letters": [
+   [
+    "z",
+    -0.0818253681063652
+   ],
+   [
+    "c",
+    -9.720603942871094
+   ],
+   [
+    "n",
+    -10.188909530639648
+   ],
+   [
+    "g",
+    -10.379997253417969
+   ],
+   [
+    "y",
+    -10.570173263549805
+   ]
+  ],
+  "top5": [
+   [
+    " z",
+    -0.0818253681063652
+   ],
+   [
+    "<|end_message|>",
+    -2.6306095123291016
+   ],
+   [
+    "z",
+    -5.991384506225586
+   ],
+   [
+    " $",
+    -6.977373123168945
+   ],
+   [
+    "\t",
+    -7.401679992675781
+   ]
+  ],
+  "greedy_path_index": 0,
+  "prompt": "Functions A, B, C, D, E, F, G and H each map every letter to a letter.\n\nFunction A:\ng -> f\nt -> r\nd -> j\na -> a\np -> k\ny -> i\nm -> b\nw -> c\nq -> q\nu -> e\no -> w\nh -> p\nz -> z\nc -> g\nx -> o\nk -> s\nj -> t\nn -> m\nl -> u\nv -> l\ne -> n\ni -> x\nf -> h\nb -> v\ns -> y\nr -> d\n\nFunction B:\nt -> v\nu -> u\nw -> z\nz -> n\nf -> t\nd -> k\no -> p\ns -> h\ny -> g\nn -> a\np -> w\ni -> i\nq -> y\nj -> m\ng -> d\nk -> b\nc -> f\nh -> l\na -> o\nv -> e\nx -> r\nm -> q\ne -> s\nb -> c\nr -> j\nl -> x\n\nFunction C:\nj -> y\nd -> l\nw -> k\nb -> m\np -> x\ny -> d\no -> g\nf -> b\nx -> s\nq -> u\nh -> e\ng -> p\nz -> n\ne -> q\nr -> a\nv -> r\nt -> c\nn -> z\nc -> j\nu -> o\nm -> w\nk -> f\ns -> i\nl -> v\na -> h\ni -> t\n\nFunction D:\nx -> y\nv -> m\nr -> u\nl -> s\nd -> i\nt -> t\no -> v\nb -> e\nn -> h\ns -> a\nq -> d\ni -> k\nk -> f\ne -> o\ng -> p\nz -> n\nu -> r\ny -> z\np -> c\nw -> j\nc -> x\nf -> b\na -> g\nh -> q\nm -> w\nj -> l\n\nFunction E:\nq -> t\nu -> v\np -> z\nl -> e\nv -> p\nc -> b\no -> s\nb -> g\ny -> r\na -> o\nt -> y\nd -> m\nh -> l\nn -> f\nj -> u\ni -> a\ne -> i\nz -> d\nr -> h\ns -> c\nx -> n\nw -> q\nm -> w\nf -> x\ng -> k\nk -> j\n\nFunction F:\na -> s\ns -> w\nw -> z\nf -> p\nk -> r\nu -> v\ne -> m\nj -> n\ng -> y\nn -> a\ny -> j\nm -> e\nl -> t\nb -> k\nr -> u\nh -> d\nx -> x\ni -> l\no -> g\nz -> q\nt -> b\np -> c\nv -> h\nq -> f\nc -> o\nd -> i\n\nFunction G:\nj -> l\nk -> t\nx -> c\na -> f\nf -> b\nm -> a\nu -> e\nq -> n\ns -> z\nn -> m\nh -> x\nc -> u\no -> k\nd -> d\ne -> y\nv -> i\nw -> q\nt -> j\nl -> w\nz -> p\ni -> v\ng -> g\ny -> s\nb -> h\nr -> r\np -> o\n\nFunction H:\nr -> x\ny -> c\no -> f\nm -> p\ns -> n\nv -> q\nz -> g\nl -> a\nk -> o\nn -> d\na -> t\ni -> u\np -> e\nc -> j\nd -> i\nh -> v\nu -> h\ng -> k\nw -> m\nq -> s\nx -> z\nb -> b\nj -> r\nt -> w\nf -> y\ne -> l\n\nStart letter: z\nNumber of steps: 1\nFollow function A from the start letter for that number of steps (0 steps means stay on the start letter). Reply with the final letter only."
+ }
+]

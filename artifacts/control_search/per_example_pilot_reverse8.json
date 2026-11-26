@@ -1,0 +1,1188 @@
+[
+ {
+  "variant": "reverse8",
+  "k": 1,
+  "answer": "p",
+  "path": [
+   "f",
+   "p"
+  ],
+  "table": "D",
+  "prompt_tokens": 929,
+  "greedy_token": " n",
+  "greedy_logprob": -1.0064706802368164,
+  "greedy_correct": false,
+  "greedy_is_letter": true,
+  "logprob_correct": -3.621462821960449,
+  "best_letter": "n",
+  "best_letter_correct": false,
+  "letter_mass_top20": 0.9207945797341408,
+  "top20_letters": [
+   [
+    "n",
+    -1.0064706802368164
+   ],
+   [
+    "f",
+    -1.7192411422729492
+   ],
+   [
+    "y",
+    -2.710963249206543
+   ],
+   [
+    "w",
+    -3.4886293411254883
+   ],
+   [
+    "b",
+    -3.5036840438842773
+   ],
+   [
+    "p",
+    -3.621462821960449
+   ],
+   [
+    "l",
+    -3.708022117614746
+   ],
+   [
+    "s",
+    -3.7471704483032227
+   ],
+   [
+    "a",
+    -3.777279853820801
+   ],
+   [
+    "c",
+    -3.844906806945801
+   ],
+   [
+    "e",
+    -3.917996406555176
+   ],
+   [
+    "t",
+    -3.997492790222168
+   ],
+   [
+    "u",
+    -4.1042890548706055
+   ],
+   [
+    "g",
+    -4.2114973068237305
+   ],
+   [
+    "q",
+    -4.253392219543457
+   ],
+   [
+    "m",
+    -4.255175590515137
+   ],
+   [
+    "d",
+    -4.259467124938965
+   ],
+   [
+    "o",
+    -4.71543025970459
+   ],
+   [
+    "x",
+    -4.7334489822387695
+   ]
+  ],
+  "top5": [
+   [
+    " n",
+    -1.0064706802368164
+   ],
+   [
+    " f",
+    -1.7192411422729492
+   ],
+   [
+    " y",
+    -2.710963249206543
+   ],
+   [
+    " w",
+    -3.4886293411254883
+   ],
+   [
+    " b",
+    -3.5036840438842773
+   ]
+  ],
+  "greedy_path_index": null,
+  "prompt": "Functions A, B, C, D, E, F, G and H each map every letter to a letter.\n\nFunction A:\nl -> y\ng -> n\nc -> t\nq -> u\np -> l\nw -> h\nu -> d\nr -> x\nf -> w\nb -> s\nm -> m\ny -> j\nt -> e\nd -> p\nh -> b\ns -> z\no -> v\ne -> c\nz -> r\nn -> o\nj -> q\ni -> a\nx -> k\na -> g\nv -> i\nk -> f\n\nFunction B:\nm -> e\na -> r\no -> v\nf -> p\nt -> j\nd -> q\nu -> x\nr -> c\nq -> d\nv -> l\nc -> m\np -> h\ni -> k\ne -> z\nn -> b\ny -> s\nh -> o\ng -> u\nj -> f\nk -> i\nb -> w\ns -> a\nw -> g\nx -> t\nz -> n\nl -> y\n\nFunction C:\nc -> o\no -> c\nr -> y\ni -> b\nn -> q\nv -> d\nt -> x\nm -> t\ne -> j\nz -> v\nl -> z\nd -> i\np -> n\nq -> p\ny -> e\na -> u\nh -> r\nk -> k\nf -> l\ng -> s\ns -> w\nu -> m\nw -> g\nb -> a\nj -> h\nx -> f\n\nFunction D:\nn -> y\nu -> k\nc -> i\nv -> j\nl -> c\nr -> u\nb -> e\nj -> q\ns -> t\nq -> p\nw -> r\ng -> o\nk -> h\nx -> g\nt -> b\nf -> n\ny -> l\ni -> z\nh -> m\ne -> w\np -> f\na -> x\nm -> a\no -> d\nd -> s\nz -> v\n\nFunction E:\nz -> n\ne -> l\nh -> a\nc -> y\nj -> q\nd -> f\nm -> h\nb -> m\nx -> w\nw -> k\nt -> e\ny -> u\nf -> s\nu -> i\nr -> r\nk -> x\ns -> o\nn -> z\np -> p\no -> b\ni -> c\na -> d\nl -> v\nv -> g\nq -> t\ng -> j\n\nFunction F:\no -> d\ns -> h\nt -> q\nk -> r\nu -> t\nl -> g\nn -> b\nd -> u\na -> z\nv -> j\nm -> p\ni -> a\ng -> i\ne -> f\nf -> w\nw -> v\nz -> k\nh -> l\nq -> e\nj -> c\np -> m\nc -> x\nx -> n\nr -> s\ny -> y\nb -> o\n\nFunction G:\ne -> w\nn -> z\nu -> q\nt -> o\nx -> k\nq -> i\nb -> r\ns -> b\nk -> p\nd -> h\ni -> u\nz -> n\nh -> a\nf -> g\no -> y\ng -> e\ny -> t\nj -> v\nw -> l\nv -> m\np -> c\na -> f\nl -> x\nm -> j\nr -> s\nc -> d\n\nFunction H:\nj -> g\nx -> e\nq -> p\nd -> r\nr -> i\nb -> c\nt -> q\nh -> z\nz -> j\ny -> x\ni -> t\nk -> h\no -> l\nl -> b\nf -> o\nn -> y\ng -> k\nu -> w\nv -> d\np -> v\na -> m\nw -> s\ne -> f\ns -> u\nc -> a\nm -> n\n\nOutput letter: f\nWhich letter does function D map to the output letter? Reply with that input letter only."
+ },
+ {
+  "variant": "reverse8",
+  "k": 1,
+  "answer": "b",
+  "path": [
+   "i",
+   "b"
+  ],
+  "table": "B",
+  "prompt_tokens": 929,
+  "greedy_token": " q",
+  "greedy_logprob": -0.24417510628700256,
+  "greedy_correct": false,
+  "greedy_is_letter": true,
+  "logprob_correct": -7.270225524902344,
+  "best_letter": "q",
+  "best_letter_correct": false,
+  "letter_mass_top20": 0.9614251135482224,
+  "top20_letters": [
+   [
+    "q",
+    -0.24417510628700256
+   ],
+   [
+    "i",
+    -2.317270517349243
+   ],
+   [
+    "o",
+    -4.360591888427734
+   ],
+   [
+    "p",
+    -4.390674591064453
+   ],
+   [
+    "a",
+    -4.700822830200195
+   ],
+   [
+    "c",
+    -4.777639389038086
+   ],
+   [
+    "u",
+    -5.079660415649414
+   ],
+   [
+    "g",
+    -5.297746658325195
+   ],
+   [
+    "s",
+    -5.385740280151367
+   ],
+   [
+    "n",
+    -5.448974609375
+   ],
+   [
+    "r",
+    -5.635030746459961
+   ],
+   [
+    "k",
+    -5.664417266845703
+   ],
+   [
+    "w",
+    -5.738487243652344
+   ],
+   [
+    "z",
+    -6.0226898193359375
+   ],
+   [
+    "d",
+    -6.077907562255859
+   ],
+   [
+    "f",
+    -6.328268051147461
+   ]
+  ],
+  "top5": [
+   [
+    " q",
+    -0.24417510628700256
+   ],
+   [
+    " i",
+    -2.317270517349243
+   ],
+   [
+    " o",
+    -4.360591888427734
+   ],
+   [
+    " p",
+    -4.390674591064453
+   ],
+   [
+    " a",
+    -4.700822830200195
+   ]
+  ],
+  "greedy_path_index": null,
+  "prompt": "Functions A, B, C, D, E, F, G and H each map every letter to a letter.\n\nFunction A:\nf -> e\nv -> n\ny -> b\na -> z\nn -> f\no -> q\nq -> h\nl -> c\np -> d\ne -> y\nh -> w\nz -> m\nr -> g\nc -> x\nk -> s\nw -> i\nb -> j\nm -> v\nu -> p\ni -> k\nt -> o\ns -> t\nx -> r\nd -> u\nj -> a\ng -> l\n\nFunction B:\nm -> c\nb -> i\no -> u\ny -> l\nk -> z\nc -> t\nh -> h\np -> p\nq -> a\ni -> q\nw -> y\nt -> d\nr -> n\nz -> j\ne -> r\nu -> w\nf -> e\nd -> s\nj -> v\nl -> m\ng -> k\nn -> o\nv -> x\na -> g\nx -> f\ns -> b\n\nFunction C:\nt -> g\nl -> s\nj -> n\nb -> b\nm -> j\ni -> c\na -> y\nu -> v\nv -> r\nk -> e\nc -> m\ns -> w\nf -> p\nn -> q\ng -> d\ne -> h\nh -> f\nx -> u\nr -> z\nw -> o\nq -> k\nz -> t\ny -> i\no -> a\np -> l\nd -> x\n\nFunction D:\nw -> e\nv -> p\ni -> u\na -> o\no -> l\nz -> g\nj -> q\ny -> t\nh -> c\nu -> r\ne -> a\nq -> b\nk -> n\nr -> z\nb -> f\nt -> h\nc -> d\nl -> k\nf -> m\nn -> x\nx -> w\nd -> v\ng -> i\np -> j\nm -> s\ns -> y\n\nFunction E:\nm -> w\nv -> r\nj -> h\nx -> x\nc -> d\ns -> k\nn -> l\nr -> g\ny -> y\nu -> f\no -> u\nl -> j\nd -> n\na -> t\ng -> a\np -> m\nq -> e\nk -> v\nt -> o\ne -> q\nb -> b\nf -> i\nz -> c\nh -> p\nw -> z\ni -> s\n\nFunction F:\no -> t\nn -> k\nh -> n\nf -> m\nc -> d\nm -> b\np -> v\nj -> g\nk -> p\ni -> c\nt -> l\nw -> a\nb -> x\nx -> h\nz -> o\nd -> r\ny -> s\nl -> z\ns -> i\na -> e\nq -> y\ne -> u\nr -> j\nv -> q\ng -> w\nu -> f\n\nFunction G:\nf -> k\nc -> i\np -> s\ni -> c\nb -> j\ns -> v\nt -> b\ng -> n\nv -> g\nq -> d\nn -> m\nk -> h\nj -> f\nm -> t\ne -> r\nh -> q\nu -> z\nr -> l\na -> e\no -> a\nz -> o\nl -> w\nd -> x\nx -> y\ny -> p\nw -> u\n\nFunction H:\nt -> c\nc -> r\ns -> v\nv -> f\nk -> x\no -> b\na -> l\nw -> z\nf -> s\nr -> j\nz -> h\nh -> u\nb -> e\nx -> d\nm -> a\nj -> n\ni -> o\nn -> w\nd -> y\nu -> m\np -> p\ny -> k\nq -> t\ne -> q\ng -> g\nl -> i\n\nOutput letter: i\nWhich letter does function B map to the output letter? Reply with that input letter only."
+ },
+ {
+  "variant": "reverse8",
+  "k": 1,
+  "answer": "k",
+  "path": [
+   "b",
+   "k"
+  ],
+  "table": "D",
+  "prompt_tokens": 929,
+  "greedy_token": " q",
+  "greedy_logprob": -2.4725875854492188,
+  "greedy_correct": false,
+  "greedy_is_letter": true,
+  "logprob_correct": -5.0167083740234375,
+  "best_letter": "q",
+  "best_letter_correct": false,
+  "letter_mass_top20": 0.9058788689246324,
+  "top20_letters": [
+   [
+    "q",
+    -2.4725875854492188
+   ],
+   [
+    "z",
+    -2.5258922576904297
+   ],
+   [
+    "c",
+    -2.58953857421875
+   ],
+   [
+    "e",
+    -2.7358226776123047
+   ],
+   [
+    "v",
+    -2.8113059997558594
+   ],
+   [
+    "a",
+    -2.825075149536133
+   ],
+   [
+    "s",
+    -2.852865219116211
+   ],
+   [
+    "r",
+    -2.8786239624023438
+   ],
+   [
+    "o",
+    -2.8843116760253906
+   ],
+   [
+    "p",
+    -2.932708740234375
+   ],
+   [
+    "i",
+    -3.0015125274658203
+   ],
+   [
+    "y",
+    -3.1797924041748047
+   ],
+   [
+    "n",
+    -3.4984130859375
+   ],
+   [
+    "j",
+    -3.5624847412109375
+   ],
+   [
+    "d",
+    -3.7340145111083984
+   ],
+   [
+    "b",
+    -3.911426544189453
+   ],
+   [
+    "l",
+    -4.052738189697266
+   ],
+   [
+    "x",
+    -4.069301605224609
+   ],
+   [
+    "h",
+    -4.162193298339844
+   ],
+   [
+    "w",
+    -4.180080413818359
+   ]
+  ],
+  "top5": [
+   [
+    " q",
+    -2.4725875854492188
+   ],
+   [
+    " z",
+    -2.5258922576904297
+   ],
+   [
+    " c",
+    -2.58953857421875
+   ],
+   [
+    " e",
+    -2.7358226776123047
+   ],
+   [
+    " v",
+    -2.8113059997558594
+   ]
+  ],
+  "greedy_path_index": null,
+  "prompt": "Functions A, B, C, D, E, F, G and H each map every letter to a letter.\n\nFunction A:\nt -> l\ni -> n\nn -> z\nk -> x\nf -> m\nh -> d\nj -> s\nd -> a\ny -> w\nx -> e\nm -> t\na -> h\nb -> y\nv -> c\ng -> v\nl -> r\ne -> k\np -> j\no -> o\nr -> u\ns -> p\nq -> g\nz -> f\nc -> q\nw -> i\nu -> b\n\nFunction B:\nl -> p\ns -> e\na -> m\np -> b\nb -> z\nk -> j\no -> a\nd -> q\nf -> o\ny -> d\nt -> f\nx -> c\nz -> x\nh -> v\nv -> l\nj -> u\ne -> w\ni -> i\nq -> h\nr -> r\nm -> k\nw -> s\ng -> t\nc -> y\nn -> g\nu -> n\n\nFunction C:\nd -> p\nv -> a\nu -> c\ni -> q\nr -> z\ne -> g\no -> e\np -> n\ny -> w\nk -> o\ng -> k\nz -> l\nn -> b\nb -> d\nc -> j\ns -> r\nt -> v\nj -> t\nq -> s\nf -> h\nm -> x\nl -> i\na -> u\nw -> y\nx -> m\nh -> f\n\nFunction D:\nk -> b\nf -> h\nb -> z\ni -> y\nl -> s\nw -> f\nu -> l\nq -> w\nn -> m\nc -> u\nj -> c\nx -> q\ne -> k\ns -> g\no -> e\nm -> x\ny -> t\ng -> n\nd -> a\nh -> j\nv -> p\np -> d\nt -> r\na -> o\nr -> i\nz -> v\n\nFunction E:\nx -> o\na -> v\ns -> k\nz -> g\nf -> h\nk -> c\nn -> d\nm -> q\ny -> u\np -> z\nd -> r\nq -> t\ng -> w\nv -> b\nh -> x\nj -> n\ne -> j\nb -> m\nu -> i\nt -> p\nl -> a\no -> e\nc -> f\nw -> s\nr -> l\ni -> y\n\nFunction F:\nu -> a\ng -> d\nm -> h\nj -> l\nb -> p\nw -> k\nh -> g\nx -> t\nl -> e\nd -> x\na -> c\nz -> u\ns -> q\nt -> s\ne -> v\nk -> o\nc -> z\ny -> n\nr -> m\nf -> f\no -> i\nq -> b\np -> r\nn -> y\ni -> w\nv -> j\n\nFunction G:\nb -> x\ne -> v\nc -> z\nu -> j\nf -> l\nj -> p\no -> h\nn -> u\na -> b\nx -> c\ny -> f\nh -> n\ni -> s\nl -> d\ns -> g\nt -> m\nk -> a\np -> t\nq -> y\nr -> i\nd -> e\nw -> w\nv -> r\nz -> q\nm -> o\ng -> k\n\nFunction H:\nd -> m\nq -> e\nr -> t\nk -> c\ni -> o\nb -> l\ne -> d\nl -> s\nf -> j\ny -> x\ns -> a\nv -> y\nn -> q\na -> k\nx -> g\np -> f\nj -> p\nz -> b\nm -> h\ng -> n\nw -> r\nt -> w\nc -> v\no -> u\nu -> i\nh -> z\n\nOutput letter: b\nWhich letter does function D map to the output letter? Reply with that input letter only."
+ },
+ {
+  "variant": "reverse8",
+  "k": 1,
+  "answer": "s",
+  "path": [
+   "d",
+   "s"
+  ],
+  "table": "G",
+  "prompt_tokens": 929,
+  "greedy_token": " z",
+  "greedy_logprob": -1.1314932107925415,
+  "greedy_correct": false,
+  "greedy_is_letter": true,
+  "logprob_correct": -3.7303547859191895,
+  "best_letter": "z",
+  "best_letter_correct": false,
+  "letter_mass_top20": 0.9370171768675757,
+  "top20_letters": [
+   [
+    "z",
+    -1.1314932107925415
+   ],
+   [
+    "m",
+    -2.5296006202697754
+   ],
+   [
+    "d",
+    -2.6720528602600098
+   ],
+   [
+    "n",
+    -2.8655457496643066
+   ],
+   [
+    "f",
+    -2.884891986846924
+   ],
+   [
+    "x",
+    -2.942202091217041
+   ],
+   [
+    "y",
+    -3.36784029006958
+   ],
+   [
+    "w",
+    -3.407972812652588
+   ],
+   [
+    "r",
+    -3.6690354347229004
+   ],
+   [
+    "j",
+    -3.687195301055908
+   ],
+   [
+    "s",
+    -3.7303547859191895
+   ],
+   [
+    "b",
+    -3.7505383491516113
+   ],
+   [
+    "g",
+    -3.765169620513916
+   ],
+   [
+    "c",
+    -3.8337864875793457
+   ],
+   [
+    "v",
+    -3.848850727081299
+   ],
+   [
+    "q",
+    -3.9373555183410645
+   ],
+   [
+    "o",
+    -4.197004795074463
+   ],
+   [
+    "t",
+    -4.37615442276001
+   ],
+   [
+    "l",
+    -4.45208215713501
+   ],
+   [
+    "h",
+    -4.642446994781494
+   ]
+  ],
+  "top5": [
+   [
+    " z",
+    -1.1314932107925415
+   ],
+   [
+    " m",
+    -2.5296006202697754
+   ],
+   [
+    " d",
+    -2.6720528602600098
+   ],
+   [
+    " n",
+    -2.8655457496643066
+   ],
+   [
+    " f",
+    -2.884891986846924
+   ]
+  ],
+  "greedy_path_index": null,
+  "prompt": "Functions A, B, C, D, E, F, G and H each map every letter to a letter.\n\nFunction A:\nc -> y\ny -> p\np -> n\ns -> b\nw -> o\nt -> k\ne -> e\nb -> v\na -> f\nd -> i\nf -> l\ni -> c\nv -> s\nx -> w\nu -> u\ng -> j\nl -> x\no -> a\nr -> q\nn -> t\nh -> d\nm -> g\nk -> z\nj -> r\nz -> m\nq -> h\n\nFunction B:\nf -> x\nv -> e\nk -> n\np -> k\nd -> f\na -> u\no -> p\nh -> y\nb -> d\nr -> c\ng -> b\nz -> r\nq -> t\nm -> v\nc -> g\nj -> a\nl -> l\ne -> w\nn -> h\nw -> s\ns -> j\nu -> q\nt -> i\nx -> z\ny -> o\ni -> m\n\nFunction C:\nw -> e\na -> h\ne -> f\nz -> g\nk -> p\np -> j\nt -> o\no -> k\nh -> z\ng -> d\ni -> m\nl -> i\ns -> t\ny -> y\nj -> l\nx -> x\nc -> b\nf -> c\nm -> s\nb -> n\nq -> v\nu -> q\nd -> a\nn -> u\nv -> w\nr -> r\n\nFunction D:\nx -> v\nm -> b\nq -> i\ns -> r\nk -> j\nn -> q\nd -> p\ni -> n\nj -> z\np -> s\nh -> t\no -> o\nt -> w\nw -> f\nu -> m\nc -> y\nf -> l\nl -> a\na -> c\nr -> g\nz -> x\ny -> e\ng -> k\nb -> u\ne -> d\nv -> h\n\nFunction E:\np -> n\nc -> l\no -> w\nk -> e\ns -> p\nj -> h\nx -> j\nm -> t\nb -> g\nr -> i\ng -> c\nt -> b\nd -> x\na -> m\nu -> y\ny -> z\ni -> f\nh -> a\nl -> d\nz -> o\nq -> k\nf -> r\nv -> s\ne -> u\nw -> q\nn -> v\n\nFunction F:\na -> e\ng -> j\nz -> y\nl -> l\nw -> b\nx -> n\nq -> t\nb -> k\nt -> m\nh -> u\nu -> q\nd -> r\nn -> z\ni -> v\nj -> o\np -> d\nf -> x\ny -> c\nk -> a\nc -> w\nr -> f\nm -> i\no -> s\ns -> p\ne -> h\nv -> g\n\nFunction G:\nz -> j\nr -> w\nc -> s\ns -> d\nt -> r\nd -> z\nn -> m\nv -> q\nm -> e\nu -> c\nk -> a\no -> n\nb -> y\nj -> x\ne -> h\nq -> i\np -> t\nf -> b\nl -> k\nw -> u\na -> o\ni -> p\ng -> l\nx -> f\ny -> g\nh -> v\n\nFunction H:\nc -> l\nf -> y\nd -> g\nx -> x\nn -> p\nh -> v\nm -> k\na -> o\nj -> c\ni -> j\nw -> h\nv -> q\ng -> e\np -> f\ny -> s\nr -> m\nk -> u\ne -> r\nt -> w\nl -> b\nz -> z\nb -> d\ns -> n\no -> a\nq -> t\nu -> i\n\nOutput letter: d\nWhich letter does function G map to the output letter? Reply with that input letter only."
+ },
+ {
+  "variant": "reverse8",
+  "k": 1,
+  "answer": "i",
+  "path": [
+   "y",
+   "i"
+  ],
+  "table": "C",
+  "prompt_tokens": 929,
+  "greedy_token": " y",
+  "greedy_logprob": -2.5969045162200928,
+  "greedy_correct": false,
+  "greedy_is_letter": true,
+  "logprob_correct": -3.657701253890991,
+  "best_letter": "y",
+  "best_letter_correct": false,
+  "letter_mass_top20": 0.8479265642662622,
+  "top20_letters": [
+   [
+    "y",
+    -2.5969045162200928
+   ],
+   [
+    "b",
+    -2.6758534908294678
+   ],
+   [
+    "d",
+    -2.782357931137085
+   ],
+   [
+    "c",
+    -2.805722951889038
+   ],
+   [
+    "x",
+    -2.8982064723968506
+   ],
+   [
+    "z",
+    -2.9240224361419678
+   ],
+   [
+    "e",
+    -3.1338441371917725
+   ],
+   [
+    "s",
+    -3.1694695949554443
+   ],
+   [
+    "f",
+    -3.1808583736419678
+   ],
+   [
+    "n",
+    -3.2792603969573975
+   ],
+   [
+    "a",
+    -3.3089845180511475
+   ],
+   [
+    "h",
+    -3.3446404933929443
+   ],
+   [
+    "o",
+    -3.3677175045013428
+   ],
+   [
+    "q",
+    -3.393298864364624
+   ],
+   [
+    "k",
+    -3.4932668209075928
+   ],
+   [
+    "w",
+    -3.5618646144866943
+   ],
+   [
+    "j",
+    -3.565582036972046
+   ],
+   [
+    "g",
+    -3.5698297023773193
+   ],
+   [
+    "p",
+    -3.5868337154388428
+   ],
+   [
+    "i",
+    -3.657701253890991
+   ]
+  ],
+  "top5": [
+   [
+    " y",
+    -2.5969045162200928
+   ],
+   [
+    " b",
+    -2.6758534908294678
+   ],
+   [
+    " d",
+    -2.782357931137085
+   ],
+   [
+    " c",
+    -2.805722951889038
+   ],
+   [
+    " x",
+    -2.8982064723968506
+   ]
+  ],
+  "greedy_path_index": 0,
+  "prompt": "Functions A, B, C, D, E, F, G and H each map every letter to a letter.\n\nFunction A:\nr -> l\nf -> d\ns -> i\nq -> m\ng -> w\nk -> b\nb -> n\nl -> s\nz -> a\nn -> p\np -> z\ne -> k\nw -> r\ny -> q\nx -> o\ni -> x\nj -> h\nh -> c\nu -> v\nt -> y\no -> t\na -> e\nc -> u\nm -> j\nd -> f\nv -> g\n\nFunction B:\ns -> t\nb -> h\nz -> d\ng -> l\nc -> e\ny -> u\ne -> r\np -> w\nj -> z\nw -> j\nh -> g\nk -> p\nd -> a\nr -> k\na -> s\nm -> f\nv -> n\nq -> m\nl -> y\nn -> b\nu -> i\nf -> x\ni -> q\nx -> c\no -> o\nt -> v\n\nFunction C:\nl -> a\ny -> c\nk -> h\nq -> f\nw -> w\nn -> u\nj -> l\np -> z\nc -> b\nh -> j\nu -> o\nz -> x\ng -> n\nv -> p\nf -> i\nr -> g\ni -> y\nm -> v\ne -> s\nb -> t\nt -> e\no -> q\ns -> k\na -> m\nd -> r\nx -> d\n\nFunction D:\nk -> h\np -> m\nq -> k\ni -> c\nf -> n\nt -> d\nj -> g\nv -> o\nn -> q\ny -> x\no -> e\nr -> i\nu -> a\nw -> j\nl -> f\na -> v\nz -> s\nm -> r\nb -> u\ne -> w\nd -> y\ns -> t\ng -> b\nc -> p\nx -> z\nh -> l\n\nFunction E:\np -> g\nl -> t\ni -> z\nd -> a\nc -> l\nb -> n\nk -> r\nh -> s\na -> i\nj -> h\nf -> y\nx -> k\nz -> o\ns -> m\ng -> f\nw -> x\nq -> d\nm -> j\ne -> c\nt -> p\ny -> v\nu -> e\no -> w\nv -> q\nn -> u\nr -> b\n\nFunction F:\nd -> k\nc -> r\nk -> n\ny -> i\nh -> p\nq -> l\ns -> x\nm -> q\ne -> c\np -> g\no -> z\nx -> t\ni -> w\nf -> d\nl -> m\ng -> u\na -> b\nr -> f\nu -> o\nt -> y\nj -> j\nz -> e\nb -> v\nw -> a\nv -> h\nn -> s\n\nFunction G:\nx -> c\na -> o\nw -> m\nb -> q\nq -> w\ng -> k\ne -> i\nz -> s\nv -> v\nd -> j\ns -> t\nk -> x\nn -> y\nf -> u\nj -> h\ny -> e\nh -> z\no -> a\nl -> b\ni -> r\nu -> l\nc -> p\nm -> n\np -> d\nt -> f\nr -> g\n\nFunction H:\nk -> b\nx -> c\ny -> d\na -> n\nd -> r\nm -> z\nw -> s\nu -> y\no -> j\ni -> u\nj -> h\nq -> w\np -> t\nr -> f\nv -> a\nl -> g\nn -> i\nc -> e\nz -> q\nh -> p\ne -> x\ns -> v\nt -> o\nb -> k\nf -> m\ng -> l\n\nOutput letter: y\nWhich letter does function C map to the output letter? Reply with that input letter only."
+ },
+ {
+  "variant": "reverse8",
+  "k": 1,
+  "answer": "e",
+  "path": [
+   "t",
+   "e"
+  ],
+  "table": "B",
+  "prompt_tokens": 929,
+  "greedy_token": " p",
+  "greedy_logprob": -0.2759777307510376,
+  "greedy_correct": false,
+  "greedy_is_letter": true,
+  "logprob_correct": -4.208329677581787,
+  "best_letter": "p",
+  "best_letter_correct": false,
+  "letter_mass_top20": 0.916659574762989,
+  "top20_letters": [
+   [
+    "p",
+    -0.2759777307510376
+   ],
+   [
+    "t",
+    -3.624145030975342
+   ],
+   [
+    "q",
+    -3.6781516075134277
+   ],
+   [
+    "e",
+    -4.208329677581787
+   ],
+   [
+    "o",
+    -4.284682750701904
+   ],
+   [
+    "s",
+    -4.344674587249756
+   ],
+   [
+    "a",
+    -4.362285137176514
+   ],
+   [
+    "c",
+    -4.7207865715026855
+   ],
+   [
+    "f",
+    -4.846028804779053
+   ],
+   [
+    "n",
+    -5.118394374847412
+   ],
+   [
+    "d",
+    -5.13867712020874
+   ],
+   [
+    "r",
+    -5.164309978485107
+   ],
+   [
+    "y",
+    -5.340308666229248
+   ],
+   [
+    "b",
+    -5.375577449798584
+   ],
+   [
+    "l",
+    -5.49141263961792
+   ],
+   [
+    "m",
+    -5.6175150871276855
+   ]
+  ],
+  "top5": [
+   [
+    " p",
+    -0.2759777307510376
+   ],
+   [
+    " t",
+    -3.624145030975342
+   ],
+   [
+    " q",
+    -3.6781516075134277
+   ],
+   [
+    " e",
+    -4.208329677581787
+   ],
+   [
+    "\n\n",
+    -4.210252285003662
+   ]
+  ],
+  "greedy_path_index": null,
+  "prompt": "Functions A, B, C, D, E, F, G and H each map every letter to a letter.\n\nFunction A:\nr -> y\np -> f\ns -> i\ne -> h\nj -> w\nw -> u\nf -> z\nx -> j\nq -> p\na -> b\nl -> s\nd -> x\nc -> k\nm -> q\nt -> a\ni -> o\nz -> v\ny -> l\no -> e\nu -> c\nb -> t\nn -> n\nk -> m\nh -> d\ng -> g\nv -> r\n\nFunction B:\nj -> z\nd -> m\nz -> g\nf -> k\nu -> q\nn -> w\nx -> n\ng -> b\nh -> x\nk -> u\ni -> j\no -> i\nb -> r\ns -> a\nc -> h\nt -> p\nm -> f\nv -> c\ne -> t\nq -> y\na -> e\nw -> o\nl -> d\ny -> s\nr -> l\np -> v\n\nFunction C:\nm -> a\nx -> q\nc -> n\nn -> m\nd -> t\ny -> s\nb -> c\ni -> e\nq -> i\nt -> l\nv -> f\nw -> r\ns -> j\nz -> g\np -> o\nr -> y\ne -> x\nf -> u\ng -> z\na -> k\nh -> d\nu -> b\no -> w\nl -> h\nj -> v\nk -> p\n\nFunction D:\nw -> b\nu -> s\na -> v\nl -> t\np -> z\ni -> h\nj -> n\nd -> i\nh -> r\no -> m\nc -> l\nf -> x\nq -> a\nb -> q\nt -> e\ns -> j\ne -> d\nr -> w\nm -> g\nv -> f\ny -> c\nn -> o\nx -> p\nz -> y\nk -> k\ng -> u\n\nFunction E:\nd -> x\nv -> h\nr -> g\nk -> e\na -> d\ns -> k\np -> u\ny -> a\ni -> s\nl -> n\nu -> j\no -> t\ne -> i\nq -> o\nw -> q\nf -> b\nx -> y\nm -> r\ng -> z\nn -> l\nt -> w\nj -> v\nb -> p\nz -> f\nh -> m\nc -> c\n\nFunction F:\no -> z\ns -> d\ne -> r\nr -> x\nw -> g\nb -> v\nn -> y\nm -> i\np -> a\nk -> k\nf -> c\nc -> o\ni -> q\nv -> t\nz -> p\nh -> n\nq -> e\nj -> f\ny -> m\nt -> u\na -> l\nx -> j\nl -> s\ng -> w\nu -> h\nd -> b\n\nFunction G:\nr -> z\nu -> q\np -> t\nc -> f\nf -> l\ng -> i\nk -> n\ns -> u\nd -> e\nb -> v\ne -> w\ni -> g\no -> c\nw -> d\nz -> k\nt -> r\nn -> y\nh -> x\nl -> p\nx -> j\ny -> b\nv -> a\nj -> o\nq -> m\na -> h\nm -> s\n\nFunction H:\np -> b\nl -> i\nb -> c\nv -> r\nt -> s\nq -> q\ng -> m\ne -> o\nk -> n\nm -> g\no -> j\ni -> p\nn -> h\ns -> u\nw -> x\nc -> d\ny -> k\nh -> a\nr -> w\nu -> z\nx -> t\nj -> v\na -> y\nf -> f\nz -> l\nd -> e\n\nOutput letter: t\nWhich letter does function B map to the output letter? Reply with that input letter only."
+ },
+ {
+  "variant": "reverse8",
+  "k": 1,
+  "answer": "r",
+  "path": [
+   "h",
+   "r"
+  ],
+  "table": "A",
+  "prompt_tokens": 929,
+  "greedy_token": " s",
+  "greedy_logprob": -2.6112992763519287,
+  "greedy_correct": false,
+  "greedy_is_letter": true,
+  "logprob_correct": -2.620422124862671,
+  "best_letter": "s",
+  "best_letter_correct": false,
+  "letter_mass_top20": 0.8674369464825481,
+  "top20_letters": [
+   [
+    "s",
+    -2.6112992763519287
+   ],
+   [
+    "r",
+    -2.620422124862671
+   ],
+   [
+    "g",
+    -2.7268693447113037
+   ],
+   [
+    "e",
+    -2.8973844051361084
+   ],
+   [
+    "n",
+    -2.990966558456421
+   ],
+   [
+    "o",
+    -3.048513174057007
+   ],
+   [
+    "c",
+    -3.085923910140991
+   ],
+   [
+    "a",
+    -3.158984899520874
+   ],
+   [
+    "h",
+    -3.1667401790618896
+   ],
+   [
+    "b",
+    -3.213365316390991
+   ],
+   [
+    "i",
+    -3.2200467586517334
+   ],
+   [
+    "d",
+    -3.244342565536499
+   ],
+   [
+    "l",
+    -3.2589452266693115
+   ],
+   [
+    "f",
+    -3.282661199569702
+   ],
+   [
+    "q",
+    -3.339200735092163
+   ],
+   [
+    "j",
+    -3.356422185897827
+   ],
+   [
+    "p",
+    -3.434020757675171
+   ],
+   [
+    "w",
+    -3.5877187252044678
+   ],
+   [
+    "y",
+    -3.6424310207366943
+   ],
+   [
+    "t",
+    -3.857940435409546
+   ]
+  ],
+  "top5": [
+   [
+    " s",
+    -2.6112992763519287
+   ],
+   [
+    " r",
+    -2.620422124862671
+   ],
+   [
+    " g",
+    -2.7268693447113037
+   ],
+   [
+    " e",
+    -2.8973844051361084
+   ],
+   [
+    " n",
+    -2.990966558456421
+   ]
+  ],
+  "greedy_path_index": null,
+  "prompt": "Functions A, B, C, D, E, F, G and H each map every letter to a letter.\n\nFunction A:\nx -> n\np -> d\nv -> q\nz -> p\nl -> g\nf -> t\nq -> e\nw -> v\ne -> x\ny -> z\nm -> k\nd -> u\nt -> i\nc -> b\nk -> f\nu -> w\ns -> c\nr -> h\nj -> y\ni -> a\no -> j\nb -> m\nh -> s\na -> o\nn -> r\ng -> l\n\nFunction B:\nk -> r\na -> m\nu -> y\ni -> i\nn -> v\nx -> w\no -> z\ns -> t\nb -> p\nj -> l\nt -> b\nq -> n\nm -> e\ng -> g\nd -> j\nr -> x\ny -> s\nz -> h\nc -> a\nf -> o\nh -> f\nv -> d\nl -> q\ne -> k\np -> c\nw -> u\n\nFunction C:\nx -> e\ne -> n\nm -> k\ni -> f\nz -> i\ns -> r\nk -> m\np -> s\nw -> a\ng -> t\nj -> j\nl -> d\nu -> c\na -> y\no -> x\nd -> b\nr -> z\nv -> l\nf -> h\nb -> o\nn -> v\nt -> q\nq -> w\nh -> p\nc -> g\ny -> u\n\nFunction D:\nu -> w\nt -> o\nf -> g\nb -> z\nn -> x\nh -> u\nv -> q\nw -> i\ny -> s\ne -> j\np -> t\nd -> y\nk -> c\no -> b\na -> k\nq -> p\nl -> h\nr -> f\ni -> l\ns -> r\nc -> n\nx -> e\nz -> v\nm -> d\ng -> a\nj -> m\n\nFunction E:\nd -> c\nj -> d\na -> k\nc -> b\nx -> o\np -> x\nw -> y\nm -> f\nh -> r\nb -> g\ns -> v\nv -> s\ny -> e\nn -> w\nt -> j\nr -> t\nz -> p\nu -> q\ng -> a\ne -> i\nl -> u\ni -> n\nf -> l\nk -> z\nq -> h\no -> m\n\nFunction F:\no -> q\na -> r\nw -> e\nl -> a\nz -> w\nd -> g\nk -> k\np -> x\nm -> c\nr -> y\ng -> j\nj -> o\ny -> i\nf -> l\nn -> s\nq -> m\nh -> z\nb -> f\ne -> b\nx -> d\nc -> p\ni -> n\nv -> v\nu -> h\nt -> u\ns -> t\n\nFunction G:\nl -> w\ne -> t\nx -> x\nu -> g\ns -> a\nq -> d\nv -> y\nr -> r\nk -> o\np -> k\nj -> h\nf -> v\nw -> s\ng -> p\nn -> f\nt -> l\nh -> z\nb -> u\nz -> i\nd -> b\na -> n\nc -> j\nm -> c\ny -> q\ni -> m\no -> e\n\nFunction H:\nr -> w\nc -> t\nk -> n\nd -> j\nz -> y\nu -> r\np -> c\nh -> s\nx -> g\nt -> x\ne -> l\na -> m\ns -> i\ni -> u\nm -> e\nf -> h\ny -> z\nl -> p\nb -> o\no -> b\nv -> k\ng -> d\nj -> a\nn -> q\nq -> f\nw -> v\n\nOutput letter: h\nWhich letter does function A map to the output letter? Reply with that input letter only."
+ },
+ {
+  "variant": "reverse8",
+  "k": 1,
+  "answer": "v",
+  "path": [
+   "s",
+   "v"
+  ],
+  "table": "B",
+  "prompt_tokens": 929,
+  "greedy_token": " b",
+  "greedy_logprob": -0.8294073939323425,
+  "greedy_correct": false,
+  "greedy_is_letter": true,
+  "logprob_correct": -4.067402362823486,
+  "best_letter": "b",
+  "best_letter_correct": false,
+  "letter_mass_top20": 0.911954246053948,
+  "top20_letters": [
+   [
+    "b",
+    -0.8294073939323425
+   ],
+   [
+    "s",
+    -2.445643186569214
+   ],
+   [
+    "y",
+    -2.9517085552215576
+   ],
+   [
+    "e",
+    -3.416365385055542
+   ],
+   [
+    "g",
+    -3.5619590282440186
+   ],
+   [
+    "a",
+    -3.580366849899292
+   ],
+   [
+    "t",
+    -3.5818889141082764
+   ],
+   [
+    "c",
+    -3.6144893169403076
+   ],
+   [
+    "n",
+    -3.712231397628784
+   ],
+   [
+    "f",
+    -3.849846601486206
+   ],
+   [
+    "z",
+    -3.9155566692352295
+   ],
+   [
+    "r",
+    -3.933647871017456
+   ],
+   [
+    "w",
+    -4.037352085113525
+   ],
+   [
+    "v",
+    -4.067402362823486
+   ],
+   [
+    "d",
+    -4.0873589515686035
+   ],
+   [
+    "q",
+    -4.125072956085205
+   ],
+   [
+    "u",
+    -4.250462055206299
+   ],
+   [
+    "l",
+    -4.346811771392822
+   ],
+   [
+    "o",
+    -4.360907077789307
+   ]
+  ],
+  "top5": [
+   [
+    " b",
+    -0.8294073939323425
+   ],
+   [
+    " s",
+    -2.445643186569214
+   ],
+   [
+    " y",
+    -2.9517085552215576
+   ],
+   [
+    " e",
+    -3.416365385055542
+   ],
+   [
+    " g",
+    -3.5619590282440186
+   ]
+  ],
+  "greedy_path_index": null,
+  "prompt": "Functions A, B, C, D, E, F, G and H each map every letter to a letter.\n\nFunction A:\na -> s\ne -> w\nr -> p\no -> n\nv -> k\nk -> r\nh -> z\ni -> g\ng -> e\np -> h\nm -> f\ny -> y\nd -> m\nw -> u\nc -> x\nj -> i\nz -> a\nn -> j\nt -> t\nb -> l\ns -> b\nx -> v\nq -> q\nf -> o\nl -> c\nu -> d\n\nFunction B:\nt -> f\nq -> e\np -> i\na -> p\nf -> v\nn -> z\ns -> b\ny -> r\nv -> s\nu -> d\nc -> k\no -> a\nh -> o\nb -> x\nm -> u\ng -> c\nr -> g\nk -> m\ni -> q\ne -> t\nj -> y\nd -> l\nw -> j\nx -> h\nz -> n\nl -> w\n\nFunction C:\nf -> h\nn -> y\nv -> r\nh -> g\nl -> l\nx -> f\nr -> o\nm -> d\nd -> z\ne -> n\ns -> a\nq -> x\nb -> k\ny -> t\nk -> i\np -> q\nu -> s\nw -> e\ng -> j\na -> b\nj -> w\nz -> u\no -> p\ni -> c\nc -> m\nt -> v\n\nFunction D:\np -> u\nf -> q\nm -> s\nw -> e\nn -> a\nu -> o\ns -> v\ng -> g\nr -> r\nv -> d\nk -> h\nl -> i\na -> z\nc -> x\nd -> l\nz -> j\nh -> p\ne -> w\no -> k\nj -> n\nx -> y\ny -> t\nb -> f\nt -> c\nq -> m\ni -> b\n\nFunction E:\nq -> i\nn -> l\ny -> f\nf -> m\np -> p\nk -> w\nt -> u\nu -> e\nv -> d\nw -> o\nr -> z\nb -> k\nz -> y\ns -> s\nl -> v\ni -> n\nj -> h\na -> c\no -> t\nm -> x\nd -> b\ng -> q\nh -> g\nc -> a\nx -> r\ne -> j\n\nFunction F:\nu -> d\nd -> q\ns -> r\nc -> m\nh -> c\nm -> a\ne -> y\nz -> l\na -> g\nq -> i\nw -> h\nr -> s\nv -> v\nk -> w\ng -> o\nn -> j\nj -> x\nf -> f\nx -> u\nb -> p\no -> n\nl -> e\ni -> b\np -> k\ny -> t\nt -> z\n\nFunction G:\nn -> h\na -> q\nk -> b\nt -> l\ne -> s\no -> y\nd -> n\nx -> k\ng -> w\nr -> o\nm -> i\nz -> p\nw -> x\nh -> a\np -> u\ni -> t\nv -> r\nc -> z\nq -> v\nu -> m\nj -> e\ns -> f\nl -> d\ny -> g\nf -> j\nb -> c\n\nFunction H:\nx -> o\nm -> u\ne -> q\nu -> y\nj -> j\nn -> d\ng -> a\ns -> w\np -> v\nh -> i\nq -> k\nl -> n\ni -> c\nv -> b\no -> t\nr -> e\nf -> x\nb -> m\nd -> s\nc -> g\na -> r\nt -> f\ny -> z\nz -> h\nw -> l\nk -> p\n\nOutput letter: s\nWhich letter does function B map to the output letter? Reply with that input letter only."
+ },
+ {
+  "variant": "reverse8",
+  "k": 1,
+  "answer": "l",
+  "path": [
+   "y",
+   "l"
+  ],
+  "table": "A",
+  "prompt_tokens": 929,
+  "greedy_token": " n",
+  "greedy_logprob": -2.339867353439331,
+  "greedy_correct": false,
+  "greedy_is_letter": true,
+  "logprob_correct": -3.3311259746551514,
+  "best_letter": "n",
+  "best_letter_correct": false,
+  "letter_mass_top20": 0.8229536726283484,
+  "top20_letters": [
+   [
+    "n",
+    -2.339867353439331
+   ],
+   [
+    "g",
+    -2.611698865890503
+   ],
+   [
+    "y",
+    -2.7060840129852295
+   ],
+   [
+    "q",
+    -2.7721545696258545
+   ],
+   [
+    "m",
+    -2.834618330001831
+   ],
+   [
+    "b",
+    -2.993281126022339
+   ],
+   [
+    "p",
+    -3.0372321605682373
+   ],
+   [
+    "d",
+    -3.1890475749969482
+   ],
+   [
+    "o",
+    -3.20076060295105
+   ],
+   [
+    "c",
+    -3.2625091075897217
+   ],
+   [
+    "l",
+    -3.3311259746551514
+   ],
+   [
+    "e",
+    -3.351839780807495
+   ],
+   [
+    "a",
+    -3.3695743083953857
+   ],
+   [
+    "s",
+    -3.5180461406707764
+   ],
+   [
+    "h",
+    -3.5684077739715576
+   ],
+   [
+    "t",
+    -3.786442518234253
+   ],
+   [
+    "i",
+    -3.841170072555542
+   ],
+   [
+    "w",
+    -3.891695737838745
+   ],
+   [
+    "r",
+    -3.9516704082489014
+   ]
+  ],
+  "top5": [
+   [
+    " n",
+    -2.339867353439331
+   ],
+   [
+    " g",
+    -2.611698865890503
+   ],
+   [
+    " y",
+    -2.7060840129852295
+   ],
+   [
+    " q",
+    -2.7721545696258545
+   ],
+   [
+    " m",
+    -2.834618330001831
+   ]
+  ],
+  "greedy_path_index": null,
+  "prompt": "Functions A, B, C, D, E, F, G and H each map every letter to a letter.\n\nFunction A:\nr -> o\nt -> v\nm -> x\nd -> c\nj -> l\ng -> q\nl -> y\nq -> m\na -> g\ne -> i\np -> h\ns -> j\nc -> b\nn -> z\nb -> r\nk -> u\nz -> d\nu -> f\nf -> s\ni -> p\no -> k\ny -> n\nw -> w\nh -> a\nv -> t\nx -> e\n\nFunction B:\nv -> e\ns -> n\nu -> h\na -> f\nf -> i\ne -> a\nj -> d\nh -> y\nl -> x\nb -> w\nq -> j\ni -> k\nn -> c\nd -> s\nm -> v\np -> p\nr -> l\no -> b\nz -> r\nw -> t\nx -> o\nk -> q\nt -> z\ny -> u\nc -> m\ng -> g\n\nFunction C:\np -> b\ng -> k\nb -> t\nv -> j\ny -> z\nw -> y\ns -> v\nj -> w\nc -> q\ni -> x\nu -> a\nq -> i\ne -> p\nn -> n\na -> o\nt -> r\nz -> c\nl -> m\nx -> u\no -> s\nm -> l\nr -> h\nd -> d\nh -> e\nf -> g\nk -> f\n\nFunction D:\nb -> x\ny -> o\nx -> g\no -> h\nh -> i\nn -> l\nw -> n\nu -> c\ng -> b\nm -> m\nc -> s\np -> a\nt -> v\nz -> j\nd -> z\ne -> r\na -> p\nj -> q\nf -> u\nq -> f\ns -> y\ni -> d\nk -> t\nv -> k\nr -> w\nl -> e\n\nFunction E:\na -> r\nc -> i\nx -> k\ni -> n\nq -> w\ns -> p\nf -> z\nl -> v\nt -> f\ng -> d\nn -> h\nh -> c\nu -> u\nk -> e\nd -> s\ny -> g\ne -> b\np -> y\nm -> j\nw -> m\nb -> a\no -> l\nv -> x\nr -> o\nj -> t\nz -> q\n\nFunction F:\nw -> a\nj -> q\nr -> g\ni -> x\nx -> e\ng -> i\na -> u\nu -> o\nv -> b\np -> r\ny -> n\nf -> j\nz -> t\nd -> y\nb -> z\ns -> c\nt -> s\nk -> d\nh -> w\nl -> l\nc -> p\nq -> h\no -> f\nm -> k\ne -> m\nn -> v\n\nFunction G:\ni -> w\nx -> u\ns -> x\nt -> o\nv -> y\no -> g\ne -> s\nw -> q\nm -> i\nd -> j\ng -> z\nc -> f\nb -> r\nr -> h\nn -> e\nu -> a\nf -> t\na -> l\nz -> k\nl -> d\nh -> p\nq -> v\nk -> c\ny -> b\nj -> n\np -> m\n\nFunction H:\nn -> e\nc -> u\nx -> t\nz -> x\nt -> g\ne -> w\nu -> m\na -> d\nd -> k\nh -> o\ns -> s\ng -> c\nw -> i\ny -> b\nj -> n\nq -> y\ni -> q\nb -> h\nr -> a\nf -> v\np -> r\nk -> f\nv -> j\nl -> l\no -> p\nm -> z\n\nOutput letter: y\nWhich letter does function A map to the output letter? Reply with that input letter only."
+ },
+ {
+  "variant": "reverse8",
+  "k": 1,
+  "answer": "d",
+  "path": [
+   "a",
+   "d"
+  ],
+  "table": "D",
+  "prompt_tokens": 929,
+  "greedy_token": " x",
+  "greedy_logprob": -0.27998438477516174,
+  "greedy_correct": false,
+  "greedy_is_letter": true,
+  "logprob_correct": -4.292258262634277,
+  "best_letter": "x",
+  "best_letter_correct": false,
+  "letter_mass_top20": 0.8852122869891151,
+  "top20_letters": [
+   [
+    "x",
+    -0.27998438477516174
+   ],
+   [
+    "a",
+    -3.6597776412963867
+   ],
+   [
+    "r",
+    -3.781893730163574
+   ],
+   [
+    "n",
+    -4.036494255065918
+   ],
+   [
+    "d",
+    -4.292258262634277
+   ],
+   [
+    "w",
+    -4.600579261779785
+   ],
+   [
+    "z",
+    -4.863541603088379
+   ],
+   [
+    "c",
+    -5.078616142272949
+   ],
+   [
+    "e",
+    -5.195254325866699
+   ],
+   [
+    "s",
+    -5.488755226135254
+   ],
+   [
+    "l",
+    -5.497807502746582
+   ],
+   [
+    "v",
+    -5.717221260070801
+   ],
+   [
+    "o",
+    -5.755888938903809
+   ],
+   [
+    "q",
+    -5.833388328552246
+   ],
+   [
+    "y",
+    -6.025853157043457
+   ]
+  ],
+  "top5": [
+   [
+    " x",
+    -0.27998438477516174
+   ],
+   [
+    "\n",
+    -3.1584348678588867
+   ],
+   [
+    " a",
+    -3.6597776412963867
+   ],
+   [
+    " r",
+    -3.781893730163574
+   ],
+   [
+    "<|end_message|>",
+    -3.9269227981567383
+   ]
+  ],
+  "greedy_path_index": null,
+  "prompt": "Functions A, B, C, D, E, F, G and H each map every letter to a letter.\n\nFunction A:\nd -> l\nu -> d\nf -> a\ny -> p\np -> j\nm -> i\nl -> u\nj -> z\no -> g\nk -> b\na -> v\nq -> k\nn -> o\nv -> x\nw -> m\ng -> n\nr -> w\nt -> c\nh -> f\ns -> q\ni -> h\nx -> e\ne -> t\nb -> s\nc -> r\nz -> y\n\nFunction B:\nw -> h\nf -> r\ni -> l\nu -> x\na -> o\nt -> s\nd -> d\ne -> z\nz -> k\ns -> n\nh -> t\nb -> v\nl -> a\nn -> m\nq -> u\no -> b\nx -> w\np -> j\nm -> q\nk -> p\ng -> i\nj -> f\nr -> c\nv -> y\ny -> g\nc -> e\n\nFunction C:\nh -> j\nx -> z\nw -> b\nl -> c\nb -> k\nd -> l\ng -> r\ne -> m\nf -> a\np -> q\nq -> u\nu -> n\nz -> g\ni -> p\nn -> o\ny -> v\nv -> t\nm -> s\nt -> f\nc -> w\nj -> i\ns -> h\no -> x\na -> e\nk -> d\nr -> y\n\nFunction D:\nh -> j\ny -> y\ns -> h\nf -> p\nv -> s\nq -> u\nx -> r\nd -> a\na -> x\nl -> v\nn -> n\nu -> g\np -> b\ni -> m\nz -> l\nw -> i\ng -> w\nc -> e\no -> q\nm -> t\nt -> c\nk -> f\nr -> z\nb -> k\ne -> o\nj -> d\n\nFunction E:\ng -> t\ne -> b\nn -> o\nw -> k\nx -> r\nm -> x\ni -> j\nq -> h\nr -> l\ny -> a\np -> y\nb -> n\nj -> g\nh -> i\nl -> z\nt -> u\nv -> w\nk -> v\nc -> q\nu -> e\no -> d\nz -> c\na -> f\nf -> p\ns -> s\nd -> m\n\nFunction F:\ns -> d\nj -> j\nf -> g\nq -> e\ny -> x\nv -> n\nn -> w\nx -> t\nl -> v\na -> r\nu -> c\nc -> l\nd -> p\nk -> z\no -> b\nw -> f\nm -> u\nt -> a\nz -> k\np -> y\nb -> o\ng -> i\nr -> m\nh -> q\ne -> s\ni -> h\n\nFunction G:\na -> q\nh -> x\np -> i\ns -> j\nm -> v\ng -> o\no -> g\nj -> n\ni -> l\nb -> a\nv -> m\nn -> e\nc -> d\nu -> w\ne -> t\nw -> f\nt -> h\nz -> u\nk -> s\ny -> c\nr -> b\nd -> p\nl -> k\nq -> y\nx -> z\nf -> r\n\nFunction H:\nj -> a\nv -> t\na -> e\nr -> f\nb -> z\nw -> x\ng -> r\ni -> p\nl -> i\nt -> m\nn -> c\nq -> s\nf -> b\nx -> h\nu -> w\ne -> n\nd -> v\nh -> q\ns -> y\nz -> o\nm -> u\np -> l\nk -> g\ny -> d\nc -> k\no -> j\n\nOutput letter: a\nWhich letter does function D map to the output letter? Reply with that input letter only."
+ }
+]

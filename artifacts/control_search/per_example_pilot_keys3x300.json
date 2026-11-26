@@ -1,0 +1,644 @@
+[
+ {
+  "variant": "keys3x300",
+  "k": 1,
+  "answer": "s",
+  "path": [
+   "ivo",
+   "s"
+  ],
+  "table": "A",
+  "prompt_tokens": 1459,
+  "greedy_token": " s",
+  "greedy_logprob": -0.003503075335174799,
+  "greedy_correct": true,
+  "greedy_is_letter": true,
+  "logprob_correct": -0.003503075335174799,
+  "best_letter": "s",
+  "best_letter_correct": true,
+  "letter_mass_top20": 0.9975089494472792,
+  "top20_letters": [
+   [
+    "s",
+    -0.003503075335174799
+   ],
+   [
+    "o",
+    -6.9905290603637695
+   ],
+   [
+    "v",
+    -10.32728099822998
+   ],
+   [
+    "c",
+    -10.8978910446167
+   ],
+   [
+    "w",
+    -10.93468952178955
+   ],
+   [
+    "q",
+    -11.025404930114746
+   ]
+  ],
+  "top5": [
+   [
+    " s",
+    -0.003503075335174799
+   ],
+   [
+    " o",
+    -6.9905290603637695
+   ],
+   [
+    " ",
+    -7.070374488830566
+   ],
+   [
+    "\n",
+    -8.426554679870605
+   ],
+   [
+    "s",
+    -8.429783821105957
+   ]
+  ],
+  "greedy_path_index": 1,
+  "prompt": "Table A maps each key to a letter:\n\nvyr -> i\npsr -> z\nodc -> k\nnkl -> p\npvg -> w\njyg -> v\nhfx -> b\nfps -> v\nvej -> v\ncqo -> a\nxft -> f\nqsb -> k\nfwf -> x\ntkz -> g\nflk -> k\neqi -> f\nyun -> o\nbex -> l\nhba -> q\nhvz -> d\nmbm -> m\njfe -> w\nddn -> k\nsrd -> w\nyft -> p\ntnn -> s\nfmx -> s\nvwq -> t\nvuo -> x\nrun -> c\nwbx -> r\nguu -> i\nawk -> n\nxgl -> i\nzep -> n\ngmp -> m\njal -> g\nsly -> n\nwnq -> t\nhgt -> x\nngr -> j\ntza -> r\nzzd -> y\nhut -> n\nydq -> o\neob -> m\ncqk -> r\nhxj -> q\ncqj -> f\nqmr -> l\nsru -> z\nwmu -> y\nlhe -> j\nlbu -> p\nzbo -> j\nbrz -> u\nnde -> e\nylj -> f\ntdm -> f\nalz -> l\nseu -> h\ngxh -> t\newu -> u\nttd -> v\nqjn -> q\ntny -> m\nkqi -> k\ntgi -> w\nfdn -> p\nmzc -> q\nhke -> t\niwh -> l\npas -> d\namv -> l\nwvs -> s\nxzw -> z\nlyx -> f\ntfl -> a\noyf -> a\nhzo -> b\nwzd -> y\ngep -> x\nkqo -> t\nspl -> r\nmwk -> y\nfov -> f\newe -> p\nxqw -> w\ndpk -> g\ngbi -> j\nkun -> c\nsdu -> v\nbcr -> e\naiz -> a\nomv -> l\nqgi -> e\ngfi -> k\nscq -> a\ncei -> p\nnrt -> w\nmex -> t\njjf -> o\nybw -> y\ncup -> u\nypc -> i\ngiv -> i\nrpe -> e\nina -> a\nfaj -> q\naky -> z\nlkg -> j\nhgk -> h\nxoy -> s\nnoz -> u\npze -> w\nwtw -> b\nkpt -> n\ntae -> q\nche -> k\nwao -> s\nkro -> p\nkka -> o\nnyt -> r\nqet -> a\nazc -> n\nkrf -> y\nfqe -> r\nmkv -> b\nbtm -> e\ngub -> a\ndej -> u\nlpb -> n\nxbr -> h\nryg -> c\nhxr -> v\ntky -> y\nmas -> i\ncet -> k\nhag -> r\navu -> t\nssg -> r\ngzd -> e\ntph -> k\nxex -> p\nakf -> a\nivx -> p\nysz -> u\ntfq -> v\ndsj -> t\nnnf -> g\nfke -> o\nnwc -> h\niqz -> r\nqga -> r\nrsm -> f\nklz -> n\ngnm -> f\nwsz -> y\nicd -> f\nsjp -> c\nuln -> k\ndai -> c\npkq -> r\nmlm -> h\nlun -> c\nuem -> v\ncjr -> c\nivo -> s\nimh -> w\nlky -> h\nbnu -> r\notn -> y\nhyv -> h\nqvg -> g\npif -> p\numx -> e\nrwd -> m\nbvk -> c\neqy -> u\ngrx -> r\ngtg -> c\nizp -> l\npzg -> m\nfhl -> p\nehg -> j\ndoy -> t\nnpn -> g\nzqw -> h\nkay -> r\niib -> j\nocx -> j\nbwj -> r\nyys -> s\nwdp -> a\nfgi -> l\ncsa -> f\ncwc -> p\nrry -> e\nsdt -> z\ndzq -> b\nwah -> u\ngtx -> s\nfrm -> f\ntqc -> y\nhzg -> x\ncfy -> h\nwhi -> m\natx -> t\nfvb -> r\nymn -> p\njdg -> a\ngxw -> j\ndna -> p\ndtp -> c\nzhy -> r\nypt -> s\nhwi -> y\nybq -> i\nfzr -> l\njti -> s\nzwb -> x\nvcg -> b\nmmo -> z\nylg -> z\nrir -> x\nswb -> n\nual -> t\nimo -> u\nvre -> j\ngeq -> h\nyyv -> d\nizl -> v\nolf -> x\nfgf -> a\nsyj -> n\ngth -> z\njpc -> p\nmwa -> i\nacq -> y\ndyl -> z\nowi -> g\ndrj -> n\ngxn -> n\ngnc -> v\nobh -> a\nwpd -> p\nodp -> u\nmpw -> l\ngqw -> p\npna -> i\nrxa -> b\nian -> d\nepa -> u\niuv -> u\ncfq -> l\nvlj -> z\nchv -> p\nrhv -> d\nwum -> i\ngww -> k\nysb -> i\nmqw -> u\nxeo -> k\npzr -> x\nzgb -> o\nmnv -> w\nmia -> m\nopy -> c\nhoq -> p\namc -> y\nnso -> j\nfce -> o\nzse -> w\nbze -> l\ntrv -> m\nsda -> g\nbgs -> i\ndum -> z\nfhc -> v\nxxx -> a\nvmt -> m\naqt -> c\nrwz -> z\nlmg -> w\njdc -> b\nlyb -> q\ndza -> v\nclm -> x\ntxl -> y\nlur -> k\njqt -> c\nynm -> x\nsyw -> k\njhr -> e\nkwq -> v\noyk -> o\npgm -> t\npru -> w\naet -> x\ncme -> u\n\nKey: ivo\nLook up the key in table A. Reply with the letter it maps to only."
+ },
+ {
+  "variant": "keys3x300",
+  "k": 1,
+  "answer": "i",
+  "path": [
+   "eew",
+   "i"
+  ],
+  "table": "A",
+  "prompt_tokens": 1454,
+  "greedy_token": " i",
+  "greedy_logprob": -6.683423998765647e-05,
+  "greedy_correct": true,
+  "greedy_is_letter": true,
+  "logprob_correct": -6.683423998765647e-05,
+  "best_letter": "i",
+  "best_letter_correct": true,
+  "letter_mass_top20": 0.9999374097666962,
+  "top20_letters": [
+   [
+    "i",
+    -6.683423998765647e-05
+   ],
+   [
+    "e",
+    -12.458072662353516
+   ],
+   [
+    "c",
+    -14.849600791931152
+   ]
+  ],
+  "top5": [
+   [
+    " i",
+    -6.683423998765647e-05
+   ],
+   [
+    "\t",
+    -11.283452987670898
+   ],
+   [
+    "i",
+    -11.523040771484375
+   ],
+   [
+    "\n",
+    -11.594573020935059
+   ],
+   [
+    "  ",
+    -11.666535377502441
+   ]
+  ],
+  "greedy_path_index": 1,
+  "prompt": "Table A maps each key to a letter:\n\ntjx -> q\ndzy -> o\nnou -> d\nwpb -> o\naas -> v\nssm -> z\npqf -> z\nqqm -> o\nsms -> i\neth -> o\nyaf -> q\nsww -> h\nduq -> d\niys -> t\nnui -> q\ndfx -> p\ndmx -> y\nbaq -> v\nvhd -> s\nvgp -> r\nmvg -> i\ntpj -> e\nhpn -> g\nxkn -> h\nhms -> u\nazy -> l\ntlu -> h\nsub -> n\nxlc -> d\nzpe -> y\ntfp -> s\nrps -> z\nxgs -> c\nbme -> j\nzly -> u\nsje -> x\ncrl -> u\nczs -> x\nsll -> s\nqnr -> q\ndfr -> j\nxrs -> s\nsjz -> f\nikl -> y\nmve -> q\nckg -> s\nyzs -> i\nncv -> v\nzlp -> z\nykf -> v\nvnc -> u\nezz -> j\nnmm -> r\nfgy -> b\nsuz -> h\nptn -> h\nmsa -> s\nwqv -> m\nigt -> d\nzwy -> o\nzbd -> b\ncez -> e\njal -> b\nhmb -> s\nlar -> q\nezc -> c\nrza -> l\ndjp -> n\nqwf -> d\nxps -> v\nweh -> e\nguc -> u\nxlx -> i\nhep -> n\nnkw -> j\nvsl -> c\nbym -> o\nmov -> t\ncib -> i\nxmo -> b\nvjz -> c\ntbq -> z\nvlt -> b\nqii -> b\ntxp -> e\npcy -> p\ncck -> a\ntaa -> k\nggo -> m\nzzu -> c\ntnr -> g\nylh -> n\nemh -> v\ndxu -> l\nmmo -> z\npnn -> f\npnt -> j\nmwk -> m\nbeb -> q\nlfn -> v\nira -> g\njot -> e\nagk -> m\nmjc -> b\naup -> w\nytw -> t\npdk -> a\nzgy -> m\nqhh -> f\nxrv -> f\nrao -> y\nfmk -> f\nnhr -> i\nuxy -> h\npqd -> m\namz -> z\nmds -> z\ngff -> l\nank -> a\nfzn -> s\nivs -> g\nnnp -> v\noys -> o\ntbi -> b\nkai -> x\nttw -> d\nusy -> r\nfvz -> e\njob -> x\nvvf -> g\npbq -> r\nezh -> g\naqy -> i\nyii -> q\nqvz -> t\ncrb -> i\nykx -> z\nnew -> n\nobu -> w\nkgb -> v\nsun -> e\nliu -> b\nsze -> x\npot -> x\nmhd -> s\nphu -> m\nuik -> a\nypo -> f\nvqe -> c\nrge -> c\nodw -> t\njua -> p\ntcv -> g\ncal -> x\ncob -> t\nsrj -> l\nftg -> l\nnml -> s\ncvn -> z\nvnp -> i\novk -> e\nhaa -> f\nagi -> p\nkyi -> y\ntgz -> o\nvrm -> k\nqqr -> x\ncxr -> d\nchx -> b\nyjl -> g\nulk -> r\nocg -> u\ngkf -> y\nqho -> o\ntwe -> o\njvs -> n\nuax -> i\nept -> i\nxaz -> q\nnso -> k\nakq -> g\nnit -> v\ntdd -> h\nyfl -> a\nfhl -> g\npaf -> z\nlnh -> w\nnpx -> k\nfdr -> o\nwfh -> s\noig -> n\nfsw -> k\nxpb -> v\njjw -> m\njre -> l\nejf -> e\nggb -> l\nnme -> p\nyxp -> r\nmjo -> h\naap -> f\nwfj -> h\nfgg -> n\nics -> m\notu -> d\nibo -> f\nkwi -> t\njtq -> s\nuta -> x\nmml -> a\ntxv -> b\nwkd -> n\nshg -> l\nycl -> i\nfai -> o\njcr -> a\nfxx -> e\nwvg -> v\nfjy -> t\newe -> r\nfuk -> q\nltr -> z\nhxh -> c\ncyf -> p\nocx -> k\ngkh -> b\ncff -> g\nlsc -> g\nfxb -> n\npcf -> d\nagr -> n\nrax -> u\nojb -> g\nhrj -> q\ntld -> l\nldn -> m\nzei -> q\nnls -> d\ninb -> b\ndax -> x\nqoo -> n\nqnl -> q\nkcy -> o\neog -> e\npjh -> s\nwkn -> b\nnbm -> k\nfbc -> w\nzge -> n\nrkz -> v\nphs -> e\nzyd -> l\nigk -> r\nayf -> r\nqqv -> e\nvqn -> y\nlcp -> l\nfld -> j\nfqx -> y\nmrk -> k\nbee -> t\neyl -> l\ngph -> k\npui -> u\nlvw -> g\nhmv -> z\nsev -> m\nazq -> m\nqyd -> p\nxbg -> f\nqty -> w\nzsn -> i\nsen -> c\nvyv -> y\nluk -> g\njfk -> z\ndjf -> k\nbyx -> o\nsqh -> l\nrpv -> o\nriy -> f\nyid -> u\nvif -> w\ntyx -> s\nbyq -> t\nrja -> d\nztt -> n\nmqo -> y\nplv -> t\nmkb -> w\nqal -> l\ntdi -> t\nufw -> d\noka -> d\nidn -> c\nabu -> v\nthk -> b\neew -> i\ntvv -> w\nwng -> e\n\nKey: eew\nLook up the key in table A. Reply with the letter it maps to only."
+ },
+ {
+  "variant": "keys3x300",
+  "k": 1,
+  "answer": "z",
+  "path": [
+   "srs",
+   "z"
+  ],
+  "table": "A",
+  "prompt_tokens": 1459,
+  "greedy_token": " z",
+  "greedy_logprob": -0.0010705259628593922,
+  "greedy_correct": true,
+  "greedy_is_letter": true,
+  "logprob_correct": -0.0010705259628593922,
+  "best_letter": "z",
+  "best_letter_correct": true,
+  "letter_mass_top20": 0.9989715851493861,
+  "top20_letters": [
+   [
+    "z",
+    -0.0010705259628593922
+   ],
+   [
+    "s",
+    -10.216075897216797
+   ],
+   [
+    "x",
+    -12.86983585357666
+   ],
+   [
+    "q",
+    -13.469694137573242
+   ],
+   [
+    "y",
+    -13.842819213867188
+   ]
+  ],
+  "top5": [
+   [
+    " z",
+    -0.0010705259628593922
+   ],
+   [
+    " $",
+    -8.197476387023926
+   ],
+   [
+    "<|end_message|>",
+    -8.359915733337402
+   ],
+   [
+    " ",
+    -8.628682136535645
+   ],
+   [
+    "\n",
+    -9.086642265319824
+   ]
+  ],
+  "greedy_path_index": 1,
+  "prompt": "Table A maps each key to a letter:\n\nifi -> l\nwic -> y\nqia -> h\nkiu -> o\nqku -> k\nxvu -> z\nwfp -> p\nwku -> n\npbn -> m\nebg -> q\nbin -> t\nthb -> e\nofp -> j\nnsx -> z\nupu -> f\npgi -> b\nkud -> u\nvkx -> t\nyjo -> a\nctx -> d\nvrf -> c\nlpg -> e\nbrp -> q\nirv -> a\nois -> j\nqzj -> w\nvii -> w\nceg -> w\nskk -> i\njvg -> u\ntcu -> h\najp -> b\njvc -> n\nknm -> n\natg -> d\nyhd -> r\nhnt -> u\npjr -> g\nxsh -> t\nmvk -> d\nlsy -> q\nuhd -> z\nkhy -> y\nkod -> i\nevn -> p\nqvm -> j\npac -> d\nkvh -> e\neap -> o\nphc -> l\njcr -> i\nueo -> a\nnhi -> c\nelf -> t\nvyq -> a\nywi -> a\nuvn -> x\nvze -> i\ndqw -> b\njud -> b\njwx -> e\nmux -> m\nzff -> n\ntwl -> w\nbte -> i\ntwv -> v\nazm -> p\nznb -> j\nmqw -> b\nlzm -> h\ndlo -> o\nyyq -> e\nrjk -> j\neoz -> r\nomy -> f\nlrb -> a\nbmp -> s\nfnd -> l\nzmt -> a\nubz -> b\npus -> n\njjc -> m\nmua -> l\nfda -> g\nqdb -> l\nfxm -> d\nkkc -> l\nmki -> m\nvpe -> e\nobo -> l\njwf -> g\nxrp -> a\nxyv -> q\nosz -> n\nxej -> g\njwm -> s\nyyy -> p\novg -> b\nawc -> d\nmtq -> k\nanr -> m\naum -> p\nlty -> u\noit -> j\njyp -> b\nxrf -> n\nsrr -> c\nekk -> j\nlnh -> u\niil -> m\nwqp -> b\ngpf -> x\nvlg -> o\nlha -> s\nsub -> c\nspt -> b\niqh -> y\nbhd -> w\nlxc -> p\ngnj -> n\nykz -> w\ntfu -> l\nawk -> j\nuzn -> b\nlor -> y\nodc -> i\nsdw -> j\nezl -> d\nkdu -> b\njpt -> q\ngqp -> s\nifp -> d\nrbv -> q\nacn -> x\nbuq -> w\nldx -> p\ntco -> m\nnix -> u\nuys -> g\nugf -> y\ndgt -> u\njsz -> z\nsti -> l\nqdg -> y\ntxb -> o\neic -> o\nsbs -> c\nxyy -> o\ninr -> n\nnno -> i\nnns -> o\npek -> n\nakl -> x\nkek -> v\nhmx -> w\nwlk -> o\nztz -> g\nbuu -> t\nwpk -> h\nvvy -> t\nnfp -> f\nflu -> y\nbxl -> v\nuns -> u\nhxw -> z\ncld -> b\nvff -> r\noqd -> f\nloj -> f\nigg -> j\nsrs -> z\nexz -> p\nssr -> n\nfmp -> p\nlxj -> j\nzhd -> q\nsqk -> w\nfyb -> m\nuct -> m\namo -> h\nsjn -> m\nihc -> r\niss -> t\neyr -> j\nfmo -> n\njns -> b\nwdp -> z\npcv -> x\nzeb -> l\nhju -> l\niag -> f\naxi -> f\ndjk -> h\njnk -> y\nkzz -> c\ndjs -> c\nwkw -> e\npzt -> p\nvsr -> v\nlig -> p\nese -> t\ngkg -> m\nybh -> d\nrnw -> n\nejo -> w\nrpm -> c\nvvg -> p\nobs -> z\nkgc -> x\nxkl -> t\niej -> b\nhpu -> j\nerf -> j\nuah -> w\nlvk -> v\nfsv -> y\nijl -> e\nlnd -> l\nwum -> a\noda -> o\nkuw -> x\ntyo -> z\nlfj -> u\nqph -> h\npea -> p\nnnl -> x\nrij -> a\nmme -> p\nsnk -> p\nmxn -> g\nezr -> s\nzxu -> m\nuub -> l\nwvb -> r\nquz -> b\njpq -> c\njfo -> f\nttc -> x\ndcz -> a\netq -> n\nmrz -> r\nqan -> n\nifo -> v\ndli -> a\nyhy -> m\ntyg -> y\nxbm -> f\ncfo -> h\npsi -> t\nrvb -> h\nbqu -> l\nuzq -> o\nsxt -> d\nwgn -> n\nhkn -> h\ndrp -> r\nodp -> r\nxpr -> r\nyie -> d\nsvz -> n\nwvm -> k\ngwh -> y\nblw -> j\nvaf -> v\nfei -> s\nhwh -> h\nhlw -> l\njkq -> t\ntvz -> e\nvjp -> q\nlgo -> g\nviy -> m\nwix -> l\nawj -> i\nvkj -> v\nqky -> o\nqbj -> w\nsvg -> y\nhrg -> g\nyhu -> x\nhre -> i\njbr -> h\nmdb -> w\njxh -> b\nrlf -> h\nzuu -> l\nkbu -> h\ncln -> z\nclf -> z\nsfs -> j\nhsb -> d\nxds -> p\nzyc -> b\nctl -> r\nwzc -> p\nhlj -> v\ntbc -> y\nrfd -> o\nool -> x\niax -> b\n\nKey: srs\nLook up the key in table A. Reply with the letter it maps to only."
+ },
+ {
+  "variant": "keys3x300",
+  "k": 1,
+  "answer": "r",
+  "path": [
+   "yca",
+   "r"
+  ],
+  "table": "A",
+  "prompt_tokens": 1440,
+  "greedy_token": " r",
+  "greedy_logprob": -0.008771287277340889,
+  "greedy_correct": true,
+  "greedy_is_letter": true,
+  "logprob_correct": -0.008771287277340889,
+  "best_letter": "r",
+  "best_letter_correct": true,
+  "letter_mass_top20": 0.9913032541056864,
+  "top20_letters": [
+   [
+    "r",
+    -0.008771287277340889
+   ],
+   [
+    "c",
+    -10.226841926574707
+   ]
+  ],
+  "top5": [
+   [
+    " r",
+    -0.008771287277340889
+   ],
+   [
+    " $",
+    -5.75775671005249
+   ],
+   [
+    "<|end_message|>",
+    -5.9300856590271
+   ],
+   [
+    "\n",
+    -6.901221752166748
+   ],
+   [
+    " \n",
+    -8.084029197692871
+   ]
+  ],
+  "greedy_path_index": 1,
+  "prompt": "Table A maps each key to a letter:\n\neyg -> h\nwam -> p\nobd -> c\nvrm -> d\nvzn -> v\nawe -> b\nhsr -> e\noty -> e\nwxr -> b\nuan -> s\nwhx -> j\nwpj -> h\nbvk -> y\njnq -> f\novm -> n\nndc -> i\nvja -> i\ncpj -> a\nlrw -> h\nppi -> c\noav -> m\norn -> d\njse -> y\ncly -> n\nxpm -> t\ndfz -> u\ncmh -> f\ngbs -> w\naja -> v\nuxl -> l\nvsq -> r\nahp -> b\nudf -> u\nxom -> m\nyqk -> z\nawz -> n\nsoc -> g\nbqo -> o\nvpm -> w\naia -> o\nnhm -> x\ntyr -> w\nday -> n\nnid -> x\nkxn -> v\nbst -> t\nqmp -> m\nypm -> c\nksq -> a\nwtn -> q\njrw -> r\nfzu -> y\nomx -> k\ngru -> j\ngkf -> x\njtx -> k\nufj -> i\njpm -> j\neiw -> b\nvlz -> m\nnca -> p\nial -> g\nfns -> s\nzif -> c\nzfi -> u\ntiq -> l\nfhg -> t\nwwp -> m\nlcn -> k\nyoa -> o\ndnh -> t\nlia -> l\nzjh -> u\nass -> c\natl -> y\ntef -> g\nmjs -> n\nari -> q\nkea -> m\nrum -> e\nhzv -> x\nahg -> h\ngmw -> e\novn -> t\nyca -> r\niky -> v\nlbo -> d\npps -> n\ngzs -> i\nctn -> u\nekm -> c\nuyb -> h\nznu -> c\nzhu -> w\nayx -> k\nssi -> z\nvkt -> g\nbct -> i\ndor -> g\nhvd -> i\nqel -> j\nbcl -> s\nbov -> x\nnff -> l\nkgd -> l\ngku -> v\njod -> u\ngmi -> y\nbap -> o\nhkp -> a\nenw -> x\njll -> v\nnte -> l\nmew -> d\ncho -> z\nvkq -> j\nadw -> d\nsei -> l\nocn -> h\nuzy -> e\njyu -> d\ncyt -> k\ndbl -> x\nsdk -> m\nxkf -> c\nphi -> r\nraw -> r\nvrc -> k\nvjh -> x\nxgp -> p\nquc -> s\nvhh -> k\nhsw -> u\njge -> l\nbae -> f\ncpx -> k\njkl -> q\nzna -> k\nojb -> i\njfa -> j\nklz -> x\nmbk -> f\namp -> z\nadz -> l\nqkp -> g\ndxq -> h\nafn -> j\nrvp -> s\njoe -> j\nlfu -> v\nbqr -> n\namm -> f\nivc -> m\nogq -> k\nuwm -> y\nkwi -> j\ncml -> t\nakf -> i\nfht -> f\nsmj -> d\nxea -> e\nfks -> c\nfyh -> i\nkof -> d\nrya -> r\nwwc -> w\nsjb -> o\nyjs -> s\nmox -> q\ndeo -> c\ntpa -> c\ncol -> a\niot -> o\nqnb -> f\nbpj -> a\noic -> s\nsnt -> t\nojr -> y\nuvt -> r\nkst -> j\nqsj -> u\nwmw -> l\nesy -> h\nbzi -> v\nqun -> t\nrfv -> n\nfqm -> h\naoc -> a\nytc -> z\nkoz -> b\nndd -> u\nsib -> f\ntdq -> p\nzsy -> i\nlst -> v\nppr -> x\nfqx -> m\nqvg -> g\nihk -> p\ntiv -> r\neac -> n\nnsw -> n\nfgh -> f\nrwn -> k\nvol -> l\nakt -> w\niiy -> o\neyh -> b\nfuk -> a\nmrb -> s\nsps -> m\netz -> j\nwdd -> j\nsiv -> p\nltm -> o\ncqg -> r\nvxl -> k\nrup -> m\nbao -> y\nluw -> o\noan -> q\nmtc -> n\nhjs -> p\ndwx -> u\nfzm -> q\nbhq -> y\nxly -> u\ncpz -> u\nvrk -> o\naqu -> w\ncbv -> u\nqhe -> e\npsc -> z\nbla -> n\nnqb -> x\nino -> p\nyey -> y\ntae -> s\nkxl -> b\nsaw -> j\njku -> o\npxt -> h\ndux -> h\ngxy -> m\nhfo -> x\nrpj -> k\nacn -> o\nmef -> s\ncfu -> l\nsvn -> b\ntqt -> k\nvuk -> l\nfbn -> o\nsxi -> j\nqub -> m\ngnb -> o\njst -> k\nwap -> x\nbsh -> c\nacd -> p\nbbd -> m\nuny -> b\nezk -> m\nvcx -> t\nwni -> d\nalv -> b\nfxv -> d\nwww -> s\nofc -> b\ntzn -> b\nups -> k\ntlh -> k\nmes -> i\nbpr -> p\njom -> a\nwmf -> l\ngmm -> f\njgd -> j\nega -> o\nalf -> t\nifp -> t\npax -> v\nqjk -> f\nyny -> i\nymh -> a\nmmb -> v\nqzk -> g\nmpz -> h\nsgd -> t\nter -> a\ndal -> x\ndmb -> z\nuxg -> v\ntdx -> u\neda -> t\nuot -> g\nfrc -> j\nqng -> b\nmyf -> i\ngsk -> v\n\nKey: yca\nLook up the key in table A. Reply with the letter it maps to only."
+ },
+ {
+  "variant": "keys3x300",
+  "k": 1,
+  "answer": "q",
+  "path": [
+   "xwz",
+   "q"
+  ],
+  "table": "A",
+  "prompt_tokens": 1451,
+  "greedy_token": " q",
+  "greedy_logprob": -0.0006053760880604386,
+  "greedy_correct": true,
+  "greedy_is_letter": true,
+  "logprob_correct": -0.0006053760880604386,
+  "best_letter": "q",
+  "best_letter_correct": true,
+  "letter_mass_top20": 0.9994584035541819,
+  "top20_letters": [
+   [
+    "q",
+    -0.0006053760880604386
+   ],
+   [
+    "x",
+    -10.69218921661377
+   ],
+   [
+    "w",
+    -11.082087516784668
+   ],
+   [
+    "p",
+    -11.726380348205566
+   ],
+   [
+    "r",
+    -11.794724464416504
+   ],
+   [
+    "z",
+    -12.04388427734375
+   ],
+   [
+    "o",
+    -12.432544708251953
+   ]
+  ],
+  "top5": [
+   [
+    " q",
+    -0.0006053760880604386
+   ],
+   [
+    "\n",
+    -8.021347999572754
+   ],
+   [
+    " \n",
+    -10.062653541564941
+   ],
+   [
+    " $",
+    -10.369430541992188
+   ],
+   [
+    " x",
+    -10.69218921661377
+   ]
+  ],
+  "greedy_path_index": 1,
+  "prompt": "Table A maps each key to a letter:\n\nzqz -> i\njdr -> x\njhk -> s\nmyu -> v\ntka -> d\nwja -> v\nqeh -> o\nzjp -> j\ncql -> p\ngot -> t\nlie -> o\nsmg -> g\nlhm -> u\nhor -> b\ntmq -> p\neaa -> w\nhoa -> r\nxxv -> n\nbnf -> n\nawu -> w\ncaw -> i\nvoe -> h\ngbl -> w\ngtj -> e\nkhw -> i\noiy -> y\nrog -> l\nqik -> n\nbjb -> x\nowy -> q\ndfz -> s\nmff -> m\npzx -> v\nqqi -> d\npes -> j\ngec -> v\njas -> r\necm -> d\notc -> f\nvvx -> c\nwwx -> p\nobc -> e\naff -> a\nbty -> v\nupv -> t\nrge -> v\nrvw -> e\nfym -> i\numq -> j\nilv -> i\nlzi -> a\nvau -> b\nogk -> p\ncrt -> i\nmsm -> g\nvnt -> j\ndga -> v\nkrl -> b\nodk -> a\nxam -> o\nije -> n\nskv -> n\npyu -> e\nqps -> f\noni -> y\nwea -> x\ndsa -> f\nysw -> f\nyxu -> s\nntb -> l\nqin -> z\nyqd -> z\nmze -> a\nnji -> a\nqdz -> r\nbmp -> y\nfnz -> v\npwo -> n\nnmj -> d\nqtt -> k\nhhm -> q\nbqs -> x\newl -> z\nmvy -> q\nbor -> z\nrsu -> f\nibd -> l\ngln -> h\nsgr -> r\nijn -> f\nerp -> o\nusi -> r\nnmu -> y\nsnq -> z\ndub -> b\nlxh -> u\nuak -> k\nlnw -> i\nzuq -> n\nbgx -> d\nyqe -> g\naat -> h\ndxw -> w\nfyz -> z\ntul -> s\nqqo -> v\ncpn -> u\nukl -> p\nsjq -> i\nncn -> o\nhdv -> a\ntdx -> h\nyph -> g\nqhc -> s\nlsu -> g\ntos -> i\nqeu -> e\nzia -> s\nczf -> o\nkxo -> g\nowx -> z\narl -> c\njip -> o\nnfz -> s\nilr -> x\nrua -> x\nhpc -> s\njhv -> e\nmtv -> q\nsph -> e\nudn -> f\ncmb -> i\nund -> y\nuns -> n\njtl -> t\naik -> v\nytn -> h\npll -> i\nyqn -> r\nohe -> j\nibb -> a\notn -> l\nkkt -> e\nxql -> t\nnnl -> t\nybk -> e\nkhq -> n\nadn -> r\nazo -> i\njlf -> p\nejq -> j\nfgx -> l\nppd -> g\noxl -> d\ndab -> d\ntko -> e\npja -> c\nbiu -> j\ndta -> b\neez -> b\nngw -> a\nlib -> p\nzjh -> q\nfgy -> p\nflr -> t\nuiy -> m\nooc -> w\nsjs -> c\nebv -> f\nseg -> k\nsgi -> y\nogl -> h\nlcc -> j\nlkf -> c\nevn -> v\nrwr -> u\nvqa -> z\nypp -> m\nbok -> a\nxwz -> q\niva -> i\nnur -> b\nkiu -> p\ndok -> n\npas -> j\nysh -> y\nmzt -> e\nkql -> s\nlzh -> r\ncoq -> t\nvmo -> b\npjc -> d\nrvp -> v\negj -> d\nqez -> c\naok -> x\nfgq -> o\npmh -> r\nhgl -> a\nief -> y\nvcd -> f\ndik -> s\ncjq -> l\ntiv -> t\nkvq -> j\nkte -> p\ngjs -> i\nrxz -> h\nhhb -> a\njfx -> s\nugq -> e\nkin -> w\npzr -> k\noxq -> q\nrxq -> p\ngxy -> w\nvzd -> x\nebx -> g\nszc -> a\nalj -> z\nerw -> j\nuiw -> h\ndal -> u\neaj -> o\ngxu -> f\nuco -> a\npgb -> h\njoq -> w\nfph -> m\nxxn -> i\nflj -> c\nvih -> r\nrkn -> m\nzqt -> q\nzjt -> y\ncea -> q\nmga -> t\ninl -> h\nvgj -> m\nlnx -> b\nyxp -> o\nwwn -> k\nzeq -> g\nron -> g\ntit -> o\njgp -> n\nxon -> g\nwzw -> g\nsua -> p\nrel -> s\ndlo -> k\niuc -> i\neyq -> d\naha -> r\ncbf -> e\ncxs -> g\nonc -> q\nofv -> a\name -> c\nkwt -> i\nqwp -> m\nnan -> f\njnd -> t\nwhw -> z\neni -> s\nbrv -> i\nbzw -> j\nebe -> l\nvkz -> h\nnuy -> d\npgg -> h\nbqd -> n\ncul -> j\nkal -> j\nqmp -> b\nfpo -> g\njlk -> h\nuza -> a\nksy -> d\nozl -> u\nwjj -> i\nryj -> a\nees -> a\nkju -> j\nzsr -> i\nvhr -> n\npah -> z\nxfa -> p\neej -> m\njzd -> c\nkct -> k\nxcy -> c\ndqs -> w\noxv -> r\nkjb -> o\nmpg -> r\nzlc -> y\nnom -> s\nfqx -> s\nrow -> t\n\nKey: xwz\nLook up the key in table A. Reply with the letter it maps to only."
+ },
+ {
+  "variant": "keys3x300",
+  "k": 1,
+  "answer": "n",
+  "path": [
+   "gph",
+   "n"
+  ],
+  "table": "A",
+  "prompt_tokens": 1461,
+  "greedy_token": " n",
+  "greedy_logprob": -0.00013886558008380234,
+  "greedy_correct": true,
+  "greedy_is_letter": true,
+  "logprob_correct": -0.00013886558008380234,
+  "best_letter": "n",
+  "best_letter_correct": true,
+  "letter_mass_top20": 0.9998738061568224,
+  "top20_letters": [
+   [
+    "n",
+    -0.00013886558008380234
+   ],
+   [
+    "q",
+    -12.18120002746582
+   ],
+   [
+    "g",
+    -12.190646171569824
+   ],
+   [
+    "f",
+    -13.81895923614502
+   ],
+   [
+    "a",
+    -13.98996353149414
+   ],
+   [
+    "b",
+    -14.290375709533691
+   ]
+  ],
+  "top5": [
+   [
+    " n",
+    -0.00013886558008380234
+   ],
+   [
+    "\n",
+    -9.961140632629395
+   ],
+   [
+    " **",
+    -10.155305862426758
+   ],
+   [
+    " $",
+    -11.895333290100098
+   ],
+   [
+    " \n",
+    -11.96786117553711
+   ]
+  ],
+  "greedy_path_index": 1,
+  "prompt": "Table A maps each key to a letter:\n\negs -> c\nylz -> c\nmad -> i\npdd -> x\nvae -> z\nhqu -> c\npcr -> h\nxym -> q\ndec -> x\ntqo -> s\nzpt -> e\nmqy -> f\nrfs -> u\nmik -> p\nagg -> o\nnns -> a\njxg -> j\nusu -> i\nsyo -> q\nzki -> a\nydv -> e\ntzh -> z\nlnn -> o\nxtq -> d\nvah -> e\npwt -> k\njgw -> m\npsi -> t\nnsa -> s\npqv -> n\nzgt -> m\nmxt -> y\ncnu -> j\ncld -> i\nefm -> x\nuhh -> i\nqlq -> n\nxlh -> t\nsra -> d\nces -> y\nyft -> x\nvdn -> a\nkwh -> k\nxkl -> x\nuak -> d\nxas -> n\nltz -> k\nayh -> l\ncec -> t\nstr -> p\nyvn -> u\nbtl -> w\nhle -> i\nkmp -> s\nfwh -> p\njnp -> m\nkyd -> l\neqi -> g\nqel -> k\nnqt -> b\ntrw -> l\nokv -> j\nqcg -> p\ndqs -> n\njom -> y\ndtw -> v\njuy -> b\nljm -> a\nmac -> k\ngph -> n\nrxk -> f\nbjm -> q\nign -> l\nert -> x\ntev -> d\nows -> c\nkwm -> l\nnwe -> j\nnyx -> e\ndkb -> g\nnsz -> p\nocl -> m\nffj -> w\njsq -> n\nkuy -> m\nmbz -> b\nruf -> d\nvja -> k\nfao -> g\nrnc -> c\nfwc -> s\niev -> c\nnye -> z\nhtx -> q\nmyh -> s\nfxc -> e\ngfj -> s\nrxf -> z\nmrk -> m\nbcx -> u\nthc -> z\nkgy -> b\nlvm -> p\nccz -> d\nghf -> o\novf -> c\nbhb -> i\nzza -> b\nvzw -> m\nkms -> e\nilw -> n\necy -> a\njye -> g\nsyl -> m\nbcm -> k\nqqy -> l\nzxn -> z\niwt -> y\neio -> u\narg -> m\npeo -> b\nhbt -> n\nryn -> r\nreb -> y\ngpg -> s\nart -> w\nfnm -> m\ndsz -> e\nfox -> m\nbra -> a\nmvk -> l\ndhz -> o\npzv -> f\nlgz -> g\nlos -> f\nkxf -> c\nycx -> u\njfd -> w\nggg -> g\njbw -> u\nhzc -> c\ndbd -> d\nwhi -> y\nuft -> u\ncqp -> t\nzgx -> a\npto -> x\nvkf -> b\nsfq -> e\nwlh -> c\nsbq -> v\npmp -> t\nqgf -> r\ngex -> r\ncma -> k\nkvv -> o\nqre -> o\niqg -> e\njxe -> t\nsan -> r\nlgm -> g\neym -> a\ninb -> x\nnhs -> h\nagz -> l\nzua -> s\nqdg -> f\nlvb -> w\niku -> y\ncnw -> j\ndxr -> u\nrcs -> o\nter -> n\napv -> n\ntns -> l\nutj -> h\nztd -> r\ngeu -> c\ndaq -> o\nvwx -> y\npoy -> i\nvop -> z\nume -> t\ncfw -> i\ncax -> i\nqrz -> k\ndej -> r\nljo -> b\nmxd -> s\nkeb -> v\nfxw -> y\nqga -> i\nxjz -> c\ndmk -> z\nbli -> t\nlrd -> f\nqpw -> c\noyb -> x\nodw -> d\nufa -> n\nbuh -> m\nkkt -> h\nsum -> u\ngox -> s\nfbe -> v\nlvt -> z\nvrl -> i\nngs -> w\nkye -> h\nggl -> o\nhsi -> a\nroc -> m\nsae -> h\nmwi -> l\nhjt -> d\nhob -> v\njzw -> t\nfcx -> x\nwpk -> r\npsj -> g\ncfr -> g\ngim -> n\nqmf -> o\ncct -> u\naaz -> q\nieq -> j\nqmr -> b\nmok -> t\ntsi -> y\nxat -> m\noeg -> o\nsjr -> h\ngtp -> e\ngbh -> r\nacb -> e\njzs -> v\nnzj -> n\nrby -> o\nnbv -> b\nadr -> e\nmrq -> x\npbw -> r\nkyv -> p\nlgf -> h\nede -> w\npkc -> n\noiy -> b\nbwq -> j\nkjo -> u\npeb -> t\nrbb -> n\nppo -> t\nfxh -> z\ncwx -> s\npee -> a\nkqi -> m\nopx -> v\njku -> p\nvab -> i\ntoa -> o\nosq -> x\nobs -> r\ntya -> t\nszt -> z\nkyb -> h\ndqn -> p\nbhv -> k\nfvj -> m\nzcm -> d\nfup -> w\nvck -> q\nbto -> n\ngje -> k\nvoh -> i\nprd -> b\nzga -> g\nsqj -> x\nbdr -> d\nayz -> v\nvxi -> c\nynx -> z\nrpw -> r\nmoh -> l\nxay -> f\nuhz -> a\nzhz -> i\ntqq -> k\nxlg -> e\nzrf -> t\nfko -> w\nshv -> u\nllr -> l\nint -> u\ncnj -> y\nqio -> p\nenq -> c\nbqk -> a\nnng -> x\nzar -> z\nsrk -> s\n\nKey: gph\nLook up the key in table A. Reply with the letter it maps to only."
+ },
+ {
+  "variant": "keys3x300",
+  "k": 1,
+  "answer": "f",
+  "path": [
+   "uag",
+   "f"
+  ],
+  "table": "A",
+  "prompt_tokens": 1451,
+  "greedy_token": " f",
+  "greedy_logprob": -0.0026334701105952263,
+  "greedy_correct": true,
+  "greedy_is_letter": true,
+  "logprob_correct": -0.0026334701105952263,
+  "best_letter": "f",
+  "best_letter_correct": true,
+  "letter_mass_top20": 0.9974564437500832,
+  "top20_letters": [
+   [
+    "f",
+    -0.0026334701105952263
+   ],
+   [
+    "g",
+    -10.011311531066895
+   ],
+   [
+    "o",
+    -10.75622844696045
+   ],
+   [
+    "c",
+    -11.00423526763916
+   ],
+   [
+    "b",
+    -12.529955863952637
+   ]
+  ],
+  "top5": [
+   [
+    " f",
+    -0.0026334701105952263
+   ],
+   [
+    " $",
+    -6.179345607757568
+   ],
+   [
+    " ",
+    -8.933526039123535
+   ],
+   [
+    "\n",
+    -9.785775184631348
+   ],
+   [
+    " g",
+    -10.011311531066895
+   ]
+  ],
+  "greedy_path_index": 1,
+  "prompt": "Table A maps each key to a letter:\n\ndyz -> j\norh -> k\neag -> g\npch -> q\nsqd -> c\ntph -> b\nzug -> s\nuqx -> v\ndeq -> t\nqee -> o\njqw -> g\nftt -> z\ngsi -> e\nzny -> r\ntoc -> c\nqow -> y\nzdb -> r\nnyu -> i\ncws -> v\ngky -> o\nego -> p\ngez -> i\necn -> r\nypm -> u\nulc -> o\namh -> x\naeq -> i\nkit -> v\nkgs -> y\ntgb -> a\nexo -> e\nsys -> w\njal -> k\nbud -> g\ncwu -> t\nnda -> p\nrtm -> n\nmca -> b\nwxz -> q\nhum -> w\nlix -> y\nenx -> z\nlnf -> l\nmyr -> z\nxmt -> o\nhfd -> g\nwii -> f\naam -> r\nhao -> v\nrwj -> q\nfuy -> o\nagv -> o\nuag -> f\nmtv -> y\nlon -> v\nnxd -> c\npvc -> b\njac -> m\nuit -> d\nwqe -> w\njwg -> j\nixg -> t\nqoc -> g\nnxv -> d\ncpk -> i\nspd -> o\negk -> g\nmxg -> e\nbfp -> e\nvfd -> t\nand -> j\nwnx -> o\npqd -> p\nxhs -> n\nkal -> b\nykq -> g\nmqg -> k\ngkh -> q\ngrp -> h\nfhc -> y\nstm -> s\naee -> r\nvfe -> w\novs -> f\nzjv -> v\nppn -> j\nyjf -> r\nfzq -> p\nlxm -> l\ntvc -> x\nrjc -> z\nyci -> t\npkd -> l\nyli -> x\nzou -> n\nhql -> k\nnnr -> b\niiq -> o\nozy -> r\nxcu -> i\nqok -> k\njmh -> b\nagn -> y\nwid -> b\nnfl -> u\nxzw -> y\njtz -> p\njck -> n\nedh -> s\nyom -> n\nmwr -> b\ntsh -> p\norn -> h\nmup -> f\njsj -> j\nkam -> f\nrgc -> g\noyw -> f\nher -> r\ngxz -> k\npqx -> q\njfq -> k\ngcd -> b\nuon -> n\nrlw -> o\nkzy -> p\nclw -> r\nmrl -> n\nlzz -> o\nyzo -> t\nopq -> j\naym -> r\npqw -> f\ntvg -> p\nrow -> f\njys -> p\nqoj -> u\nzfa -> x\nalz -> d\nkex -> o\nwkz -> j\neiz -> o\nhnw -> f\nhbz -> t\ncug -> g\nwfz -> t\noje -> a\nbtl -> j\ngvw -> j\nuzt -> v\nsqr -> l\nrbt -> u\nmun -> p\nstd -> v\nqbo -> j\ndit -> m\nddc -> h\ndom -> e\nvpv -> b\nyna -> f\nnja -> f\nkow -> u\npej -> u\nzcs -> d\nxfa -> a\norz -> q\nerg -> b\ntoo -> y\nhvq -> m\nlcr -> f\nkvs -> h\ncny -> k\noqk -> e\nbbg -> m\nwpd -> n\nojf -> h\nhyv -> k\nhur -> a\nhea -> v\nsgm -> u\nncn -> o\nohc -> h\nqpn -> o\nrev -> b\nvvi -> j\namm -> a\nzdm -> j\nvse -> u\ninr -> i\nuuo -> j\nmcs -> s\nrdc -> c\niij -> r\ndjz -> g\nozb -> z\nbgj -> j\npcg -> p\nvgm -> a\ntja -> h\ncho -> h\naek -> x\napr -> o\nxdm -> q\nrtz -> g\nljs -> p\nzyq -> t\nzpn -> n\ncbv -> z\nfln -> t\nkqb -> g\ngjb -> w\nqtf -> x\nbcj -> q\njub -> m\nwlp -> c\nont -> h\njhm -> d\nlob -> b\nnxr -> h\nxxo -> k\nspo -> e\ncbb -> t\ndnu -> v\nyww -> o\njng -> d\nuqo -> o\nayt -> o\nmqf -> w\nbzy -> u\nhdk -> o\ncrs -> a\nacy -> y\nmwe -> s\nlib -> g\nyms -> s\ndkk -> y\nbzz -> h\nlgp -> x\nspi -> u\nlml -> z\nlny -> m\nejf -> h\nxav -> j\ncbl -> r\nwnv -> x\nzsv -> z\nnaf -> y\nnks -> l\nwxx -> s\nvuc -> c\nqnh -> q\nmin -> r\nafo -> r\nluq -> a\nknm -> u\nnmn -> d\ngol -> d\nrmy -> i\nrlc -> n\nmxz -> i\nuyw -> p\ncnp -> q\nisf -> v\niot -> q\nywa -> f\nacm -> t\nhvp -> b\nboi -> d\nfyi -> h\neva -> k\nrba -> o\nalj -> f\noev -> e\nklc -> l\newc -> n\ncry -> a\nnvu -> a\nmwg -> x\nmfx -> p\nqdl -> o\nwmj -> v\nggo -> m\nzkk -> z\nysu -> x\nzek -> l\noir -> f\ntwn -> w\naiv -> x\nhwg -> y\nnsp -> q\nsbs -> i\nitx -> m\nvba -> a\nbvo -> i\npfs -> i\nlmg -> y\naoz -> c\nqti -> f\nuvs -> t\nvek -> h\n\nKey: uag\nLook up the key in table A. Reply with the letter it maps to only."
+ },
+ {
+  "variant": "keys3x300",
+  "k": 1,
+  "answer": "u",
+  "path": [
+   "ydj",
+   "u"
+  ],
+  "table": "A",
+  "prompt_tokens": 1447,
+  "greedy_token": " u",
+  "greedy_logprob": -0.0009280377998948097,
+  "greedy_correct": true,
+  "greedy_is_letter": true,
+  "logprob_correct": -0.0009280377998948097,
+  "best_letter": "u",
+  "best_letter_correct": true,
+  "letter_mass_top20": 0.9991085817089281,
+  "top20_letters": [
+   [
+    "u",
+    -0.0009280377998948097
+   ],
+   [
+    "d",
+    -10.63427448272705
+   ],
+   [
+    "g",
+    -11.826722145080566
+   ],
+   [
+    "y",
+    -12.245677947998047
+   ]
+  ],
+  "top5": [
+   [
+    " u",
+    -0.0009280377998948097
+   ],
+   [
+    "u",
+    -8.02936840057373
+   ],
+   [
+    "<|end_message|>",
+    -8.048523902893066
+   ],
+   [
+    " {",
+    -9.68986988067627
+   ],
+   [
+    " $",
+    -10.08008098602295
+   ]
+  ],
+  "greedy_path_index": 1,
+  "prompt": "Table A maps each key to a letter:\n\ndma -> h\nhbk -> m\nqeq -> r\nxne -> i\nzpl -> z\nztk -> i\nqzc -> r\ntvp -> u\nhhl -> t\nnwz -> z\nlrn -> a\njak -> z\nmqs -> t\nzde -> i\nydr -> y\naai -> d\nmcn -> d\nelf -> y\nzii -> e\nqlk -> k\nnos -> t\nnns -> f\nsgj -> e\nqkd -> s\njbb -> v\ntzc -> o\nprn -> d\nlcc -> q\nqln -> n\nuug -> b\npia -> o\npcm -> j\nyrw -> b\nhgv -> t\nxer -> r\ndxo -> h\nhrb -> e\nwjp -> o\ntcb -> d\npdp -> d\ndey -> t\nkct -> r\nata -> w\nfcv -> n\nmty -> m\nnau -> t\nruf -> h\nurw -> i\nivg -> t\ngdf -> x\nhlw -> k\ntsf -> j\nzky -> z\nrem -> j\nwba -> e\nbbv -> u\nfde -> r\nosp -> a\nsyc -> z\nsrb -> e\nfhv -> v\nxzi -> a\nxxe -> y\nbsj -> m\ncyr -> d\nksn -> v\nuok -> g\ntwx -> y\nvyo -> w\nfhe -> k\nwgw -> s\njaz -> u\npdn -> t\nigv -> b\nohp -> d\nibt -> t\nklt -> j\ndvi -> r\nrtr -> r\nheo -> z\nsqb -> m\nkuc -> r\nlfp -> i\nkbs -> t\nlun -> p\nhgx -> p\nija -> j\ncmb -> u\nszi -> z\nryp -> k\nxds -> q\nqrl -> k\nvyx -> z\nzon -> z\ngfv -> k\nstl -> c\nkjf -> g\nmgt -> t\ntka -> c\nuxb -> o\nrgz -> y\nnlt -> i\nbbt -> j\ndap -> m\nxzt -> q\nxse -> r\njec -> h\nhkm -> x\ncsx -> u\njdg -> x\nowr -> m\nval -> n\nobw -> v\nmzp -> t\ndyd -> y\nxbv -> b\nkpa -> n\nwyc -> h\neis -> f\nuqr -> e\nppn -> g\nros -> c\nhal -> r\nyad -> l\nndb -> h\nwdq -> f\nmmm -> o\nqpy -> y\nthk -> j\nkwc -> d\nzny -> c\nbnr -> x\nzsy -> s\naqh -> w\nzqy -> k\njhz -> j\nvod -> q\nqow -> q\nebm -> f\nmqc -> u\naiv -> n\njwv -> n\nvkj -> x\ngyw -> l\nrak -> s\nqui -> y\nysy -> j\nxre -> n\naed -> k\nnzm -> n\nkzx -> x\nhls -> w\ntjl -> i\nwlr -> l\nwge -> v\nkpp -> c\npoo -> t\ngop -> k\ndob -> s\neur -> r\nuax -> u\ntjz -> j\nojm -> k\nxrg -> e\nybn -> y\npkg -> t\nbiv -> z\ngmg -> z\npkj -> x\nkkr -> u\ngwa -> a\nibp -> b\nddq -> q\narf -> p\ndxb -> b\nora -> p\newa -> d\nitm -> f\nnwv -> h\nphj -> q\nzrj -> j\nvaf -> i\nroz -> r\nljq -> j\nvdl -> z\ntjc -> n\neyp -> a\nwvu -> q\nnfe -> i\ntrr -> s\nrob -> q\nlkz -> o\ndod -> v\nlom -> w\ntgv -> s\nfov -> k\nsvm -> g\nrxw -> a\nyig -> v\nydj -> u\nlhj -> s\nifj -> u\njff -> l\nwaq -> f\nwye -> h\nlii -> r\ndyu -> e\nyyu -> j\npyo -> k\noer -> c\nsqv -> h\ncwl -> c\nbvk -> i\npeh -> j\ncst -> q\ntxn -> p\ndpj -> a\nbzl -> s\npes -> p\ngbq -> w\nlpa -> v\nzxp -> u\nong -> m\nzdi -> u\nrdj -> i\ntuu -> x\ndzo -> v\ndhp -> g\njvs -> i\nqhu -> h\nmrb -> b\njfs -> h\ncyz -> n\nmum -> r\nkuy -> j\nlac -> q\nybs -> h\nint -> s\nkil -> q\nbjg -> v\nyol -> p\nbxj -> e\nerh -> x\nspk -> a\nhle -> w\ndmn -> k\nqse -> o\nmcp -> b\ncpz -> s\nhwk -> o\nkaa -> j\njwo -> y\nyds -> v\ncup -> e\nctt -> m\nftm -> u\ncpy -> q\nxov -> n\nhby -> f\nqhw -> r\nohm -> r\nkko -> x\nzkr -> l\ncwu -> f\neho -> s\nfel -> t\nrjx -> e\nabz -> c\ngrv -> r\nqsz -> c\nmtx -> n\noey -> o\ntrd -> x\nfou -> u\nqtr -> z\neai -> o\nofg -> g\nziw -> l\ncha -> z\nisb -> y\nbxm -> e\napv -> q\nckj -> p\nnuz -> k\naff -> x\nsjg -> i\namd -> r\nlzt -> o\nbsz -> j\nexn -> b\npjv -> i\nyxe -> b\nsjk -> w\nopc -> e\npnb -> b\njbc -> d\ncsr -> a\nart -> d\nkvp -> v\ncba -> x\n\nKey: ydj\nLook up the key in table A. Reply with the letter it maps to only."
+ },
+ {
+  "variant": "keys3x300",
+  "k": 1,
+  "answer": "g",
+  "path": [
+   "toy",
+   "g"
+  ],
+  "table": "A",
+  "prompt_tokens": 1456,
+  "greedy_token": " g",
+  "greedy_logprob": -7.373136759269983e-05,
+  "greedy_correct": true,
+  "greedy_is_letter": true,
+  "logprob_correct": -7.373136759269983e-05,
+  "best_letter": "g",
+  "best_letter_correct": true,
+  "letter_mass_top20": 0.9999273640493478,
+  "top20_letters": [
+   [
+    "g",
+    -7.373136759269983e-05
+   ],
+   [
+    "y",
+    -14.864810943603516
+   ],
+   [
+    "t",
+    -14.976421356201172
+   ],
+   [
+    "q",
+    -15.53935718536377
+   ],
+   [
+    "p",
+    -15.881319999694824
+   ],
+   [
+    "w",
+    -15.901203155517578
+   ]
+  ],
+  "top5": [
+   [
+    " g",
+    -7.373136759269983e-05
+   ],
+   [
+    "g",
+    -10.381799697875977
+   ],
+   [
+    "\n",
+    -11.126163482666016
+   ],
+   [
+    " G",
+    -11.782771110534668
+   ],
+   [
+    " ",
+    -12.396523475646973
+   ]
+  ],
+  "greedy_path_index": 1,
+  "prompt": "Table A maps each key to a letter:\n\nzfz -> v\nvaw -> m\njib -> u\nouq -> s\nimw -> d\nmyf -> m\nuow -> h\npua -> w\nfdd -> b\nsyk -> p\ntvs -> v\nhbf -> b\nejx -> j\nuxg -> b\naxz -> g\nrsw -> f\ncdj -> d\novt -> v\njtu -> r\nxug -> y\nbht -> u\ncpd -> y\nflx -> h\nykp -> n\ndbj -> d\nkea -> v\ncts -> g\nivl -> i\najh -> r\nkrs -> c\nxzs -> l\nbtq -> t\nplj -> v\nhhg -> s\nnfh -> q\nrow -> y\ncpi -> r\nlkb -> k\nzmt -> h\nqib -> r\nhnh -> u\nedr -> v\nkbk -> z\ndoc -> n\nlag -> m\ngfu -> v\nfhk -> t\nyco -> d\nxcp -> s\nliq -> v\nyjl -> f\nfpx -> d\nvwh -> k\nawt -> i\nuwc -> p\nfax -> y\nelm -> m\ntrq -> t\nmqs -> d\nfvf -> h\nnsd -> b\nxym -> j\nbwx -> s\njcd -> k\nwbl -> g\ncvb -> o\nvbk -> q\nkcq -> a\nton -> z\nitl -> r\nuqe -> u\nctn -> p\nahr -> c\niwm -> x\nybo -> m\ndaq -> z\ncbe -> f\napg -> t\nryt -> r\nzxp -> h\nqub -> u\nqxh -> j\nlai -> f\ndyb -> l\nbru -> c\nnuk -> g\nbdy -> f\nwuz -> w\nopm -> r\nqfq -> r\napt -> r\nvah -> n\nkmc -> a\njgu -> k\nsgo -> x\numh -> b\nwhp -> c\nijk -> m\nbjq -> d\njsw -> q\npdt -> v\nljn -> e\nmgj -> i\nthz -> d\neos -> d\nknc -> m\nrfz -> b\nrsi -> k\nvnm -> l\nuec -> g\ndtu -> j\nvrf -> o\ndxx -> h\ntdi -> w\nogy -> r\nwjo -> s\nlvv -> z\nuld -> m\nfkp -> v\njif -> n\ndfu -> e\nvnk -> n\ngle -> s\ndnj -> k\nafr -> l\nypa -> v\nxqj -> p\nxjr -> o\nzmn -> o\nujs -> n\nqdj -> s\nzrs -> h\nngm -> h\nfvu -> p\nysi -> e\nltx -> i\nyyc -> n\nznk -> q\nizf -> x\nxhq -> h\nklb -> r\nnmx -> m\nrpc -> v\nwqc -> u\nfpv -> c\nlck -> o\ntcj -> t\ntoy -> g\nbjz -> t\nuby -> t\nztd -> r\nizl -> b\npgx -> a\njxh -> c\npac -> b\ntmz -> i\nxdr -> h\ndbi -> m\nkci -> n\naqh -> v\nzay -> b\nvlx -> j\nnss -> s\nbkx -> e\npjc -> o\nakv -> p\nidk -> u\npud -> y\nzzu -> g\noev -> y\nqxt -> k\nqsf -> f\nbrv -> x\nrkg -> h\nnlm -> c\npdx -> q\ngcm -> k\nxro -> n\nmvb -> t\nlrc -> g\newy -> s\nlao -> d\nhjn -> c\nfud -> j\nyta -> p\nvtd -> u\nuna -> a\news -> q\nmvc -> b\nscu -> x\novb -> v\nzcv -> i\njhb -> g\nkfl -> n\nkey -> z\nank -> f\nfex -> w\ntla -> p\nedn -> w\nrox -> y\nbzq -> c\nptv -> a\nojx -> y\ndcl -> h\nmhy -> a\nkcl -> j\nyid -> f\nbpr -> g\ngqt -> d\nkxr -> s\ncje -> s\nfmm -> y\ntom -> p\nrcz -> b\nthh -> j\nvmn -> m\nunz -> l\nnwb -> k\ngti -> j\nmms -> l\nadi -> q\nulz -> c\ngzb -> r\njcc -> m\nypt -> c\nont -> a\nbdr -> j\nbgk -> b\nkyv -> a\nyzb -> q\ndle -> v\nbrh -> f\njqq -> c\ncnk -> k\nxso -> u\ncfb -> r\nnax -> z\ncfo -> j\nowd -> t\ncbm -> w\nohy -> c\niet -> m\nuff -> f\nlkz -> v\nlqz -> n\njfi -> i\nfbo -> t\njgt -> p\nxib -> f\njyg -> l\nvim -> g\nlro -> k\nhdv -> s\nlto -> z\noke -> u\naeg -> n\njhg -> o\nxzg -> k\nldw -> k\nhkc -> d\nbal -> c\nmmi -> r\nsii -> y\nspf -> z\nlae -> w\nvoq -> a\ndst -> z\nfds -> w\ndxq -> o\nxpv -> m\nxba -> w\nyhh -> l\nxsv -> g\nnzl -> p\nkob -> b\ntcx -> t\ncgf -> c\ngto -> l\nrfx -> x\nzry -> r\nicg -> s\npdl -> u\nogi -> k\nhjf -> q\nodo -> k\najo -> e\nscs -> w\ncbb -> d\nswq -> f\naee -> h\negb -> u\nhad -> q\nyyo -> u\nrxb -> d\nsgl -> x\nmow -> t\ntlt -> w\nmde -> n\nwlr -> y\nucy -> c\n\nKey: toy\nLook up the key in table A. Reply with the letter it maps to only."
+ },
+ {
+  "variant": "keys3x300",
+  "k": 1,
+  "answer": "l",
+  "path": [
+   "ehp",
+   "l"
+  ],
+  "table": "A",
+  "prompt_tokens": 1460,
+  "greedy_token": " l",
+  "greedy_logprob": -0.00030943521414883435,
+  "greedy_correct": true,
+  "greedy_is_letter": true,
+  "logprob_correct": -0.00030943521414883435,
+  "best_letter": "l",
+  "best_letter_correct": true,
+  "letter_mass_top20": 0.9997173727664933,
+  "top20_letters": [
+   [
+    "l",
+    -0.00030943521414883435
+   ],
+   [
+    "e",
+    -10.653035163879395
+   ],
+   [
+    "p",
+    -12.978787422180176
+   ],
+   [
+    "h",
+    -14.011152267456055
+   ]
+  ],
+  "top5": [
+   [
+    " l",
+    -0.00030943521414883435
+   ],
+   [
+    " ",
+    -9.60457706451416
+   ],
+   [
+    "<|end_message|>",
+    -9.809966087341309
+   ],
+   [
+    "\n",
+    -9.842340469360352
+   ],
+   [
+    "  ",
+    -10.450324058532715
+   ]
+  ],
+  "greedy_path_index": 1,
+  "prompt": "Table A maps each key to a letter:\n\npef -> d\nynb -> w\nepa -> s\nxdf -> d\ntld -> g\netn -> a\nkhb -> c\nquo -> p\nokt -> n\nvyp -> d\nsbi -> b\nbgm -> l\nnin -> l\nlnd -> e\nrsr -> j\nqwo -> w\nszu -> y\nwtz -> w\nkgk -> p\ndmh -> q\nfxv -> l\nkvh -> c\nfip -> i\nmql -> s\nypr -> u\ntde -> v\nkee -> o\nhbs -> r\nswx -> b\nzfi -> w\ncet -> k\nlvw -> p\nuse -> p\nocq -> g\nekw -> k\nhec -> u\ndwm -> x\nquh -> v\nqfm -> w\nmns -> k\nenb -> t\nnbt -> w\npyg -> p\nzvj -> m\nmng -> d\negf -> f\nyxr -> z\nmnz -> e\nizr -> j\nhkl -> f\nvka -> s\nmzm -> t\nwkl -> f\nshj -> y\nzlk -> i\noww -> e\nlin -> v\ndnp -> g\nwyx -> c\nriz -> g\njrr -> a\nlvq -> q\neix -> i\ncjo -> f\nkpz -> y\nwmb -> k\nram -> f\nuie -> v\nzaw -> z\ndlm -> t\nbvt -> i\nefy -> n\noul -> v\naut -> b\ncwv -> q\njfa -> y\nwyd -> o\nsfy -> g\nnmb -> o\ncbt -> v\nvhw -> s\newn -> w\nfta -> e\nmri -> a\npox -> y\nwye -> g\nqym -> v\nker -> r\notv -> n\neqp -> k\nvfh -> k\nqrf -> n\nsgu -> d\nuik -> m\nnbb -> q\ndad -> s\nneg -> u\nqvc -> l\nzqr -> j\ngou -> i\nnza -> h\ndrb -> f\ncaa -> z\nmof -> s\nwxe -> l\nhze -> a\nqnn -> t\ndka -> b\netx -> n\ndzq -> q\nypf -> b\nwnr -> m\nxou -> h\ndlj -> w\nfce -> o\nwou -> j\ngxl -> c\nrqz -> k\nhnc -> d\nrcu -> c\nytd -> s\nuyv -> q\nmfh -> e\nshn -> z\njjb -> p\nypv -> k\nfik -> d\nnfu -> e\npgn -> a\nlpq -> p\nnhp -> o\nolh -> z\nsuy -> y\nzvy -> g\nnja -> f\ncbx -> v\ngbw -> l\nssk -> r\nksl -> h\nbap -> z\nwbx -> n\njwl -> r\ntjy -> w\nuhe -> q\nsdq -> v\nyit -> s\nykm -> x\nnwo -> p\nwmw -> b\nhcn -> u\nsno -> d\nidw -> a\nlwh -> t\nfau -> c\nguc -> n\nzbm -> t\ngsv -> k\nseg -> z\nkca -> x\nwjw -> f\nvrd -> h\nagd -> e\nsmu -> i\nihe -> c\neam -> y\nzja -> h\nhhy -> g\nple -> a\nmab -> f\nlpo -> x\npvn -> u\ncwz -> g\naft -> j\nnjk -> p\nget -> z\nxsf -> s\nkqj -> q\nfwc -> v\ntih -> f\nkaz -> f\npgb -> j\nany -> m\nizs -> g\ngzj -> q\npes -> o\ndyu -> u\nzcq -> f\nziz -> u\nrsx -> b\nepy -> y\nwwg -> w\nrwe -> x\nheb -> i\nfbw -> z\nwaj -> o\nqbk -> r\nkut -> l\nvbg -> h\niqu -> f\nwvg -> u\njsm -> k\ncmc -> s\nddr -> j\ncjl -> w\nvma -> y\nbbd -> i\nbnl -> s\nvzq -> p\noqj -> e\nsew -> d\nrkx -> h\nwzr -> w\ntkb -> f\nvmi -> j\nlka -> j\nmwa -> w\nnok -> v\nurv -> w\nvrp -> v\neey -> l\njzq -> l\nkzo -> d\nnra -> o\nblp -> n\nnlc -> a\noxc -> e\nfdd -> a\ndcp -> x\nayr -> c\nrnv -> i\nrit -> l\nygo -> f\nhth -> k\nmzp -> e\njgt -> h\nvku -> g\nnbk -> d\ngti -> y\ngxm -> d\nbdu -> i\nxlz -> t\nbfg -> b\nafl -> x\nzjf -> j\nonz -> y\nvlo -> i\ncdj -> o\nmjp -> j\npka -> w\nqog -> b\nnvz -> t\nnrq -> l\nldt -> y\nlox -> o\ndoh -> d\nlzs -> o\ntdj -> u\nphv -> c\nltk -> a\nvuz -> p\nixq -> b\nivi -> g\nkth -> j\nxeb -> g\niax -> y\nceg -> i\nxvn -> z\nbgc -> u\ntbj -> g\nigx -> x\nikh -> b\note -> i\nyik -> m\nqpq -> u\nyej -> p\ndhs -> p\nbyv -> k\nsho -> l\nehf -> k\nvpa -> n\nbpy -> c\npzd -> y\nino -> j\nowx -> e\nehp -> l\nrjh -> w\nmxx -> y\ncvc -> a\nhhv -> z\nzhu -> b\nqkz -> r\nrpv -> l\ndot -> r\ngvi -> s\nrse -> z\naes -> o\nwih -> t\nqnj -> w\nseb -> r\nbwq -> b\n\nKey: ehp\nLook up the key in table A. Reply with the letter it maps to only."
+ }
+]

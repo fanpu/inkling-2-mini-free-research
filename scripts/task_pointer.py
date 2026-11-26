@@ -209,6 +209,173 @@ def check_tokenisation(ex: Example) -> dict:
             "letter_tokens": len(letter_pieces)}
 
 
+# ---------------------------------------------------------------- one-hop controls (note 07)
+# Harder one-hop controls. These use their own RNG streams ("ctl-<kind>-<seed>") and
+# never touch generate(), so the main task and the 3-table control are unchanged.
+# Every kind needs exactly one lookup: find the line whose left side matches the
+# query and read its right side (or, for "reverse", match the right side and read
+# the left). The answer is always one lowercase letter, scored as the token " x".
+#
+# Kinds:
+#   tablesN       N independent letter permutations named A, B, ...; the question
+#                 names one and uses the existing k=1 wording. No other table sends
+#                 the start letter to the answer.
+#   keysLxN       one table of N distinct random keys of L letters, each mapped to a
+#                 random letter.
+#   nearLxN       like keysLxN, but keys come in groups of 5 that share all letters
+#                 except one position (near-duplicates). Members of a group map to
+#                 distinct letters.
+#   passageW      the one-table k=1 prompt with about W words of filler prose between
+#                 the table and the question.
+#   reverse       one table, the question gives an output letter and asks which input
+#                 letter maps to it.
+#   reverseN      reverse lookup in one of N named tables. No other table maps the
+#                 answer letter to the same output letter.
+
+CTL_NAMES = string.ascii_uppercase
+_FILLER = ("the a of and to in is was for on with as by at from that this it be are "
+           "river stone light market evening garden window letter morning paper table "
+           "quiet old small green long early bright distant warm cold slow simple "
+           "walked found carried opened noticed kept watched built moved returned "
+           "village road field harbor station kitchen library forest valley bridge").split()
+
+
+def _balanced_targets(rng: random.Random, n: int) -> list[str]:
+    t = []
+    while len(t) < n:
+        block = list(LETTERS)
+        rng.shuffle(block)
+        t += block
+    return t[:n]
+
+
+def _kv_prompt(pairs: list[tuple[str, str]], query: str) -> str:
+    body = "\n".join(f"{a} -> {b}" for a, b in pairs)
+    return ("Table A maps each key to a letter:\n\n" + body + "\n\n"
+            f"Key: {query}\nLook up the key in table A. Reply with the letter it maps to only.")
+
+
+def _filler(rng: random.Random, words: int) -> str:
+    sents, n = [], 0
+    while n < words:
+        m = rng.randint(8, 16)
+        w = [rng.choice(_FILLER) for _ in range(m)]
+        sents.append(" ".join(w).capitalize() + ".")
+        n += m
+    lines = [" ".join(sents[i:i + 5]) for i in range(0, len(sents), 5)]
+    return "\n".join(lines)
+
+
+def _rand_key(rng: random.Random, L: int) -> str:
+    return "".join(rng.choice(LETTERS) for _ in range(L))
+
+
+def generate_control(n: int, seed: int, kind: str) -> list[Example]:
+    import re
+    rng = random.Random(f"ctl-{kind}-{seed}")
+    out = []
+    for ans in _balanced_targets(rng, n):
+        m = re.fullmatch(r"tables(\d+)", kind)
+        if m:
+            nt = int(m.group(1))
+            names = CTL_NAMES[:nt]
+            tables = {nm: _random_perm(rng) for nm in names}
+            use = rng.choice(names)
+            start = {v: u for u, v in tables[use].items()}[ans]
+            for nm in names:
+                while nm != use and tables[nm][start] == ans:
+                    tables[nm] = _random_perm(rng)
+            listed = ", ".join(names[:-1]) + f" and {names[-1]}"
+            blocks = [f"Functions {listed} each map every letter to a letter."]
+            for nm in names:
+                blocks.append(f"Function {nm}:\n" + _table_lines(tables[nm], rng))
+            blocks.append(
+                f"Start letter: {start}\nNumber of steps: 1\n"
+                f"Follow function {use} from the start letter for that number of steps "
+                "(0 steps means stay on the start letter). Reply with the final letter only.")
+            out.append(Example("\n\n".join(blocks), ans, 1, [start, ans], kind, use, tables))
+            continue
+        m = re.fullmatch(r"(keys|near)(\d+)x(\d+)", kind)
+        if m:
+            L, N = int(m.group(2)), int(m.group(3))
+            keys: list[str] = []
+            vals: list[str] = []
+            seen = set()
+            if m.group(1) == "keys":
+                while len(keys) < N:
+                    k_ = _rand_key(rng, L)
+                    if k_ not in seen:
+                        seen.add(k_)
+                        keys.append(k_)
+                        vals.append(rng.choice(LETTERS))
+            else:
+                assert N % 5 == 0
+                while len(keys) < N:
+                    base = _rand_key(rng, L)
+                    pos = rng.randrange(L)
+                    subs = rng.sample(LETTERS, 5)
+                    grp = [base[:pos] + c + base[pos + 1:] for c in subs]
+                    if any(g in seen for g in grp):
+                        continue
+                    seen.update(grp)
+                    keys += grp
+                    vals += rng.sample(LETTERS, 5)
+            qi = rng.randrange(N)
+            if m.group(1) == "near":
+                # keep group members distinct: swap the answer within the query's group
+                g0 = qi - qi % 5
+                grp_vals = vals[g0:g0 + 5]
+                if ans in grp_vals:
+                    j = g0 + grp_vals.index(ans)
+                    vals[j] = vals[qi]
+            vals[qi] = ans
+            pairs = list(zip(keys, vals))
+            q = pairs[qi]
+            rng.shuffle(pairs)
+            out.append(Example(_kv_prompt(pairs, q[0]), ans, 1, [q[0], ans], kind, "A",
+                               {"A": dict(pairs)}))
+            continue
+        m = re.fullmatch(r"passage(\d+)", kind)
+        if m:
+            f = _random_perm(rng)
+            start = {v: u for u, v in f.items()}[ans]
+            prompt = _format_prompt({"A": f}, rng, "A", start, 1)
+            head, q = prompt.rsplit("\n\n", 1)
+            prompt = (head + "\n\nThe following passage is unrelated to the question.\n\n"
+                      + _filler(rng, int(m.group(1))) + "\n\n" + q)
+            out.append(Example(prompt, ans, 1, [start, ans], kind, "A", {"A": f}))
+            continue
+        if kind == "reverse":
+            f = _random_perm(rng)
+            out_letter = f[ans]
+            body = _table_lines(f, rng)
+            prompt = ("Function A maps each letter to a letter:\n\n" + body + "\n\n"
+                      f"Output letter: {out_letter}\nWhich letter does function A map to the "
+                      "output letter? Reply with that input letter only.")
+            out.append(Example(prompt, ans, 1, [out_letter, ans], kind, "A", {"A": f}))
+            continue
+        m = re.fullmatch(r"reverse(\d+)", kind)
+        if m:
+            nt = int(m.group(1))
+            names = CTL_NAMES[:nt]
+            tables = {nm: _random_perm(rng) for nm in names}
+            use = rng.choice(names)
+            out_letter = tables[use][ans]
+            for nm in names:  # no other table maps the answer to the same output
+                while nm != use and tables[nm][ans] == out_letter:
+                    tables[nm] = _random_perm(rng)
+            listed = ", ".join(names[:-1]) + f" and {names[-1]}"
+            blocks = [f"Functions {listed} each map every letter to a letter."]
+            for nm in names:
+                blocks.append(f"Function {nm}:\n" + _table_lines(tables[nm], rng))
+            blocks.append(f"Output letter: {out_letter}\nWhich letter does function {use} map "
+                          "to the output letter? Reply with that input letter only.")
+            out.append(Example("\n\n".join(blocks), ans, 1, [out_letter, ans], kind, use, tables))
+            continue
+        raise ValueError(kind)
+    return out
+
+
 if __name__ == "__main__":
     for L in LETTERS:
         assert len(TOK.encode_ordinary(L)) == 1 and len(TOK.encode_ordinary(" " + L)) == 1
