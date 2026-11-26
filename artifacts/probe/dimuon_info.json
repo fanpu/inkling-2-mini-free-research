@@ -1,0 +1,16 @@
+{
+ "type": "get_info",
+ "model_data": {
+  "arch": null,
+  "model_name": "thinkingmachines/Inkling-2-Mini:peft:65536:free",
+  "tokenizer_id": "thinkingmachines/Inkling-2-Mini"
+ },
+ "model_id": "b4d7fb30-b317-5b39-b4a4-7613f70d484b:train:1",
+ "optimizer_config": {
+  "type": "dimuon",
+  "version": 1
+ },
+ "is_lora": true,
+ "lora_rank": 8,
+ "model_name": null
+}
