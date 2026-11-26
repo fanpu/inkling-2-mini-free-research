@@ -66,6 +66,7 @@ math { font-size: 1.05em; } math[display="block"] { margin: 0.3rem 0; overflow-x
 <div class="panel status">
   <div><b>Where we are.</b> The free tier works end to end. We have trained one step with each optimizer, downloaded the adapters, and checked a three-line toy theory against code.</div>
   <div><b>Main finding so far.</b> Both available optimizers ignore how large the gradient is. So the loop cannot show up in how far the weights move. It should show up in how much the model's output changes per unit of weight movement. That is the next thing to measure.</div>
+  <div><b>In progress.</b> A literature review is running on four questions. Is pointer chasing a standard task, what is known about looped transformers, what is known about LoRA under these optimizers, and what the Tinker documentation says. The training task is not fixed until it reports.</div>
   <div><b>Nothing is blocked.</b> The API key works and every run so far cost $0.</div>
 </div>
 
@@ -190,6 +191,7 @@ $$b \leftarrow b - \eta \cdot \operatorname{sign}\!\left(\frac{\partial L}{\part
 <tr><td>AdamW learning rate, weight decay, and how much each step reuses earlier gradients (momentum)</td><td>Weight decay for Dimuon</td></tr>
 <tr><td>Dimuon learning rate and momentum</td><td>Anything inside Dimuon's update rule</td></tr>
 </table></div>
+<p>The proposed training task is pointer chasing. The prompt holds a small random lookup table, and the model must follow a given number of arrows from a starting symbol and answer with the final symbol only. Following one arrow and following three arrows use the same format and differ only in how many steps of work are needed. Training is supervised, with a known correct answer for every example.</p>
 <p class="note">The model also has loop-specific parts that pass messages between the three passes. They get no adapter, so we cannot train them.</p>
 <p class="take">Takeaway. The real model gives us ordinary and looped layers side by side in one training run, with one shared adapter per looped layer.</p>
 
@@ -215,6 +217,7 @@ $$b \leftarrow b - \eta \cdot \operatorname{sign}\!\left(\frac{\partial L}{\part
 <p>Step 5 says where to look. If weight steps are equal, the loop must show in the output. The quantity to measure is a ratio. Make the same-size weight change in a looped layer and in an ordinary layer, and divide the first output change by the second.</p>
 <p>The toy model predicts \(K u^{K-1}\), which is 3 when \(u\) is near 1 as it is at the start of fine-tuning. That assumes the three passes push the output the same way, so their effects add up to 3. If the three pushes pointed in unrelated directions they would add like the sides of a box, to a length of \(\sqrt{1 + 1 + 1} = \sqrt{3} \approx 1.7\). The measured ratio tells us how much the passes agree.</p>
 <ol>
+  <li><b>Gradient readout.</b> Adam divides the gradient by its typical size plus a small constant. If we make that constant huge, the division does almost nothing and the step becomes the raw gradient times a fixed number. One step would then show the true gradient in every layer, with no upload needed. This is untested and the service may refuse the setting.</li>
   <li><b>Perturbation test.</b> Add a small change of fixed size to one layer's adapter, upload it, and measure how much the loss moves. Repeat for all 24 layers and for several random changes, so that the 12 looped layers can be compared with the 12 ordinary ones above the noise. This first needs a check that uploads work on the free tier.</li>
   <li><b>Training profiles.</b> Train both optimizers for a few hundred steps and track each layer's adapter over time.</li>
   <li><b>Weight-decay sweep.</b> Raise AdamW's weight decay until adapters collapse and see whether looped layers collapse at a different level.</li>
