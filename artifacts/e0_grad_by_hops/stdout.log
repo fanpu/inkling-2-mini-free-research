@@ -1,0 +1,61 @@
+[k1 s1] start 16:06:04
+  downloaded+deleted adapter_model.safetensors (92.8 MB)
+  downloaded+deleted adapter_model.safetensors (92.8 MB)
+[k1 s1] done 98.0s loss_sum 1.47 mean_logp -0.04599126661196351 max_u 0.005
+[k1 s2] start 16:07:45
+  downloaded+deleted adapter_model.safetensors (92.8 MB)
+  downloaded+deleted adapter_model.safetensors (92.8 MB)
+[k1 s2] done 268.0s loss_sum 1.12 mean_logp -0.03508764220168814 max_u 0.007
+[k2 s1] start 16:12:13
+  downloaded+deleted adapter_model.safetensors (92.8 MB)
+  downloaded+deleted adapter_model.safetensors (92.8 MB)
+[k2 s1] done 86.1s loss_sum 70.69 mean_logp -2.2090562116354704 max_u 0.106
+[k2 s2] start 16:13:39
+  downloaded+deleted adapter_model.safetensors (92.8 MB)
+  downloaded+deleted adapter_model.safetensors (92.8 MB)
+[k2 s2] done 142.0s loss_sum 68.71 mean_logp -2.1471469226526096 max_u 0.109
+[k3 s1] start 16:16:01
+  downloaded+deleted adapter_model.safetensors (92.8 MB)
+  downloaded+deleted adapter_model.safetensors (92.8 MB)
+[k3 s1] done 197.1s loss_sum 172.92 mean_logp -5.403832495212555 max_u 0.154
+[k3 s2] start 16:19:18
+  downloaded+deleted adapter_model.safetensors (92.8 MB)
+  downloaded+deleted adapter_model.safetensors (92.8 MB)
+[k3 s2] done 101.0s loss_sum 154.14 mean_logp -4.8168337270617485 max_u 0.158
+[k4 s1] start 16:20:59
+  downloaded+deleted adapter_model.safetensors (92.8 MB)
+  downloaded+deleted adapter_model.safetensors (92.8 MB)
+[k4 s1] done 133.9s loss_sum 160.37 mean_logp -5.011414144188166 max_u 0.109
+[k4 s2] start 16:23:13
+  downloaded+deleted adapter_model.safetensors (92.8 MB)
+  downloaded+deleted adapter_model.safetensors (92.8 MB)
+[k4 s2] done 91.9s loss_sum 163.24 mean_logp -5.101339027285576 max_u 0.122
+[k6 s1] start 16:24:45
+  downloaded+deleted adapter_model.safetensors (92.8 MB)
+  downloaded+deleted adapter_model.safetensors (92.8 MB)
+[k6 s1] done 123.7s loss_sum 155.90 mean_logp -4.871948555111885 max_u 0.065
+[k6 s2] start 16:26:49
+  downloaded+deleted adapter_model.safetensors (92.8 MB)
+  downloaded+deleted adapter_model.safetensors (92.8 MB)
+[k6 s2] done 93.0s loss_sum 155.21 mean_logp -4.850367434322834 max_u 0.084
+[reverse s1] start 16:28:22
+  downloaded+deleted adapter_model.safetensors (92.8 MB)
+  downloaded+deleted adapter_model.safetensors (92.8 MB)
+[reverse s1] done 116.5s loss_sum 54.01 mean_logp -1.687929337436799 max_u 0.033
+[reverse s2] start 16:30:18
+  downloaded+deleted adapter_model.safetensors (92.8 MB)
+  downloaded+deleted adapter_model.safetensors (92.8 MB)
+[reverse s2] done 94.9s loss_sum 39.69 mean_logp -1.2401973709929734 max_u 0.033
+cond    seed  loss_sum  share_all share_attn share_mlp  ratio_all  max_u
+k1         1      1.47  0.929     0.917      0.944      3.657   0.005
+k1         2      1.12  0.928     0.914      0.944      3.722   0.007
+k2         1     70.69  0.949     0.945      0.955      4.728   0.106
+k2         2     68.71  0.951     0.947      0.957      4.926   0.109
+k3         1    172.92  0.949     0.940      0.959      4.864   0.154
+k3         2    154.14  0.949     0.940      0.959      4.891   0.158
+k4         1    160.37  0.951     0.943      0.961      4.809   0.109
+k4         2    163.24  0.953     0.945      0.962      5.018   0.122
+k6         1    155.90  0.939     0.927      0.954      4.151   0.065
+k6         2    155.21  0.949     0.939      0.959      4.654   0.084
+reverse    1     54.01  0.951     0.949      0.956      5.056   0.033
+reverse    2     39.69  0.946     0.945      0.949      4.945   0.033
