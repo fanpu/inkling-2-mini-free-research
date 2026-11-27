@@ -1,0 +1,134 @@
+[chain] sgd_k2_s0 start attempt 0 resume=False 16:56:58
+  [queue] Model creation: QueueState.ACTIVE reason=None
+[sgd_k2_s0] client ready 9s
+  [queue] Training: QueueState.ACTIVE reason=None
+[sgd_k2_s0] step-0 export 61s
+[sgd_k2_s0] eval@0 k1:1.00 k2:0.37 k3:0.13 k4:0.03 k6:0.00 reverse:0.53 rev_fy:0.30 (55s)
+[sgd_k2_s0] step 1 loss 2.251 k2:2.25 7.9s
+[sgd_k2_s0] step-1 export 45s
+[sgd_k2_s0] step 2 loss 1.000 k2:1.00 8.6s
+[sgd_k2_s0] step 3 loss 0.713 k2:0.71 11.3s
+[sgd_k2_s0] step 5 loss 0.183 k2:0.18 11.3s
+[sgd_k2_s0] step 10 loss 0.050 k2:0.05 11.5s
+[sgd_k2_s0] eval@10 k1:0.97 k2:0.97 k3:0.00 k4:0.00 k6:0.00 reverse:1.00 rev_fy:0.03 (54s)
+[sgd_k2_s0] step 15 loss 0.085 k2:0.08 11.7s
+[sgd_k2_s0] step 20 loss 0.248 k2:0.25 16.2s
+[sgd_k2_s0] step 25 loss 0.202 k2:0.20 13.7s
+[sgd_k2_s0] eval@25 k1:0.87 k2:1.00 k3:0.00 k4:0.00 k6:0.00 reverse:1.00 rev_fy:0.03 (48s)
+[sgd_k2_s0] step 30 loss 0.007 k2:0.01 11.8s
+[sgd_k2_s0] step 35 loss 0.005 k2:0.01 12.5s
+[sgd_k2_s0] step 40 loss 0.002 k2:0.00 11.7s
+[sgd_k2_s0] step 45 loss 0.001 k2:0.00 11.9s
+[sgd_k2_s0] step 50 loss 0.001 k2:0.00 11.5s
+[sgd_k2_s0] eval@50 k1:0.70 k2:1.00 k3:0.00 k4:0.00 k6:0.00 reverse:1.00 rev_fy:0.03 (51s)
+[sgd_k2_s0] step 55 loss 0.006 k2:0.01 10.5s
+[sgd_k2_s0] step 60 loss 0.004 k2:0.00 12.7s
+[sgd_k2_s0] step 65 loss 0.004 k2:0.00 13.7s
+[sgd_k2_s0] step 70 loss 0.001 k2:0.00 12.8s
+[sgd_k2_s0] step 75 loss 0.016 k2:0.02 104.8s
+[sgd_k2_s0] step 80 loss 0.001 k2:0.00 18.5s
+[sgd_k2_s0] step 85 loss 0.005 k2:0.00 13.7s
+[sgd_k2_s0] step 90 loss 0.000 k2:0.00 17.2s
+[sgd_k2_s0] step 95 loss 0.000 k2:0.00 11.3s
+[sgd_k2_s0] step 100 loss 0.000 k2:0.00 11.7s
+[sgd_k2_s0] eval@100 k1:0.60 k2:1.00 k3:0.00 k4:0.00 k6:0.00 reverse:1.00 rev_fy:0.03 (50s)
+[sgd_k2_s0] final export 40s
+[chain] sgd_k2_s0 finished {"steps_run": 100, "wall_seconds": 2010.8, "step_seconds_mean": 15.528897075653076, "step_seconds_median": 11.814873695373535} S={'B_fro': 0.9509072680797527, 'eff_fro': 0.9455802696334108, 'dA_fro': 0.9914816258948554}
+[chain] sgd_k4_s0 start attempt 0 resume=False 17:30:29
+  [queue] Model creation: QueueState.ACTIVE reason=None
+[sgd_k4_s0] client ready 4s
+  [queue] Training: QueueState.ACTIVE reason=None
+[sgd_k4_s0] step-0 export 54s
+[sgd_k4_s0] eval@0 k1:1.00 k2:0.37 k3:0.13 k4:0.03 k6:0.00 reverse:0.53 rev_fy:0.30 (49s)
+[sgd_k4_s0] step 1 loss 5.146 k4:5.15 9.4s
+[sgd_k4_s0] step-1 export 42s
+[sgd_k4_s0] step 2 loss 3.254 k4:3.25 12.5s
+[sgd_k4_s0] step 3 loss 3.219 k4:3.22 22.0s
+[sgd_k4_s0] step 5 loss 3.115 k4:3.12 11.5s
+[sgd_k4_s0] step 10 loss 3.102 k4:3.10 12.7s
+[sgd_k4_s0] eval@10 k1:1.00 k2:0.03 k3:0.07 k4:0.03 k6:0.00 reverse:0.40 rev_fy:0.13 (51s)
+[sgd_k4_s0] step 15 loss 3.195 k4:3.19 159.3s
+[sgd_k4_s0] step 20 loss 3.104 k4:3.10 11.5s
+[sgd_k4_s0] step 25 loss 3.242 k4:3.24 15.0s
+[sgd_k4_s0] eval@25 k1:0.97 k2:0.07 k3:0.07 k4:0.00 k6:0.03 reverse:0.43 rev_fy:0.27 (53s)
+[sgd_k4_s0] step 30 loss 3.203 k4:3.20 10.5s
+[sgd_k4_s0] step 35 loss 3.205 k4:3.21 9.7s
+[sgd_k4_s0] step 40 loss 3.146 k4:3.15 15.0s
+[sgd_k4_s0] step 45 loss 3.011 k4:3.01 14.9s
+[sgd_k4_s0] step 50 loss 3.144 k4:3.14 8.7s
+[sgd_k4_s0] eval@50 k1:1.00 k2:0.43 k3:0.07 k4:0.03 k6:0.13 reverse:0.73 rev_fy:0.23 (51s)
+[sgd_k4_s0] step 55 loss 3.299 k4:3.30 12.5s
+[sgd_k4_s0] step 60 loss 3.209 k4:3.21 11.5s
+[sgd_k4_s0] step 65 loss 2.839 k4:2.84 11.1s
+[sgd_k4_s0] step 70 loss 2.649 k4:2.65 11.5s
+[sgd_k4_s0] step 75 loss 1.186 k4:1.19 11.4s
+[sgd_k4_s0] step 80 loss 2.796 k4:2.80 14.8s
+[sgd_k4_s0] step 85 loss 1.550 k4:1.55 13.8s
+[sgd_k4_s0] step 90 loss 0.998 k4:1.00 12.8s
+[sgd_k4_s0] step 95 loss 0.954 k4:0.95 9.5s
+[sgd_k4_s0] step 100 loss 0.949 k4:0.95 9.6s
+[sgd_k4_s0] eval@100 k1:0.07 k2:0.00 k3:0.33 k4:0.60 k6:0.00 reverse:0.23 rev_fy:0.80 (48s)
+[sgd_k4_s0] final export 42s
+[chain] sgd_k4_s0 finished {"steps_run": 100, "wall_seconds": 2102.5, "step_seconds_mean": 16.61894456386566, "step_seconds_median": 11.432914018630981} S={'B_fro': 0.9517036845471246, 'eff_fro': 0.9462093810138203, 'dA_fro': 0.9946730029121389}
+[chain] sgd_rev_s0 start attempt 0 resume=False 18:05:31
+  [queue] Model creation: QueueState.ACTIVE reason=None
+[sgd_rev_s0] client ready 3s
+  [queue] Training: QueueState.ACTIVE reason=None
+[sgd_rev_s0] step-0 export 62s
+[sgd_rev_s0] eval@0 k1:1.00 k2:0.37 k3:0.13 k4:0.03 k6:0.00 reverse:0.53 rev_fy:0.30 (46s)
+[sgd_rev_s0] step 1 loss 1.618 k1:1.62 6.7s
+[sgd_rev_s0] step-1 export 42s
+[sgd_rev_s0] step 2 loss 0.298 k1:0.30 8.7s
+[sgd_rev_s0] step 3 loss 0.028 k1:0.03 12.3s
+[sgd_rev_s0] step 5 loss 0.013 k1:0.01 10.0s
+[sgd_rev_s0] step 10 loss 0.006 k1:0.01 10.3s
+[sgd_rev_s0] eval@10 k1:0.97 k2:0.73 k3:0.07 k4:0.00 k6:0.00 reverse:1.00 rev_fy:0.03 (49s)
+[sgd_rev_s0] step 15 loss 0.004 k1:0.00 11.3s
+[sgd_rev_s0] step 20 loss 0.003 k1:0.00 8.7s
+[sgd_rev_s0] step 25 loss 0.002 k1:0.00 9.7s
+[sgd_rev_s0] eval@25 k1:0.93 k2:0.60 k3:0.03 k4:0.00 k6:0.00 reverse:1.00 rev_fy:0.03 (43s)
+[sgd_rev_s0] step 30 loss 0.002 k1:0.00 9.4s
+[sgd_rev_s0] step 35 loss 0.002 k1:0.00 11.2s
+[sgd_rev_s0] step 40 loss 0.003 k1:0.00 10.4s
+[sgd_rev_s0] step 45 loss 0.010 k1:0.01 13.7s
+[sgd_rev_s0] step 50 loss 0.002 k1:0.00 10.4s
+[sgd_rev_s0] eval@50 k1:0.97 k2:0.57 k3:0.03 k4:0.03 k6:0.00 reverse:1.00 rev_fy:0.03 (50s)
+[sgd_rev_s0] step 55 loss 0.001 k1:0.00 13.7s
+[sgd_rev_s0] step 60 loss 0.001 k1:0.00 56.0s
+[sgd_rev_s0] step 65 loss 0.002 k1:0.00 11.4s
+[sgd_rev_s0] step 70 loss 0.009 k1:0.01 10.8s
+[sgd_rev_s0] step 75 loss 0.002 k1:0.00 8.8s
+[sgd_rev_s0] step 80 loss 0.008 k1:0.01 13.6s
+[sgd_rev_s0] step 85 loss 0.001 k1:0.00 9.8s
+[sgd_rev_s0] step 90 loss 0.001 k1:0.00 25.8s
+[sgd_rev_s0] step 95 loss 0.001 k1:0.00 21.7s
+[sgd_rev_s0] step 100 loss 0.001 k1:0.00 39.9s
+[sgd_rev_s0] eval@100 k1:1.00 k2:0.53 k3:0.07 k4:0.00 k6:0.00 reverse:1.00 rev_fy:0.03 (48s)
+[sgd_rev_s0] final export 43s
+[chain] sgd_rev_s0 finished {"steps_run": 100, "wall_seconds": 1789.3, "step_seconds_mean": 13.602327558994293, "step_seconds_median": 11.29099416732788} S={'B_fro': 0.9307570434019522, 'eff_fro': 0.9255407560149193, 'dA_fro': 0.9899152685449026}
+[chain] sgd_mix_s1 start attempt 0 resume=False 18:35:20
+  [queue] Model creation: QueueState.ACTIVE reason=None
+[sgd_mix_s1] client ready 3s
+  [queue] Training: QueueState.ACTIVE reason=None
+[sgd_mix_s1] step-0 export 67s
+[sgd_mix_s1] eval@0 k1:1.00 k2:0.37 k3:0.13 k4:0.03 k6:0.00 reverse:0.53 rev_fy:0.30 (44s)
+[sgd_mix_s1] step 1 loss 4.985 k2:3.64 k3:6.72 k4:4.55 12.4s
+[sgd_mix_s1] step-1 export 43s
+[sgd_mix_s1] step 2 loss 2.999 k2:2.64 k3:3.25 k4:3.07 10.3s
+[sgd_mix_s1] step 3 loss 3.201 k2:2.92 k3:3.22 k4:3.46 10.4s
+[sgd_mix_s1] step 5 loss 2.803 k2:2.04 k3:2.96 k4:3.34 12.3s
+[sgd_mix_s1] step 10 loss 2.295 k2:0.29 k3:2.75 k4:4.00 11.6s
+[sgd_mix_s1] eval@10 k1:0.97 k2:0.87 k3:0.13 k4:0.07 k6:0.00 reverse:0.90 rev_fy:0.10 (45s)
+[sgd_mix_s1] step 15 loss 1.559 k2:0.31 k3:1.44 k4:2.92 11.2s
+[sgd_mix_s1] step 20 loss 1.809 k2:1.33 k3:1.22 k4:2.84 10.3s
+[sgd_mix_s1] step 25 loss 0.961 k2:0.32 k3:1.03 k4:1.59 10.3s
+[sgd_mix_s1] eval@25 k1:0.93 k2:0.77 k3:0.53 k4:0.30 k6:0.03 reverse:0.90 rev_fy:0.13 (46s)
+[sgd_mix_s1] step 30 loss 1.130 k2:0.18 k3:1.29 k4:1.93 9.5s
+[sgd_mix_s1] step 35 loss 0.619 k2:0.35 k3:0.62 k4:0.86 8.3s
+[sgd_mix_s1] step 40 loss 0.508 k2:0.03 k3:0.39 k4:1.16 8.8s
+[sgd_mix_s1] step 45 loss 0.567 k2:0.01 k3:0.46 k4:1.22 11.3s
+[sgd_mix_s1] step 50 loss 0.480 k2:0.15 k3:0.80 k4:0.46 10.3s
+[sgd_mix_s1] eval@50 k1:0.80 k2:0.97 k3:0.77 k4:0.70 k6:0.07 reverse:0.97 rev_fy:0.07 (46s)
+[sgd_mix_s1] step 55 loss 0.348 k2:0.00 k3:0.11 k4:0.99 35.7s
+[sgd_mix_s1] step 60 loss 0.245 k2:0.00 k3:0.29 k4:0.45 11.5s
+[sgd_mix_s1] step 65 loss 0.284 k2:0.00 k3:0.12 k4:0.70 21.7s
