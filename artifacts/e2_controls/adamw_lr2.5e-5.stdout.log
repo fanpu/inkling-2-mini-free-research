@@ -1,0 +1,51 @@
+  [queue] Model creation: QueueState.ACTIVE reason=None
+[adamw_lr2.5e-5] client ready 7s
+  [queue] Training: QueueState.ACTIVE reason=None
+[adamw_lr2.5e-5] step-0 export 56s
+[adamw_lr2.5e-5] eval@0 k1:1.00 k2:0.37 k3:0.13 k4:0.03 k6:0.00 reverse:0.53 rev_fy:0.30 (45s)
+[adamw_lr2.5e-5] step 1 loss 4.985 k2:3.64 k3:6.72 k4:4.55 10.3s
+[adamw_lr2.5e-5] step-1 export 45s
+[adamw_lr2.5e-5] step 2 loss 5.164 k2:4.52 k3:5.66 k4:5.25 7.9s
+[adamw_lr2.5e-5] step 3 loss 3.702 k2:2.65 k3:3.73 k4:4.73 10.5s
+[adamw_lr2.5e-5] step 5 loss 2.651 k2:0.95 k3:2.98 k4:3.87 10.2s
+[adamw_lr2.5e-5] step 10 loss 2.529 k2:1.30 k3:2.84 k4:3.54 7.9s
+[adamw_lr2.5e-5] eval@10 k1:1.00 k2:0.73 k3:0.07 k4:0.00 k6:0.00 reverse:0.63 rev_fy:0.20 (46s)
+[adamw_lr2.5e-5] step 15 loss 2.152 k2:0.90 k3:2.25 k4:3.31 32.5s
+[adamw_lr2.5e-5] step 20 loss 2.190 k2:0.91 k3:2.39 k4:3.15 7.9s
+[adamw_lr2.5e-5] step 25 loss 1.456 k2:0.19 k3:1.03 k4:3.32 10.5s
+[adamw_lr2.5e-5] eval@25 k1:0.93 k2:0.87 k3:0.27 k4:0.07 k6:0.03 reverse:0.90 rev_fy:0.10 (49s)
+[adamw_lr2.5e-5] step 30 loss 1.460 k2:0.57 k3:1.54 k4:2.28 9.6s
+[adamw_lr2.5e-5] step 35 loss 1.304 k2:0.48 k3:1.24 k4:2.12 16.6s
+[adamw_lr2.5e-5] step 40 loss 1.164 k2:0.77 k3:0.82 k4:1.98 12.7s
+[adamw_lr2.5e-5] step 45 loss 0.970 k2:0.18 k3:0.97 k4:1.76 10.6s
+[adamw_lr2.5e-5] step 50 loss 0.781 k2:0.27 k3:0.76 k4:1.27 9.2s
+[adamw_lr2.5e-5] eval@50 k1:0.90 k2:0.93 k3:0.70 k4:0.17 k6:0.03 reverse:0.87 rev_fy:0.13 (46s)
+[adamw_lr2.5e-5] step 55 loss 0.619 k2:0.01 k3:0.60 k4:1.31 10.4s
+[adamw_lr2.5e-5] step 60 loss 0.677 k2:0.24 k3:0.56 k4:1.22 9.8s
+[adamw_lr2.5e-5] step 65 loss 0.629 k2:0.26 k3:0.73 k4:0.86 8.7s
+[adamw_lr2.5e-5] step 70 loss 0.500 k2:0.10 k3:0.36 k4:1.09 9.9s
+[adamw_lr2.5e-5] step 75 loss 0.343 k2:0.02 k3:0.45 k4:0.57 10.4s
+[adamw_lr2.5e-5] step 80 loss 0.471 k2:0.02 k3:0.34 k4:1.02 10.7s
+[adamw_lr2.5e-5] step 85 loss 0.311 k2:0.00 k3:0.08 k4:0.91 10.5s
+[adamw_lr2.5e-5] step 90 loss 0.499 k2:0.08 k3:0.31 k4:1.08 14.8s
+[adamw_lr2.5e-5] step 95 loss 0.296 k2:0.00 k3:0.50 k4:0.36 12.3s
+[adamw_lr2.5e-5] step 100 loss 0.097 k2:0.01 k3:0.13 k4:0.15 10.5s
+[adamw_lr2.5e-5] eval@100 k1:0.50 k2:1.00 k3:1.00 k4:0.90 k6:0.03 reverse:0.90 rev_fy:0.10 (50s)
+[adamw_lr2.5e-5] step 105 loss 0.092 k2:0.02 k3:0.02 k4:0.23 9.6s
+[adamw_lr2.5e-5] step 110 loss 0.087 k2:0.02 k3:0.00 k4:0.23 10.3s
+[adamw_lr2.5e-5] step 115 loss 0.034 k2:0.00 k3:0.04 k4:0.07 10.2s
+[adamw_lr2.5e-5] step 120 loss 0.119 k2:0.00 k3:0.05 k4:0.30 8.8s
+[adamw_lr2.5e-5] step 125 loss 0.066 k2:0.00 k3:0.00 k4:0.19 48.4s
+[adamw_lr2.5e-5] step 130 loss 0.071 k2:0.00 k3:0.01 k4:0.21 9.5s
+[adamw_lr2.5e-5] step 135 loss 0.012 k2:0.00 k3:0.02 k4:0.01 8.4s
+[adamw_lr2.5e-5] step 140 loss 0.006 k2:0.00 k3:0.00 k4:0.02 8.4s
+[adamw_lr2.5e-5] step 145 loss 0.017 k2:0.00 k3:0.00 k4:0.05 11.7s
+[adamw_lr2.5e-5] step 150 loss 0.618 k2:0.00 k3:0.01 k4:1.79 9.0s
+[adamw_lr2.5e-5] eval@150 k1:0.33 k2:1.00 k3:0.97 k4:0.93 k6:0.00 reverse:0.87 rev_fy:0.13 (49s)
+[adamw_lr2.5e-5] final export 41s
+{"steps_run": 150, "wall_seconds": 2588.3, "step_seconds_mean": 13.908141743342082, "step_seconds_median": 10.342144012451172} None
+  s0: 10 modules, lm_head B [0.0], bytes 371173696
+  s1: 10 modules, lm_head B [0.02849702910688919], bytes 371173696
+  final: 10 modules, lm_head B [1.1431132449323702], bytes 371173696
+  step1 {'B_norm': 0.1758, 'S': 0.508, 'R': 1.0208, 'L6/L5': 0.9919, 'L18/L17': 0.8609, 'max_abs_B': 0.0, 'max_abs_B_at': '0 attn.gate_attn', 'lm_head_B': [0.02849702910688919], 'cos_with_grad_profile': 0.8285}
+  final {'B_norm': 2.817, 'S': 0.603, 'R': 1.238, 'L6/L5': 1.146, 'L18/L17': 0.715}

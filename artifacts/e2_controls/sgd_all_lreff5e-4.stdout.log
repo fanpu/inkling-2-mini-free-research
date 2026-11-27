@@ -1,0 +1,26 @@
+  [queue] Model creation: QueueState.ACTIVE reason=None
+[sgd_all_lreff5e-4] client ready 9s
+  [queue] Training: QueueState.ACTIVE reason=None
+[sgd_all_lreff5e-4] step-0 export 48s
+[sgd_all_lreff5e-4] eval@0 k1:1.00 k2:0.37 k3:0.13 k4:0.03 k6:0.00 reverse:0.53 rev_fy:0.30 (45s)
+[sgd_all_lreff5e-4] step 1 loss 4.985 k2:3.64 k3:6.72 k4:4.55 6.2s
+[sgd_all_lreff5e-4] step-1 export 43s
+[sgd_all_lreff5e-4] step 2 loss 3.372 k2:3.75 k3:3.24 k4:3.16 8.7s
+[sgd_all_lreff5e-4] step 3 loss 3.374 k2:3.35 k3:3.45 k4:3.33 10.5s
+[sgd_all_lreff5e-4] step 5 loss 3.202 k2:2.95 k3:3.27 k4:3.36 8.9s
+[sgd_all_lreff5e-4] eval@5 k1:0.60 k2:0.17 k3:0.10 k4:0.03 k6:0.00 reverse:0.90 rev_fy:0.13 (44s)
+[sgd_all_lreff5e-4] step 10 loss 3.299 k2:3.42 k3:3.14 k4:3.34 10.4s
+[sgd_all_lreff5e-4] eval@10 k1:0.03 k2:0.07 k3:0.00 k4:0.00 k6:0.03 reverse:0.00 rev_fy:0.00 (49s)
+[sgd_all_lreff5e-4] step 15 loss 3.447 k2:3.33 k3:3.36 k4:3.65 10.5s
+[sgd_all_lreff5e-4] step 20 loss 3.248 k2:3.25 k3:3.27 k4:3.22 12.4s
+[sgd_all_lreff5e-4] eval@20 k1:0.00 k2:0.00 k3:0.03 k4:0.03 k6:0.03 reverse:0.07 rev_fy:0.07 (46s)
+[sgd_all_lreff5e-4] step 25 loss 3.222 k2:3.22 k3:3.17 k4:3.28 11.4s
+[sgd_all_lreff5e-4] step 30 loss 2.689 k2:1.66 k3:3.00 k4:3.44 11.7s
+[sgd_all_lreff5e-4] eval@30 k1:0.70 k2:0.47 k3:0.03 k4:0.00 k6:0.00 reverse:0.27 rev_fy:0.73 (51s)
+[sgd_all_lreff5e-4] final export 42s
+{"steps_run": 30, "wall_seconds": 954.6, "step_seconds_mean": 19.25687839190165, "step_seconds_median": 10.603791952133179} None
+  s0: 10 modules, lm_head B [0.0], bytes 371173696
+  s1: 10 modules, lm_head B [0.02273350070926675], bytes 371173696
+  final: 10 modules, lm_head B [0.09968565738422076], bytes 371173696
+  step1 {'B_norm': 1.0059, 'S': 0.9425, 'R': 4.4563, 'L6/L5': 2.1379, 'L18/L17': 0.1351, 'max_abs_B': 0.0298, 'max_abs_B_at': '14 mlp.experts.w3', 'lm_head_B': [0.02273350070926675], 'cos_with_grad_profile': 1.0, 'grad_norm_layers': 2011.8506}
+  collapsed, max acc, tail loss (False, 0.7, 2.998317962884903)

@@ -1,0 +1,26 @@
+  [queue] Model creation: QueueState.ACTIVE reason=None
+[sgd_noemb_lreff1.5e-3] client ready 7s
+  [queue] Training: QueueState.ACTIVE reason=None
+[sgd_noemb_lreff1.5e-3] step-0 export 73s
+[sgd_noemb_lreff1.5e-3] eval@0 k1:1.00 k2:0.37 k3:0.13 k4:0.03 k6:0.00 reverse:0.53 rev_fy:0.30 (47s)
+[sgd_noemb_lreff1.5e-3] step 1 loss 4.985 k2:3.64 k3:6.72 k4:4.55 5.6s
+[sgd_noemb_lreff1.5e-3] step-1 export 45s
+[sgd_noemb_lreff1.5e-3] step 2 loss 3.452 k2:3.53 k3:3.38 k4:3.45 73.9s
+[sgd_noemb_lreff1.5e-3] step 3 loss 3.396 k2:3.41 k3:3.52 k4:3.27 13.0s
+[sgd_noemb_lreff1.5e-3] step 5 loss 3.333 k2:3.38 k3:3.24 k4:3.39 13.4s
+[sgd_noemb_lreff1.5e-3] eval@5 k1:0.00 k2:0.07 k3:0.00 k4:0.07 k6:0.03 reverse:0.07 rev_fy:0.00 (46s)
+[sgd_noemb_lreff1.5e-3] step 10 loss 3.119 k2:2.88 k3:3.18 k4:3.31 12.7s
+[sgd_noemb_lreff1.5e-3] eval@10 k1:1.00 k2:0.00 k3:0.00 k4:0.00 k6:0.00 reverse:0.00 rev_fy:0.60 (47s)
+[sgd_noemb_lreff1.5e-3] step 15 loss 3.434 k2:3.36 k3:3.41 k4:3.53 16.9s
+[sgd_noemb_lreff1.5e-3] step 20 loss 3.266 k2:3.26 k3:3.28 k4:3.26 11.7s
+[sgd_noemb_lreff1.5e-3] eval@20 k1:0.07 k2:0.03 k3:0.03 k4:0.03 k6:0.03 reverse:0.07 rev_fy:0.00 (48s)
+[sgd_noemb_lreff1.5e-3] step 25 loss 3.252 k2:3.20 k3:3.30 k4:3.25 12.8s
+[sgd_noemb_lreff1.5e-3] step 30 loss 3.272 k2:3.28 k3:3.28 k4:3.26 13.0s
+[sgd_noemb_lreff1.5e-3] eval@30 k1:0.03 k2:0.03 k3:0.03 k4:0.03 k6:0.03 reverse:0.03 rev_fy:0.00 (48s)
+[sgd_noemb_lreff1.5e-3] final export 48s
+{"steps_run": 30, "wall_seconds": 934.7, "step_seconds_mean": 17.504702393213908, "step_seconds_median": 12.768898248672485} None
+  s0: 9 modules, lm_head B [], bytes 364666962
+  s1: 9 modules, lm_head B [], bytes 364666962
+  final: 9 modules, lm_head B [], bytes 364666962
+  step1 {'B_norm': 3.0422, 'S': 0.9409, 'R': 4.4076, 'L6/L5': 2.1098, 'L18/L17': 0.1351, 'max_abs_B': 0.0903, 'max_abs_B_at': '14 mlp.experts.w3', 'lm_head_B': [], 'cos_with_grad_profile': 1.0, 'grad_norm_layers': 2028.1541}
+  collapsed, max acc, tail loss (True, 0.03333333333333333, 3.2920983478426935)

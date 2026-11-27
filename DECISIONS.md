@@ -71,3 +71,12 @@ Append-only chronological record of key architectural, experimental, and tooling
 
 - **D-022 — Add an SGD mode through large `eps`:**
   Both Tinker optimizers discard gradient size, so trained adapter norms come out flat across layers whatever the gradients do. AdamW with `eps` far above every gradient entry behaves as SGD with momentum and effective rate `lr/eps`. This gives a gradient-following optimizer for the layer-profile and stability questions. It is a pilot until note 10 confirms the regime holds.
+
+- **D-023 — SGD mode is adopted as the third optimizer:**
+  Effective rate 2.9e-4 with `eps = 1e4` is the working setting (notes 10 and 11). Correction to note 10: the stability edge lies between 5e-4 and 8.7e-4, not between 2.9e-4 and 5e-4.
+
+- **D-024 — H3 is tested in SGD mode:**
+  AdamW and Dimuon give flat layer profiles even at small movement (note 11), so only SGD mode can show whether hop count changes where adapter weight lands.
+
+- **D-025 — Short probes are not called collapsed on a plateau alone:**
+  A run counts as collapsed only if accuracy is at chance on every condition and loss stays near ln 26 at the end of at least 30 steps (note 11).

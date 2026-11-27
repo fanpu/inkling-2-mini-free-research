@@ -1,0 +1,50 @@
+{
+ "s0": {
+  "modules": [
+   "attn.gate_attn",
+   "attn.wk_dv",
+   "attn.wo_ud",
+   "attn.wq_du",
+   "attn.wr_du",
+   "attn.wv_dv",
+   "mlp.experts.w1",
+   "mlp.experts.w2",
+   "mlp.experts.w3"
+  ],
+  "n_tensors_pairs": 216,
+  "lm_head_B_fro": [],
+  "file_bytes": 364666962
+ },
+ "s1": {
+  "modules": [
+   "attn.gate_attn",
+   "attn.wk_dv",
+   "attn.wo_ud",
+   "attn.wq_du",
+   "attn.wr_du",
+   "attn.wv_dv",
+   "mlp.experts.w1",
+   "mlp.experts.w2",
+   "mlp.experts.w3"
+  ],
+  "n_tensors_pairs": 216,
+  "lm_head_B_fro": [],
+  "file_bytes": 364666962
+ },
+ "final": {
+  "modules": [
+   "attn.gate_attn",
+   "attn.wk_dv",
+   "attn.wo_ud",
+   "attn.wq_du",
+   "attn.wr_du",
+   "attn.wv_dv",
+   "mlp.experts.w1",
+   "mlp.experts.w2",
+   "mlp.experts.w3"
+  ],
+  "n_tensors_pairs": 216,
+  "lm_head_B_fro": [],
+  "file_bytes": 364666962
+ }
+}

@@ -1,7 +1,7 @@
 # Project State
 
 **Last updated:** 2026-11-27
-**Phase:** Phase 1. Probes, E0 and the AdamW and Dimuon training pilots are done. The SGD-mode pilot is running.
+**Phase:** Phase 1. Probes, E0, three optimizer pilots and their controls are done. Single-condition SGD-mode runs and a seed replication are next.
 
 ## Verified facts
 
@@ -26,6 +26,10 @@ Details and sources are in the notes. Each line here has been checked by a scrip
 - Training on a mix of k = 2, 3, 4 at rank 8 reaches accuracy 1.00 on those in 100 steps with AdamW (lr 5.4e-4) and 50 steps with Dimuon (lr 1.6e-2). A step takes about 12 s (note 09).
 - Both trained adapters clamp the hop count to between 2 and 4 on every prompt. k = 1 and reverse fall to near 0 and k = 6 stays at 0 (note 09).
 - Both trained adapters put about half their squared norm in looped layers (0.45 to 0.51), the even-spread value, with no step at layers 6 or 18. One run each (note 09).
+- AdamW with `eps = 1e4` acts as SGD with momentum at effective rate `lr/eps` (SGD mode). Its first step is linear in the gradient to within 0.6% (note 10).
+- SGD mode at effective rate 2.9e-4 puts 0.95 of the adapter's squared norm in looped layers, with layer 6 over 5 at 2.17 and layer 18 over 17 at 0.12. It keeps k = 1 at 0.90 and reverse at 1.00 while learning k = 2, 3, 4. One run (note 10).
+- SGD mode learns at effective rates up to 5e-4 and falls to a uniform guess over letters at 8.7e-4 and above. Switching the unembedding adapter off does not move this edge (note 11). Note 10's claim that 5e-4 collapses was wrong, that run was stopped on a plateau.
+- AdamW at a low rate (2.5e-5, final B norm 2.82) still has a nearly flat profile (looped share 0.60). It keeps reverse at 0.87 but k = 1 falls to 0.33. So small movement explains part of the retained skills, not the profile (note 11).
 - In the pure-chain scalar model, looping multiplies the gradient by $K w_0^{K-1}$ and the sharpness by its square, and scale-free optimizers hide this in weight space (note 03).
 
 ## Unverified or unknown
@@ -44,10 +48,10 @@ Details and sources are in the notes. Each line here has been checked by a scrip
 
 ## Next actions
 
-1. **SGD-mode pilot (running).** AdamW with `eps = 1e4` acts as SGD with momentum and effective rate `lr/eps`. Asks whether a gradient-following optimizer puts more adapter weight in looped layers, and where it diverges. Output goes to `notes/10` and `scripts/11`.
-2. **Main E2 runs (tests H3).** Separate adapters on k = 2 only, k = 4 only and reverse only, under AdamW, Dimuon and SGD mode if it works, fixed 75 steps, LoRA seeds 0 and 1. About 25 minutes per run, one at a time.
-3. **E3, learning-rate edge (tests H2).** Most natural in SGD mode, where the gradient-descent stability limit applies. AdamW weight-decay sweep only if a loop effect appears.
-4. **Dimuon step rule.** Still unknown beyond step one.
+1. **Single-condition SGD-mode runs (tests H3) and a seed replication.** k = 2 only, k = 4 only, reverse only at effective rate 2.9e-4, plus the k = 2, 3, 4 mix with LoRA seed 1. Compare per-layer profiles across conditions.
+2. **What sets the SGD-mode edge (tests H2).** Attention-only and experts-only probes between 5e-4 and 8.7e-4. The unembedding is ruled out.
+3. **Dimuon step rule.** Still unknown beyond step one.
+4. **Write-up.** Fold training results into the orientation page.
 
 ## Files
 
@@ -59,6 +63,7 @@ Details and sources are in the notes. Each line here has been checked by a scrip
 - `scripts/03` to `07` are the probes and their analysis. `scripts/task_pointer.py` is the task generator.
 - `notes/08_e0_grad_by_hops.md`, `notes/09_e2_pilots.md`.
 - `scripts/train_lib.py` is the training harness (AdamW and Dimuon, per-step log, fixed eval set, resume). `scripts/08` to `10` are E0 and the pilots.
+- `notes/10_e2_pilot_sgd_mode.md`, `notes/11_controls.md`. `scripts/11` and `12` are the SGD-mode pilot and the controls.
 - `notes/lit/01` to `04` are sub-agent literature and documentation reviews (see D-014).
 - `scripts/00_probe_free_tier.py`, `scripts/01_inspect_probe.py`, `scripts/02_looped_abx_toy.py`.
 - `docs/orientation.html` is the source of the human-facing orientation page, published privately at https://claude.ai/artifact/RNJnoBSSA7htrQbjwZVWhm. Republish to that URL after editing. It follows the owner's explainer rules: one 700px column, numbered steps with one idea each, KaTeX math (MathML output), live interactives with a reset, then summary, misconceptions, blind spots and sources.

@@ -102,6 +102,9 @@ class Config:
     export_steps: list = field(default_factory=list)  # extra adapter exports after these steps
     diverge_loss: float | None = None   # stop when loss_mean exceeds this ...
     diverge_patience: int = 5           # ... on this many consecutive steps (or is non-finite)
+    train_mlp: bool = True              # create_lora_training_client module switches (Tinker defaults)
+    train_attn: bool = True
+    train_unembed: bool = True
 
     def __post_init__(self):
         assert self.optimizer in ("adamw", "dimuon"), self.optimizer
@@ -411,6 +414,7 @@ def run(cfg: Config, resume: bool = False) -> dict:
         else:
             tc = retry(log, lambda: sc.create_lora_training_client(
                 base_model=MODEL_ID, rank=cfg.rank, seed=cfg.lora_seed,
+                train_mlp=cfg.train_mlp, train_attn=cfg.train_attn, train_unembed=cfg.train_unembed,
                 optimizer=_optim_config(cfg), user_metadata=meta).result(), "create")
             start = 0
         print(f"[{cfg.name}] client ready {time.time()-t_start:.0f}s", flush=True)
