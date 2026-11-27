@@ -83,3 +83,6 @@ Append-only chronological record of key architectural, experimental, and tooling
 
 - **D-026 — H3 is recorded as failed in its main form:**
   In SGD mode the looped share of adapter weight does not depend on hop count (note 12, two seeds). The surviving claim is narrower: more hops move weight toward the middle of the loop (layers 10 to 13). Any further work on H3 targets that claim.
+
+- **D-027 — H2 is recorded as untestable on Tinker's free tier:**
+  The SGD-mode stability edge tracks total first-update norm across module groups, and a collapsing run shows no layer-specific growth (note 13). Tinker has no per-layer adapter selection, and both module groups put most of their update in looped layers, so no available experiment separates looped from unlooped layers. H2 stays open, not refuted.

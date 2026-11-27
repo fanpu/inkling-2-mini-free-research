@@ -34,6 +34,8 @@ Details and sources are in the notes. Each line here has been checked by a scrip
 - H3 in its main form fails on two seeds. Adapters trained on k = 4 only and k = 2 only have the same looped share to within seed noise (differences +0.0008 and -0.0052, seed spread 0.005 to 0.011) (note 12).
 - A weaker form holds on two seeds. A k = 4 adapter puts 0.075 to 0.088 more of its looped weight in layers 10 to 13 than a k = 2 adapter, against a seed spread of 0.011 to 0.025 (note 12).
 - A single-condition adapter learns a fixed hop count. The k = 2 adapter takes two hops on every k = 3 and k = 4 prompt (note 12).
+- In SGD mode with the unembedding off, attention-only training learns at effective rate 8.7e-4 and collapses at 1.1e-3. Experts-only learns at 1.1e-3 and collapses at 1.5e-3. Both together collapse at 8.7e-4. Measured by first-update norm, all three fit one threshold between 1.29 and 1.64, which suggests the edge is set by total step size (note 13).
+- A collapsing run and a learning run differ only by a uniform rescale of the adapter over the first 10 steps. No layer range or module type grows faster (per-layer growth ratio 0.98 to 1.03) (note 13).
 - In the pure-chain scalar model, looping multiplies the gradient by $K w_0^{K-1}$ and the sharpness by its square, and scale-free optimizers hide this in weight space (note 03).
 
 ## Unverified or unknown
@@ -52,7 +54,7 @@ Details and sources are in the notes. Each line here has been checked by a scrip
 
 ## Next actions
 
-1. **What sets the SGD-mode edge (tests H2).** Attention-only and experts-only probes between effective rates 5e-4 and 8.7e-4. The unembedding is ruled out.
+1. **H2 cannot be tested with the tools available.** Module-group switches cannot separate looped from unlooped layers, since both groups put about 0.92 of their update in the loop (note 13, D-027).
 2. **Finish the k = 4 runs.** They were still learning at step 100. Rerun at 200 steps to check the middle-third shift at convergence.
 3. **Dimuon step rule.** Still unknown beyond step one.
 4. **Orientation page.** Add the single-condition results.
@@ -69,6 +71,7 @@ Details and sources are in the notes. Each line here has been checked by a scrip
 - `scripts/train_lib.py` is the training harness (AdamW and Dimuon, per-step log, fixed eval set, resume). `scripts/08` to `10` are E0 and the pilots.
 - `notes/10_e2_pilot_sgd_mode.md`, `notes/11_controls.md`. `scripts/11` and `12` are the SGD-mode pilot and the controls.
 - `notes/12_e2_single_condition.md` and `scripts/13_e2_single_condition.py` are the single-condition runs.
+- `notes/13_edge_by_module.md` and `scripts/14_edge_by_module.py` are the stability-edge probes.
 - `notes/lit/01` to `04` are sub-agent literature and documentation reviews (see D-014).
 - `scripts/00_probe_free_tier.py`, `scripts/01_inspect_probe.py`, `scripts/02_looped_abx_toy.py`.
 - `docs/orientation.html` is the source of the human-facing orientation page, published privately at https://claude.ai/artifact/RNJnoBSSA7htrQbjwZVWhm. Republish to that URL after editing. It follows the owner's explainer rules: one 700px column, numbered steps with one idea each, KaTeX math (MathML output), live interactives with a reset, then summary, misconceptions, blind spots and sources.

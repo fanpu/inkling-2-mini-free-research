@@ -1,0 +1,13 @@
+{
+ "modules": [
+  "mlp.experts.w1",
+  "mlp.experts.w2",
+  "mlp.experts.w3"
+ ],
+ "lm_head_B": [],
+ "file_bytes": 345066902,
+ "off_present": 0,
+ "off_B_max": null,
+ "on_B_norm": 1.0330132993099033,
+ "ok": true
+}

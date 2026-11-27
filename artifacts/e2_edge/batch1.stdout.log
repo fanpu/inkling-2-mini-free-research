@@ -1,0 +1,81 @@
+=== attn_lreff8.7e-4
+  [queue] Model creation: QueueState.ACTIVE reason=None
+[attn_lreff8.7e-4] client ready 9s
+  [queue] Training: QueueState.ACTIVE reason=None
+[attn_lreff8.7e-4] eval@0 k1:1.00 k2:0.37 k3:0.13 k4:0.03 k6:0.00 reverse:0.53 rev_fy:0.30 (77s)
+[attn_lreff8.7e-4] step 1 loss 4.985 k2:3.64 k3:6.72 k4:4.55 11.8s
+[attn_lreff8.7e-4] step-1 export 17s
+[attn_lreff8.7e-4] step 2 loss 3.333 k2:3.53 k3:3.26 k4:3.23 11.7s
+[attn_lreff8.7e-4] step 3 loss 3.365 k2:3.43 k3:3.44 k4:3.24 10.4s
+[attn_lreff8.7e-4] step 5 loss 3.175 k2:2.95 k3:3.27 k4:3.29 11.4s
+[attn_lreff8.7e-4] step 10 loss 3.261 k2:3.25 k3:3.19 k4:3.35 22.2s
+[attn_lreff8.7e-4] eval@10 k1:0.23 k2:0.13 k3:0.00 k4:0.03 k6:0.03 reverse:0.17 rev_fy:0.07 (46s)
+[attn_lreff8.7e-4] step 15 loss 2.609 k2:2.27 k3:2.62 k4:2.94 11.3s
+[attn_lreff8.7e-4] step 20 loss 1.872 k2:1.38 k3:1.27 k4:2.92 11.7s
+[attn_lreff8.7e-4] eval@20 k1:0.27 k2:0.57 k3:0.43 k4:0.23 k6:0.00 reverse:0.67 rev_fy:0.20 (44s)
+[attn_lreff8.7e-4] step 25 loss 0.824 k2:0.45 k3:0.77 k4:1.30 8.6s
+[attn_lreff8.7e-4] step 30 loss 0.476 k2:0.30 k3:0.60 k4:0.55 9.5s
+[attn_lreff8.7e-4] step 35 loss 0.917 k2:1.05 k3:1.13 k4:0.58 19.7s
+[attn_lreff8.7e-4] step 40 loss 0.301 k2:0.10 k3:0.42 k4:0.40 10.3s
+[attn_lreff8.7e-4] eval@40 k1:0.63 k2:0.93 k3:0.57 k4:0.90 k6:0.00 reverse:0.50 rev_fy:0.53 (43s)
+[attn_lreff8.7e-4] final export 19s
+  timing {"steps_run": 40, "wall_seconds": 734.4, "step_seconds_mean": 11.99867715239525, "step_seconds_median": 10.45372223854065}
+  attn_lreff8.7e-4: learning max acc 0.93 tail5 0.62 flat25 False
+  check attn_lreff8.7e-4: 6 modules ['attn.gate_attn', 'attn.wk_dv', 'attn.wo_ud', 'attn.wq_du', 'attn.wr_du', 'attn.wv_dv'], lm_head [], off-group tensors 0 max B None, on-group |B| 1.285, ok True
+=== attn_lreff1.5e-3
+  [queue] Model creation: QueueState.ACTIVE reason=None
+[attn_lreff1.5e-3] client ready 5s
+  [queue] Training: QueueState.ACTIVE reason=None
+[attn_lreff1.5e-3] eval@0 k1:1.00 k2:0.37 k3:0.13 k4:0.03 k6:0.00 reverse:0.53 rev_fy:0.30 (70s)
+[attn_lreff1.5e-3] step 1 loss 4.985 k2:3.64 k3:6.72 k4:4.55 14.1s
+[attn_lreff1.5e-3] step-1 export 19s
+[attn_lreff1.5e-3] step 2 loss 3.413 k2:3.51 k3:3.32 k4:3.42 10.3s
+[attn_lreff1.5e-3] step 3 loss 3.365 k2:3.42 k3:3.40 k4:3.28 12.4s
+[attn_lreff1.5e-3] step 5 loss 3.341 k2:3.33 k3:3.33 k4:3.37 11.2s
+[attn_lreff1.5e-3] step 10 loss 2.573 k2:1.31 k3:2.81 k4:3.70 10.4s
+[attn_lreff1.5e-3] eval@10 k1:0.93 k2:0.03 k3:0.00 k4:0.00 k6:0.00 reverse:0.33 rev_fy:0.53 (104s)
+[attn_lreff1.5e-3] step 15 loss 3.418 k2:3.35 k3:3.40 k4:3.50 10.5s
+[attn_lreff1.5e-3] step 20 loss 3.241 k2:3.22 k3:3.30 k4:3.20 11.3s
+[attn_lreff1.5e-3] eval@20 k1:0.03 k2:0.10 k3:0.03 k4:0.00 k6:0.00 reverse:0.03 rev_fy:0.03 (59s)
+[attn_lreff1.5e-3] step 25 loss 3.288 k2:3.26 k3:3.31 k4:3.29 10.7s
+[attn_lreff1.5e-3] step 30 loss 3.301 k2:3.30 k3:3.32 k4:3.29 11.6s
+[attn_lreff1.5e-3] step 35 loss 3.279 k2:3.33 k3:3.25 k4:3.26 10.4s
+[attn_lreff1.5e-3] step 40 loss 3.257 k2:3.29 k3:3.24 k4:3.23 10.4s
+[attn_lreff1.5e-3] eval@40 k1:0.03 k2:0.03 k3:0.03 k4:0.03 k6:0.03 reverse:0.03 rev_fy:0.00 (43s)
+[attn_lreff1.5e-3] final export 16s
+  timing {"steps_run": 40, "wall_seconds": 1183.1, "step_seconds_mean": 21.680889493227006, "step_seconds_median": 11.181796073913574}
+  attn_lreff1.5e-3: collapsed max acc 0.03 tail5 3.28 flat25 True
+=== partb_all_lreff8.7e-4
+  [queue] Model creation: QueueState.ACTIVE reason=None
+[partb_all_lreff8.7e-4] client ready 6s
+  [queue] Training: QueueState.ACTIVE reason=None
+[partb_all_lreff8.7e-4] step 1 loss 4.985 k2:3.64 k3:6.72 k4:4.55 34.0s
+[partb_all_lreff8.7e-4] step-1 export 43s
+[partb_all_lreff8.7e-4] step 2 loss 3.400 k2:3.47 k3:3.36 k4:3.38 6.1s
+[partb_all_lreff8.7e-4] step-2 export 41s
+[partb_all_lreff8.7e-4] step 3 loss 3.412 k2:3.43 k3:3.56 k4:3.26 8.7s
+[partb_all_lreff8.7e-4] step-3 export 39s
+[partb_all_lreff8.7e-4] step 5 loss 3.454 k2:3.44 k3:3.33 k4:3.58 9.0s
+[partb_all_lreff8.7e-4] step-5 export 43s
+[partb_all_lreff8.7e-4] step 10 loss 3.220 k2:3.28 k3:3.13 k4:3.25 8.8s
+[partb_all_lreff8.7e-4] step-10 export 45s
+[partb_all_lreff8.7e-4] eval@10 k1:0.20 k2:0.03 k3:0.00 k4:0.03 k6:0.03 reverse:0.33 rev_fy:0.13 (61s)
+[partb_all_lreff8.7e-4] final export 39s
+  timing {"steps_run": 10, "wall_seconds": 444.7, "step_seconds_mean": 12.623388147354126, "step_seconds_median": 9.683740139007568}
+=== partb_all_lreff5e-4
+  [queue] Model creation: QueueState.ACTIVE reason=None
+[partb_all_lreff5e-4] client ready 4s
+  [queue] Training: QueueState.ACTIVE reason=None
+[partb_all_lreff5e-4] step 1 loss 4.985 k2:3.64 k3:6.72 k4:4.55 26.0s
+[partb_all_lreff5e-4] step-1 export 40s
+[partb_all_lreff5e-4] step 2 loss 3.383 k2:3.78 k3:3.18 k4:3.23 7.6s
+[partb_all_lreff5e-4] step-2 export 43s
+[partb_all_lreff5e-4] step 3 loss 3.364 k2:3.39 k3:3.41 k4:3.30 7.6s
+[partb_all_lreff5e-4] step-3 export 41s
+[partb_all_lreff5e-4] step 5 loss 3.259 k2:2.96 k3:3.36 k4:3.43 9.2s
+[partb_all_lreff5e-4] step-5 export 41s
+[partb_all_lreff5e-4] step 10 loss 3.076 k2:2.80 k3:3.15 k4:3.29 11.3s
+[partb_all_lreff5e-4] step-10 export 43s
+[partb_all_lreff5e-4] eval@10 k1:0.33 k2:0.27 k3:0.13 k4:0.00 k6:0.03 reverse:0.80 rev_fy:0.10 (46s)
+[partb_all_lreff5e-4] final export 39s
+  timing {"steps_run": 10, "wall_seconds": 558.4, "step_seconds_mean": 26.03716127872467, "step_seconds_median": 11.305348873138428}

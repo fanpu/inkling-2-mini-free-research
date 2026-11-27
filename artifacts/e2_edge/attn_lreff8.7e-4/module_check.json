@@ -1,0 +1,16 @@
+{
+ "modules": [
+  "attn.gate_attn",
+  "attn.wk_dv",
+  "attn.wo_ud",
+  "attn.wq_du",
+  "attn.wr_du",
+  "attn.wv_dv"
+ ],
+ "lm_head_B": [],
+ "file_bytes": 19599375,
+ "off_present": 0,
+ "off_B_max": null,
+ "on_B_norm": 1.2850591982590092,
+ "ok": true
+}

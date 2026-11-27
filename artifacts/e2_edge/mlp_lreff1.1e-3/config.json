@@ -1,0 +1,57 @@
+{
+ "name": "mlp_lreff1.1e-3",
+ "out_dir": "artifacts/e2_edge/mlp_lreff1.1e-3",
+ "optimizer": "adamw",
+ "lr": 11.0,
+ "rank": 8,
+ "lora_seed": 0,
+ "data_seed": 1,
+ "train_conds": [
+  "k2",
+  "k3",
+  "k4"
+ ],
+ "batch": 32,
+ "steps": 40,
+ "eval_steps": [
+  0,
+  10,
+  20,
+  40
+ ],
+ "eval_conds": [
+  "k1",
+  "k2",
+  "k3",
+  "k4",
+  "k6",
+  "reverse"
+ ],
+ "eval_n": 30,
+ "early_stop_conds": [
+  "k2",
+  "k3",
+  "k4"
+ ],
+ "early_stop_acc": 2.0,
+ "adam_beta1": 0.9,
+ "adam_beta2": 0.95,
+ "adam_eps": 10000.0,
+ "weight_decay": 0.0,
+ "dimuon_beta1": 0.9,
+ "grad_clip_norm": 0.0,
+ "max_in_flight": 16,
+ "save_state": false,
+ "state_ttl": 86400,
+ "export_ttl": 3600,
+ "export_step0": false,
+ "max_wall_seconds": null,
+ "export_steps": [
+  1
+ ],
+ "diverge_loss": null,
+ "diverge_patience": 5,
+ "train_mlp": true,
+ "train_attn": false,
+ "train_unembed": false
+}

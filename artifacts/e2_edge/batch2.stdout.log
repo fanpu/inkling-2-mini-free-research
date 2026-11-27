@@ -1,0 +1,47 @@
+=== mlp_lreff8.7e-4
+  [queue] Model creation: QueueState.ACTIVE reason=None
+[mlp_lreff8.7e-4] client ready 8s
+  [queue] Training: QueueState.ACTIVE reason=None
+[mlp_lreff8.7e-4] eval@0 k1:1.00 k2:0.37 k3:0.13 k4:0.03 k6:0.00 reverse:0.53 rev_fy:0.30 (69s)
+[mlp_lreff8.7e-4] step 1 loss 4.985 k2:3.64 k3:6.72 k4:4.55 9.4s
+[mlp_lreff8.7e-4] step-1 export 40s
+[mlp_lreff8.7e-4] step 2 loss 2.945 k2:2.43 k3:3.17 k4:3.19 9.5s
+[mlp_lreff8.7e-4] step 3 loss 2.893 k2:2.19 k3:3.03 k4:3.47 62.7s
+[mlp_lreff8.7e-4] step 5 loss 2.244 k2:0.68 k3:2.63 k4:3.28 9.5s
+[mlp_lreff8.7e-4] step 10 loss 2.236 k2:1.21 k3:2.29 k4:3.31 19.6s
+[mlp_lreff8.7e-4] eval@10 k1:0.90 k2:0.93 k3:0.37 k4:0.03 k6:0.07 reverse:0.97 rev_fy:0.07 (47s)
+[mlp_lreff8.7e-4] step 15 loss 1.403 k2:0.84 k3:1.10 k4:2.24 10.4s
+[mlp_lreff8.7e-4] step 20 loss 1.024 k2:0.84 k3:0.96 k4:1.26 8.7s
+[mlp_lreff8.7e-4] eval@20 k1:0.83 k2:0.73 k3:0.50 k4:0.50 k6:0.00 reverse:0.90 rev_fy:0.10 (43s)
+[mlp_lreff8.7e-4] step 25 loss 0.658 k2:0.19 k3:0.83 k4:0.98 10.4s
+[mlp_lreff8.7e-4] step 30 loss 0.492 k2:0.09 k3:0.85 k4:0.57 9.6s
+[mlp_lreff8.7e-4] step 35 loss 0.299 k2:0.01 k3:0.23 k4:0.63 8.9s
+[mlp_lreff8.7e-4] step 40 loss 0.580 k2:0.02 k3:0.32 k4:1.48 17.9s
+[mlp_lreff8.7e-4] eval@40 k1:0.97 k2:1.00 k3:0.80 k4:0.17 k6:0.00 reverse:1.00 rev_fy:0.03 (48s)
+[mlp_lreff8.7e-4] final export 37s
+  timing {"steps_run": 40, "wall_seconds": 904.2, "step_seconds_mean": 15.263049435615539, "step_seconds_median": 10.020471096038818}
+  mlp_lreff8.7e-4: learning max acc 1.00 tail5 0.65 flat25 False
+  check mlp_lreff8.7e-4: 3 modules ['mlp.experts.w1', 'mlp.experts.w2', 'mlp.experts.w3'], lm_head [], off-group tensors 0 max B None, on-group |B| 1.033, ok True
+=== mlp_lreff1.5e-3
+  [queue] Model creation: QueueState.ACTIVE reason=None
+[mlp_lreff1.5e-3] client ready 3s
+  [queue] Training: QueueState.ACTIVE reason=None
+[mlp_lreff1.5e-3] eval@0 k1:1.00 k2:0.37 k3:0.13 k4:0.03 k6:0.00 reverse:0.53 rev_fy:0.30 (58s)
+[mlp_lreff1.5e-3] step 1 loss 4.985 k2:3.64 k3:6.72 k4:4.55 39.9s
+[mlp_lreff1.5e-3] step-1 export 41s
+[mlp_lreff1.5e-3] step 2 loss 3.246 k2:3.49 k3:3.13 k4:3.14 7.4s
+[mlp_lreff1.5e-3] step 3 loss 3.050 k2:2.67 k3:3.07 k4:3.41 9.6s
+[mlp_lreff1.5e-3] step 5 loss 3.461 k2:3.46 k3:3.35 k4:3.58 8.6s
+[mlp_lreff1.5e-3] step 10 loss 3.280 k2:3.44 k3:3.21 k4:3.18 9.6s
+[mlp_lreff1.5e-3] eval@10 k1:0.03 k2:0.03 k3:0.03 k4:0.03 k6:0.00 reverse:0.00 rev_fy:0.00 (46s)
+[mlp_lreff1.5e-3] step 15 loss 3.322 k2:3.35 k3:3.30 k4:3.32 8.0s
+[mlp_lreff1.5e-3] step 20 loss 3.219 k2:3.19 k3:3.27 k4:3.19 10.3s
+[mlp_lreff1.5e-3] eval@20 k1:0.03 k2:0.00 k3:0.07 k4:0.07 k6:0.00 reverse:0.10 rev_fy:0.13 (47s)
+[mlp_lreff1.5e-3] step 25 loss 3.241 k2:3.23 k3:3.26 k4:3.24 14.6s
+[mlp_lreff1.5e-3] step 30 loss 3.264 k2:3.26 k3:3.29 k4:3.24 21.9s
+[mlp_lreff1.5e-3] step 35 loss 3.248 k2:3.29 k3:3.20 k4:3.26 10.4s
+[mlp_lreff1.5e-3] step 40 loss 3.236 k2:3.27 k3:3.17 k4:3.26 12.2s
+[mlp_lreff1.5e-3] eval@40 k1:0.03 k2:0.03 k3:0.03 k4:0.03 k6:0.03 reverse:0.03 rev_fy:0.00 (47s)
+[mlp_lreff1.5e-3] final export 43s
+  timing {"steps_run": 40, "wall_seconds": 788.8, "step_seconds_mean": 12.569598817825318, "step_seconds_median": 11.206539869308472}
+  mlp_lreff1.5e-3: collapsed max acc 0.03 tail5 3.26 flat25 True
