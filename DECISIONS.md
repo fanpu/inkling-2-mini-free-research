@@ -80,3 +80,6 @@ Append-only chronological record of key architectural, experimental, and tooling
 
 - **D-025 — Short probes are not called collapsed on a plateau alone:**
   A run counts as collapsed only if accuracy is at chance on every condition and loss stays near ln 26 at the end of at least 30 steps (note 11).
+
+- **D-026 — H3 is recorded as failed in its main form:**
+  In SGD mode the looped share of adapter weight does not depend on hop count (note 12, two seeds). The surviving claim is narrower: more hops move weight toward the middle of the loop (layers 10 to 13). Any further work on H3 targets that claim.

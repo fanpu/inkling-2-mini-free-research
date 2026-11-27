@@ -63,3 +63,30 @@ Not available. The seed-1 mix run was stopped at step 65 when its background job
 - One seed per condition. The adapters moved different distances ($\lVert B \rVert_F$ from 0.53 to 1.66).
 - 30 eval examples per condition (standard error at most 0.09).
 - No API errors, rate limits or SDK warnings were logged in the three finished runs.
+
+## Update 2026-11-28, LoRA seed 1 runs
+
+The resumed chain finished the three seed 1 runs. The table and differences below come from `scripts/13_e2_single_condition.py analyze` and are stored in `artifacts/e2_single/single_tables.json`.
+
+| Run (seed 1, 100 steps) | $S$ | $R$ | L6/L5 | L18/L17 | Peak | $\lVert B\rVert_F$ | Final accuracy k1, k2, k3, k4, k6, reverse |
+|---|---|---|---|---|---|---|---|
+| mix of k = 2, 3, 4 | 0.942 | 4.42 | 2.59 | 0.15 | 11 | 1.93 | 0.97, 1.00, 1.00, 0.87, 0.03, 0.93 |
+| k = 2 only | 0.945 | 4.51 | 2.50 | 0.15 | 11 | 1.08 | 0.83, 1.00, 0.00, 0.00, 0.00, 0.83 |
+| k = 4 only | 0.940 | 4.24 | 2.64 | 0.16 | 12 | 1.47 | 0.03, 0.00, 0.10, 0.77, 0.03, 0.50 |
+
+| Difference | $\Delta S$ | $\Delta$ share of loop in layers 10 to 13 |
+|---|---|---|
+| k = 4 minus k = 2, seed 0 | +0.0008 | +0.088 |
+| k = 4 minus k = 2, seed 1 | -0.0052 | +0.075 |
+| seed 1 minus seed 0, k = 2 | -0.0054 | -0.011 |
+| seed 1 minus seed 0, k = 4 | -0.0114 | -0.025 |
+| seed 1 mix (100 steps) minus pilot (150 steps) | -0.0082 | -0.007 |
+
+What this adds.
+
+- The pilot replicates with a second LoRA seed. The looped share is 0.942 against 0.950, and k = 1 and reverse stay at 0.97 and 0.93.
+- H3 in its main form fails on two seeds. The k = 4 minus k = 2 difference in $S$ is +0.0008 and -0.0052. The seed to seed differences are as large or larger (0.005 to 0.011).
+- The shift inside the loop replicates. A k = 4 adapter puts 0.075 to 0.088 more of its looped weight in layers 10 to 13 than a k = 2 adapter. The seed to seed differences in that share are 0.011 and 0.025. Two seeds suggest the shift is real. They do not establish it.
+- Each single condition adapter again applies a fixed hop count. The seed 1 k = 2 adapter takes two hops on 30 of 30 prompts at k = 3 and k = 4. The seed 1 k = 4 adapter takes four or five hops on 30 of 30 prompts at k = 4.
+
+Limits. Two seeds per condition, 30 eval examples, and the k = 4 adapters are not finished learning at step 100 (0.60 and 0.77 on k = 4).

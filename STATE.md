@@ -1,7 +1,7 @@
 # Project State
 
-**Last updated:** 2026-11-27
-**Phase:** Phase 1. Probes, E0, three optimizer pilots and their controls are done. Single-condition SGD-mode runs and a seed replication are next.
+**Last updated:** 2026-11-28
+**Phase:** Phase 1. All three hypotheses have a first answer. Open work is the stability edge, Dimuon's step rule and the write-up.
 
 ## Verified facts
 
@@ -30,6 +30,10 @@ Details and sources are in the notes. Each line here has been checked by a scrip
 - SGD mode at effective rate 2.9e-4 puts 0.95 of the adapter's squared norm in looped layers, with layer 6 over 5 at 2.17 and layer 18 over 17 at 0.12. It keeps k = 1 at 0.90 and reverse at 1.00 while learning k = 2, 3, 4. One run (note 10).
 - SGD mode learns at effective rates up to 5e-4 and falls to a uniform guess over letters at 8.7e-4 and above. Switching the unembedding adapter off does not move this edge (note 11). Note 10's claim that 5e-4 collapses was wrong, that run was stopped on a plateau.
 - AdamW at a low rate (2.5e-5, final B norm 2.82) still has a nearly flat profile (looped share 0.60). It keeps reverse at 0.87 but k = 1 falls to 0.33. So small movement explains part of the retained skills, not the profile (note 11).
+- The SGD-mode result replicates with LoRA seed 1. Looped share 0.942 against 0.950, with k = 1 at 0.97 and reverse at 0.93 (note 12).
+- H3 in its main form fails on two seeds. Adapters trained on k = 4 only and k = 2 only have the same looped share to within seed noise (differences +0.0008 and -0.0052, seed spread 0.005 to 0.011) (note 12).
+- A weaker form holds on two seeds. A k = 4 adapter puts 0.075 to 0.088 more of its looped weight in layers 10 to 13 than a k = 2 adapter, against a seed spread of 0.011 to 0.025 (note 12).
+- A single-condition adapter learns a fixed hop count. The k = 2 adapter takes two hops on every k = 3 and k = 4 prompt (note 12).
 - In the pure-chain scalar model, looping multiplies the gradient by $K w_0^{K-1}$ and the sharpness by its square, and scale-free optimizers hide this in weight space (note 03).
 
 ## Unverified or unknown
@@ -48,10 +52,10 @@ Details and sources are in the notes. Each line here has been checked by a scrip
 
 ## Next actions
 
-1. **Single-condition SGD-mode runs (tests H3) and a seed replication.** k = 2 only, k = 4 only, reverse only at effective rate 2.9e-4, plus the k = 2, 3, 4 mix with LoRA seed 1. Compare per-layer profiles across conditions.
-2. **What sets the SGD-mode edge (tests H2).** Attention-only and experts-only probes between 5e-4 and 8.7e-4. The unembedding is ruled out.
+1. **What sets the SGD-mode edge (tests H2).** Attention-only and experts-only probes between effective rates 5e-4 and 8.7e-4. The unembedding is ruled out.
+2. **Finish the k = 4 runs.** They were still learning at step 100. Rerun at 200 steps to check the middle-third shift at convergence.
 3. **Dimuon step rule.** Still unknown beyond step one.
-4. **Write-up.** Fold training results into the orientation page.
+4. **Orientation page.** Add the single-condition results.
 
 ## Files
 
@@ -64,6 +68,7 @@ Details and sources are in the notes. Each line here has been checked by a scrip
 - `notes/08_e0_grad_by_hops.md`, `notes/09_e2_pilots.md`.
 - `scripts/train_lib.py` is the training harness (AdamW and Dimuon, per-step log, fixed eval set, resume). `scripts/08` to `10` are E0 and the pilots.
 - `notes/10_e2_pilot_sgd_mode.md`, `notes/11_controls.md`. `scripts/11` and `12` are the SGD-mode pilot and the controls.
+- `notes/12_e2_single_condition.md` and `scripts/13_e2_single_condition.py` are the single-condition runs.
 - `notes/lit/01` to `04` are sub-agent literature and documentation reviews (see D-014).
 - `scripts/00_probe_free_tier.py`, `scripts/01_inspect_probe.py`, `scripts/02_looped_abx_toy.py`.
 - `docs/orientation.html` is the source of the human-facing orientation page, published privately at https://claude.ai/artifact/RNJnoBSSA7htrQbjwZVWhm. Republish to that URL after editing. It follows the owner's explainer rules: one 700px column, numbered steps with one idea each, KaTeX math (MathML output), live interactives with a reset, then summary, misconceptions, blind spots and sources.
