@@ -64,7 +64,7 @@ Not available. The seed-1 mix run was stopped at step 65 when its background job
 - 30 eval examples per condition (standard error at most 0.09).
 - No API errors, rate limits or SDK warnings were logged in the three finished runs.
 
-## Update 2026-11-28, LoRA seed 1 runs
+## Update 2026-11-27, LoRA seed 1 runs
 
 The resumed chain finished the three seed 1 runs. The table and differences below come from `scripts/13_e2_single_condition.py analyze` and are stored in `artifacts/e2_single/single_tables.json`.
 

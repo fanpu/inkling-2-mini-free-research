@@ -62,13 +62,13 @@ math { font-size: 1.05em; } math[display="block"] { margin: 0.3rem 0; overflow-x
 </style>
 
 <main>
-<span class="step">Orientation · updated 27 Nov 2026 · Training pilots and controls complete</span>
+<span class="step">Orientation · updated 27 Nov 2026 · Each hypothesis has a first answer</span>
 <h1>What does looping a layer do to fine-tuning?</h1>
 <p class="lede">Inkling 2 Mini runs its middle 12 layers three times per token, reusing the same weights each time. We want to know how that reuse changes training when we fine-tune the model. This page teaches the ideas from scratch, then reports what we have measured and decided so far.</p>
 
 <div class="panel status">
-  <div><b>Where we are.</b> The feasibility probes are done, and so are three training pilots and two controls. We trained the model on two to four hops with AdamW, with Dimuon, and with a gradient-following mode of AdamW we call SGD mode. Next come runs that train on one hop count at a time.</div>
-  <div><b>Main findings so far.</b> The gradient is about two times larger in the looped layers once a steady trend with depth is removed (Step 9), and at the start 0.95 of it sits in the loop whatever the task depth (Step 10). All three optimizers learn the task. AdamW and Dimuon spread the trained adapter evenly over the layers and make the model take 2 to 4 hops on every prompt (Step 11). SGD mode keeps the gradient's shape, with 0.95 of the adapter in the loop, and keeps one-hop lookups, but it collapses above an effective rate between \(5 \times 10^{-4}\) and \(8.7 \times 10^{-4}\) (Step 13). A low-rate AdamW control is still nearly flat (Step 14). Each result comes from one run per setting, so these suggest rather than establish.</div>
+  <div><b>Where we are.</b> The feasibility probes are done, and so are three training pilots, two controls, runs that train on one hop count at a time with a second random seed, and probes of what sets the stability edge. Each of our three hypotheses now has a first answer, summed up in the section after Step 16.</div>
+  <div><b>Main findings so far.</b> The gradient is about two times larger in the looped layers once a steady trend with depth is removed (Step 9), and at the start 0.95 of it sits in the loop whatever the task depth (Step 10). All three optimizers learn the task. AdamW and Dimuon spread the trained adapter evenly over the layers and make the model take 2 to 4 hops on every prompt (Step 11). SGD mode keeps the gradient's shape, with 0.95 of the adapter in the loop, and keeps one-hop lookups, but it collapses above an effective rate between \(5 \times 10^{-4}\) and \(8.7 \times 10^{-4}\) (Step 13). A low-rate AdamW control is still nearly flat (Step 14). Adapters trained on four hops and on two hops have the same looped share to within the noise between seeds, though the four-hop ones put more weight in the middle of the loop (Step 15). The stability edge tracks the total size of the first update, which cannot tell whether the loop sets it (Step 16). Step 15 rests on two seeds and most other results on one run per setting, so these suggest rather than establish.</div>
   <div><b>Correction from the review.</b> The model's three passes are not simply chained. Each pass restarts from the same input and receives a gated message from the previous pass. Step 6 explains this and Step 8 gives the revised prediction.</div>
   <div><b>Blocked.</b> Uploading an edited adapter is disabled on this account, so the planned perturbation test is cancelled. Training clients also have to run one at a time. Every run uses the free model.</div>
 </div>
@@ -94,14 +94,16 @@ math { font-size: 1.05em; } math[display="block"] { margin: 0.3rem 0; overflow-x
   <li>Making Adam follow the gradient.</li>
   <li>What SGD mode shows.</li>
   <li>Two controls.</li>
+  <li>Does a deeper task move weight into the loop?</li>
+  <li>What sets the stability edge?</li>
 </ol>
-<p>After the steps come what we will do next, a summary, decisions, common misconceptions and blind spots.</p>
+<p>After the steps come where the three hypotheses stand, what we will do next, a summary, decisions, common misconceptions and blind spots.</p>
 
 <h2><span class="step">Step 1</span>An adapter shrunk to three numbers</h2>
 <p>Fine-tuning a large model usually leaves the original weights frozen and trains a small add-on called an adapter. The common kind is LoRA (low-rank adaptation). For a frozen weight matrix \(W_0\), LoRA trains two thin matrices \(B\) and \(A\) and uses \(W_0 + BA\) in place of \(W_0\).</p>
 <p>To see the mechanics, shrink every matrix to a single number. The frozen weight is \(w_0\). The two trainable numbers are \(a\) and \(b\). The layer multiplies its input \(x\) by the <em>effective weight</em></p>
 $$u = w_0 + ab.$$
-<p>\(B\) has \(r\) columns and \(A\) has \(r\) rows. The number \(r\) is the adapter's <em>rank</em>, and it is small. Our first probe and the training runs in Steps 11 to 14 use 8. The gradient probes in Steps 9 and 10 use 2.</p>
+<p>\(B\) has \(r\) columns and \(A\) has \(r\) rows. The number \(r\) is the adapter's <em>rank</em>, and it is small. Our first probe and the training runs in Steps 11 to 16 use 8. The gradient probes in Steps 9 and 10 use 2.</p>
 <p><b>Example.</b> Take \(w_0 = 1\), \(a = 0.5\), \(b = 0.2\). Then \(u = 1 + 0.5 \times 0.2 = 1.1\), and an input of \(x = 1\) comes out as \(1.1\).</p>
 <p>LoRA starts with \(b = 0\) and \(a\) set to a small random value. The product \(ab\) is then zero, so the model starts out exactly as it was before fine-tuning.</p>
 <p class="take">Takeaway. An adapter is a product of two trainable factors added to a frozen weight, and it starts at zero.</p>
@@ -500,7 +502,7 @@ $$S = \frac{\sum_{\ell=6}^{17} \sum_m n_{\ell,m}^2}{\sum_{\ell=0}^{23} \sum_m n_
 <p>The share is about 0.93 at \(k = 1\) and about 0.95 for every \(k\) from 2 to 6. Between \(k = 2\) and \(k = 6\) the two-seed averages move by at most 0.006, no more than the gap between seeds at \(k = 6\), which is 0.010. The one-hop reverse control also gives about 0.95.</p>
 <p>The only step is between \(k = 1\), which the model already solves, and everything harder. It comes from the late layers 18 to 23, which hold 0.019 to 0.028 of the squared norm at \(k = 1\) and 0.004 to 0.013 in the other runs. The reverse control needs one lookup yet matches \(k = 2\) in both log-probability and share. So at initialisation the share seems to track whether the model is wrong more than how deep the task is. Two seeds cannot fully separate these readings.</p>
 <p>Part of the high share is built in. A looped layer runs three times, so its weight gradient adds up the contributions of three passes. For comparison, the batches of Step 9 gave shares of 0.76 to 0.79. Those used different prompts and supervised whole replies, not just the answer token, so the comparison says only that this setup concentrates gradient in the loop more than those batches did.</p>
-<p class="note">Limits. This is one step at initialisation, on \(B\) only, at rank 2, with one initialisation of \(A\). Where the gradient points at the start need not match where adapter weight lands after many steps. Steps 11 to 14 look at that.</p>
+<p class="note">Limits. This is one step at initialisation, on \(B\) only, at rank 2, with one initialisation of \(A\). Where the gradient points at the start need not match where adapter weight lands after many steps. Steps 11 to 15 look at that.</p>
 <p class="take">Takeaway. At the start of training a deeper task does not put a larger share of the gradient into the loop. The share seems to track being wrong more than being deep.</p>
 
 <h2><span class="step">Step 11</span>Training with the two real optimizers</h2>
@@ -798,7 +800,7 @@ $$\Delta\theta \approx -\frac{\eta}{\epsilon}\,\hat m.$$
 <p>A first run at \(5 \times 10^{-4}\) was stopped at step 16 on a loss plateau and called collapsed. A 30-step rerun left the plateau, so that call was wrong. Since then a run counts as collapsed only by the rule above.</p>
 <p>So the edge lies between \(\eta_{\text{eff}} = 5 \times 10^{-4}\) and \(8.7 \times 10^{-4}\). The last rate that learned had a first step about a third the size of AdamW's working first step (1.01 against 3.08). The first rate that collapsed had a first step a bit over half of it (1.77).</p>
 <p>Step 4 explains why a gradient-following optimizer can have an edge at all. Plain gradient descent is stable only while \(\eta\) stays below \(2/\lambda\) in the sharpest direction. Sign descent caps every entry's step at \(\eta\). Gradient descent does not, so the entries with large gradients take large steps. At \(5 \times 10^{-4}\) the largest first-step entry moved 0.030, about 55 times AdamW's per-entry step of \(5.4 \times 10^{-4}\), even though SGD mode's whole step was a third of AdamW's.</p>
-<p class="note">What this does not show. It does not show that the looped layers set the edge. That is our second hypothesis, that the looped layers set the largest stable rate, and it is still untested. The collapse is also not the blow-up of Step 4, so the bowl picture is a guide and not an explanation. Each rate is a single run.</p>
+<p class="note">What this does not show. It does not show that the looped layers set the edge. That is our second hypothesis (H2), that the looped layers set the largest stable rate. Step 16 probes the edge by module group and explains why Tinker's settings cannot test it. The collapse is also not the blow-up of Step 4, so the bowl picture is a guide and not an explanation. Each rate is a single run.</p>
 <p class="take">Takeaway. A gradient-following optimizer keeps the gradient's shape, with 0.95 of the adapter in the loop, and keeps the one-hop skills, but it collapses to a uniform guess above an effective rate between \(5 \times 10^{-4}\) and \(8.7 \times 10^{-4}\).</p>
 
 <h2><span class="step">Step 14</span>Two controls</h2>
@@ -914,23 +916,229 @@ $$\Delta\theta \approx -\frac{\eta}{\epsilon}\,\hat m.$$
 </table></div>
 <p>"Final loss" is the mean over the last 5 steps. The edge did not move. At \(5 \times 10^{-4}\) the output layer only lengthened the plateau. Without it the loss stayed below 2.5 from step 18.</p>
 <p>The step-1 exports also contradict the premise. The output layer's largest update entry was a quarter of the largest entry in the 24 layers (0.0069 against 0.030 at \(5 \times 10^{-4}\)). That largest entry sits in a looped expert matrix (layer 14, w3, gradient about 61).</p>
-<p>What this shows. The output layer does not set the edge, to within the grid's spacing, a factor of \(8.7/5 = 1.74\). What it does not show. A smaller shift would go unseen, which modules do set the edge is still open, and a 30-step probe cannot tell a long plateau from a collapse.</p>
+<p>What this shows. The output layer does not set the edge, to within the grid's spacing, a factor of \(8.7/5 = 1.74\). What it does not show. A smaller shift would go unseen, and a 30-step probe cannot tell a long plateau from a collapse. Step 16 tries attention and expert adapters on their own.</p>
 <p class="take">Takeaway. Low-rate AdamW is still nearly flat, which suggests the flat profile comes from how AdamW scales each step rather than how far it moves. Small movement explains only part of the forgetting, and the output layer does not set the edge.</p>
+
+<h2><span class="step">Step 15</span>Does a deeper task move weight into the loop?</h2>
+<p>Steps 11 to 14 trained every adapter on a mix of \(k = 2, 3, 4\). One adapter then serves all three depths, so it cannot show whether depth changes where weight lands. This step trains one adapter per task and compares them.</p>
+<p>The question is our third hypothesis, H3 for short. It says that as the hop count rises, a larger share of adapter weight lands in the looped layers, more than the reverse-lookup control produces. The reverse control is hard but needs only one lookup. The section after Step 16 lists all three hypotheses.</p>
+<p>Every run uses SGD mode from Step 12 at \(\eta_{\text{eff}} = 2.9 \times 10^{-4}\), rank 8, batches of 32 and no weight decay. Each trains for exactly 100 steps with early stopping off, so the adapters are compared after equal training. One adapter trains on \(k = 2\) only, one on \(k = 4\) only and one on reverse lookup only.</p>
+<p>The \(k = 2\) and \(k = 4\) adapters were each trained twice, with LoRA seeds 0 and 1. The <em>LoRA seed</em> is the random seed that draws the starting \(A\) matrices. The training data are the same for both seeds. The reverse adapter has seed 0 only.</p>
+
+<h3>Each adapter learns one fixed hop count</h3>
+<div class="scroll"><table>
+<tr><th>Adapter, step 100</th><th>\(k=1\)</th><th>\(k=2\)</th><th>\(k=3\)</th><th>\(k=4\)</th><th>\(k=6\)</th><th>Reverse</th></tr>
+<tr><td>\(k = 2\) only, seed 0</td><td>0.60</td><td>1.00</td><td>0.00</td><td>0.00</td><td>0.00</td><td>1.00</td></tr>
+<tr><td>\(k = 2\) only, seed 1</td><td>0.83</td><td>1.00</td><td>0.00</td><td>0.00</td><td>0.00</td><td>0.83</td></tr>
+<tr><td>\(k = 4\) only, seed 0</td><td>0.07</td><td>0.00</td><td>0.33</td><td>0.60</td><td>0.00</td><td>0.23</td></tr>
+<tr><td>\(k = 4\) only, seed 1</td><td>0.03</td><td>0.00</td><td>0.10</td><td>0.77</td><td>0.03</td><td>0.50</td></tr>
+<tr><td>Reverse only, seed 0</td><td>1.00</td><td>0.53</td><td>0.07</td><td>0.00</td><td>0.00</td><td>1.00</td></tr>
+</table></div>
+<p>Each accuracy comes from 30 examples. The wrong answers show the pattern. On both seeds the \(k = 2\) adapter takes two hops on 30 of 30 prompts at \(k = 3\) and at \(k = 4\). It answers \(T^2(x)\) where \(T^3(x)\) or \(T^4(x)\) was asked. The seed 0 \(k = 4\) adapter applies 3 to 5 hops on every prompt at \(k = 2, 3, 4\) and 6, and the seed 1 one takes four or five hops on 30 of 30 prompts at \(k = 4\). The reverse adapter keeps \(k = 1\) and reverse at 30 of 30 and applies one or two hops on the deeper tasks.</p>
+<p>This is the hop-count clamp of Step 11 in a narrower form. An adapter trained on one depth learns that depth and applies it to every prompt. Reverse lookup fares differently. The \(k = 2\) adapters still score 1.00 and 0.83 on it, while the seed 0 \(k = 4\) adapter answers it with the forward letter \(T(y)\) in 23 of 30.</p>
+<p>The \(k = 4\) adapters were not finished. They reached only 0.60 and 0.77 on \(k = 4\) by step 100, and the seed 0 run sat near the uniform-guess loss \(\ln\,26\) until about step 50.</p>
+
+<details><summary>Pause and predict. Step 10 found that the starting gradient's looped share does not grow with hop count. After 100 steps on one depth, will the \(k = 4\) adapter have a larger looped share \(S\) than the \(k = 2\) adapter?</summary>
+<p>No. Within the noise, the two are the same. The table below gives the numbers, and the next part shows how to judge "within the noise".</p></details>
+
+<div class="scroll"><table>
+<tr><th>Adapter</th><th>\(S\), seed 0</th><th>\(S\), seed 1</th><th>\(M\), seed 0</th><th>\(M\), seed 1</th></tr>
+<tr><td>\(k = 2\) only</td><td>0.951</td><td>0.945</td><td>0.483</td><td>0.472</td></tr>
+<tr><td>\(k = 4\) only</td><td>0.952</td><td>0.940</td><td>0.571</td><td>0.547</td></tr>
+<tr><td>Reverse only</td><td>0.931</td><td></td><td>0.409</td><td></td></tr>
+</table></div>
+<p>\(S\) is the looped share of Step 11, over the trained \(B\). \(M\) is defined below. All five adapters keep the profile of Step 13, with 0.93 to 0.95 of their squared norm in the loop.</p>
+
+<h3>Reading a difference against the seed spread</h3>
+<p>One run gives one number. Train again from a different random start and the number moves a little, although nothing about the task has changed. That movement is noise from the starting point. A difference between two tasks means something only when it is larger than this noise. With a single seed the noise cannot be measured at all, which is why the second seed matters.</p>
+<p><b>Example.</b> On seed 0, the \(k = 4\) adapter's \(S\) minus the \(k = 2\) adapter's is \(+0.0008\). On seed 1 it is \(0.940 - 0.945 = {-0.0052}\). Now hold the task fixed and change only the seed. The \(k = 2\) adapter's \(S\) moves by 0.0054 and the \(k = 4\) adapter's by 0.0114. The task difference is no larger than the seed difference, and its sign flips from one seed to the other. So these runs show no effect of hop count on \(S\). (The differences are computed before rounding the table's values.)</p>
+<p>A narrower measure does pass the test. Write \(M\) for the <em>middle share</em>, the fraction of the looped squared norm that sits in layers 10 to 13, the middle third of the loop. The \(k = 4\) adapter's \(M\) is higher than the \(k = 2\) adapter's by 0.088 on seed 0 and 0.075 on seed 1. Changing the seed moves \(M\) by 0.011 for \(k = 2\) and 0.025 for \(k = 4\). The smaller task difference is three times the larger seed difference (\(0.075 / 0.025 = 3\)), and both seeds point the same way.</p>
+
+<div class="panel">
+  <p class="try">Read the chart. Each dot is the \(k = 4\) adapter minus the \(k = 2\) adapter on one seed. The grey band covers differences no larger than the biggest change that reseeding alone produced. A dot inside the band could be noise.</p>
+<svg viewBox="0 0 660 250" role="img" aria-label="Difference between k = 4 and k = 2 adapters on two seeds, against the largest difference between seeds, for the looped share S and the middle share M">
+<line x1="150.0" x2="150.0" y1="30" y2="190" stroke="var(--line)" stroke-dasharray="2 4"/>
+<text x="150.0" y="208" text-anchor="middle">-0.04</text>
+<line x1="218.6" x2="218.6" y1="30" y2="190" stroke="var(--line)" stroke-dasharray="2 4"/>
+<text x="218.6" y="208" text-anchor="middle">-0.02</text>
+<line x1="287.1" x2="287.1" y1="30" y2="190" stroke="var(--line)" stroke-dasharray=""/>
+<text x="287.1" y="208" text-anchor="middle">0</text>
+<line x1="355.7" x2="355.7" y1="30" y2="190" stroke="var(--line)" stroke-dasharray="2 4"/>
+<text x="355.7" y="208" text-anchor="middle">+0.02</text>
+<line x1="424.3" x2="424.3" y1="30" y2="190" stroke="var(--line)" stroke-dasharray="2 4"/>
+<text x="424.3" y="208" text-anchor="middle">+0.04</text>
+<line x1="492.9" x2="492.9" y1="30" y2="190" stroke="var(--line)" stroke-dasharray="2 4"/>
+<text x="492.9" y="208" text-anchor="middle">+0.06</text>
+<line x1="561.4" x2="561.4" y1="30" y2="190" stroke="var(--line)" stroke-dasharray="2 4"/>
+<text x="561.4" y="208" text-anchor="middle">+0.08</text>
+<line x1="630.0" x2="630.0" y1="30" y2="190" stroke="var(--line)" stroke-dasharray="2 4"/>
+<text x="630.0" y="208" text-anchor="middle">+0.10</text>
+<text x="390.0" y="232" text-anchor="middle">k = 4 adapter minus k = 2 adapter</text>
+<rect x="247.9" y="48" width="78.5" height="44" style="fill:var(--muted)" opacity="0.22"/>
+<text x="138" y="75" text-anchor="end" style="fill:var(--fg);font-weight:600">looped share S</text>
+<circle cx="289.9" cy="62" r="6" style="fill:var(--c-sgd)" stroke="var(--panel)" stroke-width="1.5"/>
+<text x="300.9" y="66" style="fill:var(--c-sgd)">seed 0, +0.0008</text>
+<circle cx="269.3" cy="78" r="6" style="fill:var(--c-sgd)" stroke="var(--panel)" stroke-width="1.5"/>
+<text x="280.3" y="82" style="fill:var(--c-sgd)">seed 1, -0.0052</text>
+<rect x="202.7" y="128" width="168.8" height="44" style="fill:var(--muted)" opacity="0.22"/>
+<text x="138" y="155" text-anchor="end" style="fill:var(--fg);font-weight:600">middle share M</text>
+<circle cx="588.9" cy="142" r="6" style="fill:var(--c-sgd)" stroke="var(--panel)" stroke-width="1.5"/>
+<text x="577.9" y="146" text-anchor="end" style="fill:var(--c-sgd)">seed 0, +0.088</text>
+<circle cx="542.7" cy="158" r="6" style="fill:var(--c-sgd)" stroke="var(--panel)" stroke-width="1.5"/>
+<text x="531.7" y="162" text-anchor="end" style="fill:var(--c-sgd)">seed 1, +0.075</text>
+<rect x="150" y="6" width="14" height="10" style="fill:var(--muted)" opacity="0.35"/><text x="170" y="15">within the largest seed-to-seed difference</text>
+<circle cx="480" cy="11" r="6" style="fill:var(--c-sgd)"/><text x="492" y="15">difference on one seed</text>
+</svg>
+  <p class="try">From <code>single_tables.json</code>. The band is \(\pm 0.011\) for \(S\) and \(\pm 0.025\) for \(M\).</p>
+</div>
+
+<p>The chart below shows where the shift comes from. The \(k = 4\) adapters hold more of their looped weight in layers 10 to 13 and less in both outer thirds.</p>
+<div class="panel">
+  <p class="try">Read the chart. For each third of the loop, the three columns are the three tasks. Filled dots are seed 0 and hollow dots seed 1, joined by a line. Compare the gap between the \(k = 2\) and \(k = 4\) columns with the length of each column's line.</p>
+<svg viewBox="0 0 660 320" role="img" aria-label="Share of looped weight in each third of the loop for k = 2, k = 4 and reverse adapters, with seed 0 filled and seed 1 hollow">
+<rect x="56" y="24" width="584" height="240" fill="none" stroke="var(--line)"/>
+<line x1="56" x2="640" y1="264.0" y2="264.0" stroke="var(--line)" stroke-dasharray="2 4"/><text x="48" y="268.0" text-anchor="end">0.1</text>
+<line x1="56" x2="640" y1="216.0" y2="216.0" stroke="var(--line)" stroke-dasharray="2 4"/><text x="48" y="220.0" text-anchor="end">0.2</text>
+<line x1="56" x2="640" y1="168.0" y2="168.0" stroke="var(--line)" stroke-dasharray="2 4"/><text x="48" y="172.0" text-anchor="end">0.3</text>
+<line x1="56" x2="640" y1="120.0" y2="120.0" stroke="var(--line)" stroke-dasharray="2 4"/><text x="48" y="124.0" text-anchor="end">0.4</text>
+<line x1="56" x2="640" y1="72.0" y2="72.0" stroke="var(--line)" stroke-dasharray="2 4"/><text x="48" y="76.0" text-anchor="end">0.5</text>
+<line x1="56" x2="640" y1="24.0" y2="24.0" stroke="var(--line)" stroke-dasharray="2 4"/><text x="48" y="28.0" text-anchor="end">0.6</text>
+<text transform="translate(14 144.0) rotate(-90)" text-anchor="middle">share of looped squared norm</text>
+<text x="153.3" y="302" text-anchor="middle" style="fill:var(--fg);font-weight:600">layers 6 to 9</text>
+<text x="104.7" y="281" text-anchor="middle">k = 2</text>
+<line x1="104.7" x2="104.7" y1="209.2" y2="200.6" style="stroke:var(--c-sgd)" stroke-width="2"/>
+<circle cx="104.7" cy="209.2" r="6" style="fill:var(--c-sgd)"/>
+<circle cx="104.7" cy="200.6" r="5.5" style="fill:var(--panel);stroke:var(--c-sgd)" stroke-width="2.5"/>
+<text x="153.3" y="281" text-anchor="middle">k = 4</text>
+<line x1="153.3" x2="153.3" y1="221.5" y2="210.0" style="stroke:var(--c-sgd)" stroke-width="2"/>
+<circle cx="153.3" cy="221.5" r="6" style="fill:var(--c-sgd)"/>
+<circle cx="153.3" cy="210.0" r="5.5" style="fill:var(--panel);stroke:var(--c-sgd)" stroke-width="2.5"/>
+<text x="202.0" y="281" text-anchor="middle">reverse</text>
+<circle cx="202.0" cy="143.0" r="6" style="fill:var(--c-sgd)"/>
+<text x="348.0" y="302" text-anchor="middle" style="fill:var(--fg);font-weight:600">layers 10 to 13</text>
+<text x="299.3" y="281" text-anchor="middle">k = 2</text>
+<line x1="299.3" x2="299.3" y1="80.0" y2="85.4" style="stroke:var(--c-sgd)" stroke-width="2"/>
+<circle cx="299.3" cy="80.0" r="6" style="fill:var(--c-sgd)"/>
+<circle cx="299.3" cy="85.4" r="5.5" style="fill:var(--panel);stroke:var(--c-sgd)" stroke-width="2.5"/>
+<text x="348.0" y="281" text-anchor="middle">k = 4</text>
+<line x1="348.0" x2="348.0" y1="37.8" y2="49.6" style="stroke:var(--c-sgd)" stroke-width="2"/>
+<circle cx="348.0" cy="37.8" r="6" style="fill:var(--c-sgd)"/>
+<circle cx="348.0" cy="49.6" r="5.5" style="fill:var(--panel);stroke:var(--c-sgd)" stroke-width="2.5"/>
+<text x="396.7" y="281" text-anchor="middle">reverse</text>
+<circle cx="396.7" cy="115.6" r="6" style="fill:var(--c-sgd)"/>
+<text x="542.7" y="302" text-anchor="middle" style="fill:var(--fg);font-weight:600">layers 14 to 17</text>
+<text x="494.0" y="281" text-anchor="middle">k = 2</text>
+<line x1="494.0" x2="494.0" y1="166.7" y2="170.0" style="stroke:var(--c-sgd)" stroke-width="2"/>
+<circle cx="494.0" cy="166.7" r="6" style="fill:var(--c-sgd)"/>
+<circle cx="494.0" cy="170.0" r="5.5" style="fill:var(--panel);stroke:var(--c-sgd)" stroke-width="2.5"/>
+<text x="542.7" y="281" text-anchor="middle">k = 4</text>
+<line x1="542.7" x2="542.7" y1="196.7" y2="196.4" style="stroke:var(--c-sgd)" stroke-width="2"/>
+<circle cx="542.7" cy="196.7" r="6" style="fill:var(--c-sgd)"/>
+<circle cx="542.7" cy="196.4" r="5.5" style="fill:var(--panel);stroke:var(--c-sgd)" stroke-width="2.5"/>
+<text x="591.3" y="281" text-anchor="middle">reverse</text>
+<circle cx="591.3" cy="197.4" r="6" style="fill:var(--c-sgd)"/>
+<circle cx="450" cy="40" r="6" style="fill:var(--c-sgd)"/><text x="462" y="44">seed 0</text>
+<circle cx="540" cy="40" r="5.5" style="fill:var(--panel);stroke:var(--c-sgd)" stroke-width="2.5"/><text x="552" y="44">seed 1</text>
+</svg>
+  <p class="try">From <code>single_tables.json</code>. The three shares of each adapter add up to 1.</p>
+</div>
+<p>The shift came from training and not from the starting gradient. At step 1, \(M\) was 0.47 to 0.48 for both tasks on both seeds (0.472 and 0.470 on seed 0, 0.472 and 0.476 on seed 1). The \(k = 4\) adapters moved weight toward the middle of the loop as they learned.</p>
+<p>The reverse adapter has the lowest \(S\), 0.931, and holds the most of its looped weight in layers 6 to 9 (0.352, against 0.19 to 0.23 for the others). Both differences were already in its first update, where \(S\) was 0.930. So they describe the starting gradient more than what training added, and with one seed they cannot be judged against noise.</p>
+<p>Formally, \(M\) is the share of the looped squared norm in the middle third,</p>
+$$M = \frac{\sum_{\ell=10}^{13} \sum_m \|B_{\ell,m}\|_F^2}{\sum_{\ell=6}^{17} \sum_m \|B_{\ell,m}\|_F^2}.$$
+<p>For a quantity \(Q\), which is \(S\) or \(M\) here, write \(\Delta_{\text{task}}\) for \(Q\) of the \(k = 4\) adapter minus \(Q\) of the \(k = 2\) adapter on the same seed, and \(\Delta_{\text{seed}}\) for \(Q\) on seed 1 minus \(Q\) on seed 0 for the same task. The two results are</p>
+$$\max |\Delta_{\text{task}}(S)| = 0.0052 \;<\; \max |\Delta_{\text{seed}}(S)| = 0.0114,$$
+$$\min \Delta_{\text{task}}(M) = 0.075 \;>\; \max |\Delta_{\text{seed}}(M)| = 0.025.$$
+<p>Two seeds give only two samples of the noise. A difference that clears them is suggested, not established. \(M\) was also chosen after \(S\) showed nothing, which is one more reason to check it in a fresh run.</p>
+
+<h3>The SGD-mode result replicates</h3>
+<p>The second seed also reran the \(k = 2, 3, 4\) mix of Step 13. With LoRA seed 1 and 100 steps it gives \(S = 0.942\), against 0.950 for the seed 0 run of Step 13, which trained for 150 steps. It keeps \(k = 1\) at 0.97 and reverse at 0.93, against 0.90 and 1.00 for seed 0. On \(k = 2, 3, 4\) and 6 it scores 1.00, 1.00, 0.87 and 0.03. So on a second starting point, with a shorter run, the gradient-shaped profile and the kept one-hop skills of Step 13 reappear.</p>
+<p class="note">Limits. Two seeds for \(k = 2\), \(k = 4\) and the mix, one for reverse. Each accuracy comes from 30 examples, with a standard error of up to 0.09. The \(k = 4\) adapters were still learning at step 100, so the middle-third shift is measured before convergence. The adapters also moved different distances, with \(\|B\|_F\) from 0.53 (reverse) to 1.66 (\(k = 4\), seed 0). \(S\) and \(M\) are shares, so they do not depend on overall size, but a longer run could still reshape the profile.</p>
+<p class="take">Takeaway. Training on a deeper task does not raise the looped share \(S\) beyond seed noise, so H3 fails as stated, but on both seeds a \(k = 4\) adapter puts 0.075 to 0.088 more of its looped weight in the middle third of the loop than a \(k = 2\) adapter, which two seeds suggest but do not establish.</p>
+
+<h2><span class="step">Step 16</span>What sets the stability edge?</h2>
+<p>Step 13 found that SGD mode collapses to a uniform guess above an effective rate between \(5 \times 10^{-4}\) and \(8.7 \times 10^{-4}\), and Step 14 ruled out the output layer. Our second hypothesis, H2, says the looped layers set this edge. The natural test would train the looped layers alone and the ordinary layers alone, and see which collapses at the lower rate.</p>
+<p>Tinker cannot run that test. As Step 6 lists, adapters switch on and off only by module group (attention, experts and output layer), and each group covers all 24 layers. So the closest available test switches groups. We trained attention only and experts only, each with the output layer's adapter off, for 40 steps per rate. A run counts as collapsed by the rule of Step 13, with one addition. The loss must also stay within 0.5 of \(\ln\,26\) on each of the last 25 steps.</p>
+
+<div class="scroll"><table>
+<tr><th>Adapters trained</th><th>Last rate that learned</th><th>First rate that collapsed</th></tr>
+<tr><td>Attention only</td><td>\(8.7 \times 10^{-4}\) (1.29)</td><td>\(1.1 \times 10^{-3}\) (1.64)</td></tr>
+<tr><td>Experts only</td><td>\(1.1 \times 10^{-3}\) (1.29)</td><td>\(1.5 \times 10^{-3}\) (1.78)</td></tr>
+<tr><td>Both (Step 14, Control 2)</td><td>\(5 \times 10^{-4}\) (1.01)</td><td>\(8.7 \times 10^{-4}\) (1.76)</td></tr>
+</table></div>
+<p>Rates are values of \(\eta_{\text{eff}}\). The number in brackets is the size of the run's first update, explained below. The output layer's adapter is off in every row. The rate \(1.1 \times 10^{-3}\) was added to the grid because both single groups learned at \(8.7 \times 10^{-4}\) and collapsed at \(1.5 \times 10^{-3}\). Experts only also learned at \(8.7 \times 10^{-4}\), and attention only also collapsed at \(1.5 \times 10^{-3}\).</p>
+<p>Attention alone has the lower edge. The experts' edge is higher by a factor between 1 and 1.72. At the closest the two brackets touch at \(1.1 \times 10^{-3}\), a factor of 1, and at the widest they give \(1.5 / 0.87 = 1.72\). Both groups together have a lower edge than either alone.</p>
+
+<details><summary>Pause and predict. Why would training both groups together collapse at a lower rate than training either one alone?</summary>
+<p>With both groups on, more matrices move at once, so the whole first update is larger at the same rate. At \(8.7 \times 10^{-4}\) it is 1.29 for attention, 1.03 for the experts and 1.76 for both. (The runs draw different random \(A\) matrices, so the single-group sizes do not combine exactly into the joint one.) The next part shows that the size of that update sorts all the runs.</p></details>
+
+<h3>One threshold on the size of the first update</h3>
+<p>In SGD mode the first step is the gradient times \(\eta_{\text{eff}}\) (Step 12). \(B\) starts at 0, so after one step \(B\) is that step. Write \(\|\Delta B_1\|_F\) for its Frobenius norm over all 24 layers. It grows with the rate and with the number of adapters switched on.</p>
+<p><b>Example.</b> Attention's first update is 1.29 at \(8.7 \times 10^{-4}\). The experts reach the same 1.29 only at \(1.1 \times 10^{-3}\), because per unit rate the attention gradient is 1.24 times the experts' (first updates of 1.285 against 1.033 at \(8.7 \times 10^{-4}\)). Both of those runs learned. Every run whose first update was 1.64 or more collapsed, whichever group it trained.</p>
+<p>Formally, over these eight runs (three per single group and two with both groups) the outcome is sorted by one threshold \(c\),</p>
+$$\|\Delta B_1\|_F \le 1.29 \;\Rightarrow\; \text{learned}, \qquad \|\Delta B_1\|_F \ge 1.64 \;\Rightarrow\; \text{collapsed},$$
+<p>so any \(c\) between 1.29 and 1.64 fits. This suggests the edge is set by the total size of the step, which attention reaches at a lower rate than the experts, and both groups together reach lower still. It is one run per setting.</p>
+
+<div class="panel">
+  <p class="try">Read the chart. Two attention-only runs, one on each side of the edge. Both spike once. Watch what each does after its spike.</p>
+<svg viewBox="0 0 660 300" role="img" aria-label="Training loss against step for attention-only runs at two effective rates. Both spike once. The learning run recovers and falls, the collapsing run stays at ln 26">
+<rect x="56" y="16" width="544" height="234" fill="none" stroke="var(--line)"/>
+<text x="48" y="254.0" text-anchor="end">0</text><line x1="56" x2="61" y1="250.0" y2="250.0" stroke="var(--line)"/>
+<text x="48" y="176.0" text-anchor="end">3</text><line x1="56" x2="61" y1="172.0" y2="172.0" stroke="var(--line)"/>
+<text x="48" y="98.0" text-anchor="end">6</text><line x1="56" x2="61" y1="94.0" y2="94.0" stroke="var(--line)"/>
+<text x="48" y="20.0" text-anchor="end">9</text><line x1="56" x2="61" y1="16.0" y2="16.0" stroke="var(--line)"/>
+<text x="56.0" y="268" text-anchor="middle">1</text>
+<text x="181.5" y="268" text-anchor="middle">10</text>
+<text x="321.0" y="268" text-anchor="middle">20</text>
+<text x="460.5" y="268" text-anchor="middle">30</text>
+<text x="600.0" y="268" text-anchor="middle">40</text>
+<text x="328.0" y="290" text-anchor="middle">training step</text>
+<text transform="translate(14 133.0) rotate(-90)" text-anchor="middle">training loss (nats)</text>
+<line x1="56" x2="600" y1="165.3" y2="165.3" stroke="var(--muted)" stroke-dasharray="3 4"/><text x="606" y="169.3">ln 26</text>
+<polyline fill="none" style="stroke:var(--ok)" stroke-width="2.5" stroke-dasharray="" stroke-linejoin="round" points="56.0,120.4 69.9,163.3 83.9,162.5 97.8,164.1 111.8,167.4 125.7,178.1 139.7,28.1 153.6,175.0 167.6,166.9 181.5,165.2 195.5,165.2 209.4,164.3 223.4,169.8 237.3,173.0 251.3,182.2 265.2,191.6 279.2,199.6 293.1,213.0 307.1,208.5 321.0,201.3 335.0,212.7 348.9,224.4 362.9,227.1 376.8,225.7 390.8,228.6 404.7,225.4 418.7,225.0 432.6,232.6 446.6,229.3 460.5,237.6 474.5,234.2 488.4,223.9 502.4,229.0 516.3,233.7 530.3,226.2 544.2,231.0 558.2,237.7 572.1,217.6 586.1,241.3 600.0,242.2"/>
+<polyline fill="none" style="stroke:var(--warn)" stroke-width="2.5" stroke-dasharray="7 4" stroke-linejoin="round" points="56.0,120.4 69.9,160.9 83.9,161.9 97.8,160.3 111.8,162.4 125.7,163.7 139.7,167.5 153.6,166.9 167.6,177.5 181.5,43.2 195.5,164.6 209.4,159.2 223.4,161.2 237.3,162.7 251.3,161.8 265.2,163.6 279.2,165.4 293.1,164.7 307.1,165.1 321.0,165.9 335.0,165.5 348.9,164.9 362.9,165.9 376.8,164.6 390.8,164.5 404.7,164.7 418.7,164.2 432.6,164.5 446.6,163.8 460.5,164.5 474.5,164.8 488.4,165.8 502.4,166.2 516.3,165.1 530.3,165.0 544.2,164.3 558.2,165.8 572.1,165.2 586.1,164.0 600.0,165.6"/>
+<text x="69.9" y="237.0" style="fill:var(--ok);font-weight:600">attention only, rate 0.00087, learned</text>
+<text x="600.0" y="138.2" text-anchor="end" style="fill:var(--warn);font-weight:600">attention only, rate 0.0011, collapsed</text>
+</svg>
+  <p class="try">From each run's <code>train_log.jsonl</code> under <code>artifacts/e2_edge/</code>. The loss at step \(t\) is measured before update \(t\). The dotted line is \(\ln\,26 \approx 3.26\), the loss of a uniform guess.</p>
+</div>
+<p>The learning run spiked to 8.53 at step 7, recovered, and averaged 0.62 over the last 5 steps. The collapsing run spiked to 7.95 at step 10 and then stayed at \(\ln\,26\). The learning run recovered from a spike larger than the one the collapsing run never recovered from, so a spike alone does not mean collapse. Still, every collapse in these probes passes through a spike between steps 6 and 11.</p>
+
+<h3>A collapsing run starts as a scaled copy of a learning run</h3>
+<p>If the loop set the edge, a run past the edge might grow faster in the looped layers before it breaks. To look for this we trained all modules for 10 steps at \(8.7 \times 10^{-4}\), which collapses, and at \(5 \times 10^{-4}\), which learns, and exported the adapter at steps 1, 2, 3, 5 and 10.</p>
+<p>Take each layer's \(\|B\|_F\) at step 10 divided by its value at step 1. Call that the layer's growth. The <em>growth ratio</em> is the growth at the high rate divided by the growth at the low rate. A ratio of 1 means that layer grew the same way at both rates. The same ratio can be taken over a block of layers. <b>Example.</b> Attention in the looped layers 6 to 17, taken together, grew by 2.59 at the high rate and 2.56 at the low rate, a ratio of \(2.59 / 2.56 = 1.01\).</p>
+<p>Per layer the growth ratio lies between 0.98 and 1.03. At every exported step the high-rate adapter is 1.75 to 1.77 times the low-rate one, and its looped share \(S\) stays at 0.94 at both rates. So for 10 steps the collapsing run is the learning run scaled up evenly. No layer range and no module type runs ahead.</p>
+<p>The losses do differ. The first update drops the loss from 4.98 to about 3.4 at both rates. At \(8.7 \times 10^{-4}\) it then stays between 3.22 and 3.51. At \(5 \times 10^{-4}\) it starts to fall unevenly, reaching 2.72 at step 7. In the 30-step runs of Step 13, the spike before collapse came at steps 11 to 13, after this window, and later steps were not exported.</p>
+
+<h3>Why this cannot test the loop</h3>
+<p>Both module groups put about 0.92 of their first update's squared norm in the looped layers (0.915 to 0.919 across the six single-group runs). Switching from attention to experts changes which kind of matrix trains. It does not change how much of the training sits in the loop. Every setting Tinker allows puts most of the update in the loop.</p>
+<p>So the result fits two explanations equally well. In one, the loop sets the edge, and attention reaches it first because its gradient is larger. In the other, the edge belongs to the size of the whole adapter's step and the loop plays no special part. Telling them apart needs adapters on chosen layers only, or a separate learning rate per layer, and Step 6 lists both as settings we cannot change. H2 is therefore untestable here. It is still open, not refuted.</p>
+<p class="note">Limits. One run per setting, and run-to-run noise (repeated runs differ by about 1% in loss at step 2) could flip an outcome near the edge. Changing the module set also changes the random \(A\) draws, so a single-group run is not a subset of the all-modules run. This is probably why its looped share is 0.92 rather than 0.94. Only the first 10 steps of the all-modules runs were exported.</p>
+<p class="take">Takeaway. Across module groups the edge tracks the total size of the first update, and in its first 10 steps a collapsing run shows no layer-specific growth, but with no per-layer switch on Tinker this cannot say whether the loop sets the edge.</p>
+
+<h2>Where the three hypotheses stand</h2>
+<p>The project set out three hypotheses. Each now has a first answer.</p>
+<div class="scroll"><table>
+<tr><th>Hypothesis</th><th>Status</th><th>Why</th></tr>
+<tr><td><b>H1.</b> A weight change of fixed size moves the output more in a looped layer than in an ordinary one, by a factor between 1 and 3 that reflects how open the gates are (Step 8).</td><td>Suggested</td><td>Looped-layer gradients are about two times what a depth trend predicts (Step 9). A gradient measures loss sensitivity. Output sensitivity needs an edited adapter uploaded, and uploads are disabled, so it cannot be measured.</td></tr>
+<tr><td><b>H2.</b> The looped layers set the largest stable learning rate.</td><td>Open, untestable here</td><td>The edge tracks total first-update size across module groups (Step 16). Tinker has no per-layer switch, and both groups put about 0.92 of their update in the loop.</td></tr>
+<tr><td><b>H3.</b> More hops put a larger share of adapter weight in the loop, beyond the reverse control.</td><td>Fails as stated</td><td>\(S\) does not change with hop count beyond seed noise. A narrower shift toward layers 10 to 13 survives on two seeds (Step 15).</td></tr>
+</table></div>
 
 <h2>What comes next</h2>
 <p>Two practical limits shape the plan. Edited adapters cannot be uploaded, so the perturbation test from Step 8 is cancelled. And training clients must run one at a time. In one probe, a client left open made the next one stall for over 15 minutes with the message "concurrent training clients rate limit hit". With each client closed first, later clients started in 89 to 162 seconds. Sampling showed no such limit, with runs of 433 and 213 requests and no throttling.</p>
-<p>AdamW and Dimuon give flat profiles even at small movement (Step 14), so only SGD mode can show whether the hop count changes where adapter weight lands. The next runs all use SGD mode at \(\eta_{\text{eff}} = 2.9 \times 10^{-4}\).</p>
+<p>The runs planned in the last update are done. Single-condition runs and a second LoRA seed are in Step 15, and the module-group edge probes are in Step 16. Three items remain.</p>
 <ol>
-  <li><b>One condition per run.</b> Train on \(k = 2\) only, on \(k = 4\) only and on reverse lookup only, then compare the per-layer profiles. If deeper tasks put more weight in the loop, \(S\) should be higher for \(k = 4\) than for \(k = 2\), and reverse lookup should sit with \(k = 2\) or below.</li>
-  <li><b>A second LoRA seed.</b> Rerun the \(k = 2, 3, 4\) mix with LoRA seed 1. Differences between conditions mean something only next to the spread between seeds.</li>
-  <li><b>What sets the edge.</b> Probes between \(\eta_{\text{eff}} = 5 \times 10^{-4}\) and \(8.7 \times 10^{-4}\) with only the attention adapters on, and with only the expert adapters on. The output layer is already ruled out.</li>
+  <li><b>Finish the \(k = 4\) runs.</b> Both \(k = 4\) adapters were still learning at step 100 (0.60 and 0.77 on \(k = 4\)). Rerunning them for 200 steps would show whether the shift toward the middle of the loop holds at convergence.</li>
   <li><b>Dimuon's step rule.</b> Still unknown beyond step one.</li>
+  <li><b>Out of reach on this account.</b> Anything that needs per-layer control or uploads. That includes a direct test of H2, which needs looped and ordinary layers trained separately, and the output-sensitivity test of H1, which needs edited adapters uploaded.</li>
 </ol>
 
 <h2>Summary</h2>
 <p>An adapter adds a product \(ab\) to a frozen weight. Looping raises the effective weight to the power \(K\). That makes the output, and so the gradient, \(K u^{K-1}\) times more sensitive, and makes the loss \((K u^{K-1})^2\) times sharper. Plain gradient descent would feel all of this. AdamW and Dimuon discard gradient size, so they move looped and ordinary weights equally, and our first measurement on the real model shows exactly that.</p>
 <p>We could not measure output change per unit of weight change, because edited adapters cannot be uploaded. Instead we read the raw gradient from one Adam step with a huge \(\epsilon\). The readout checks out to about 8%. In the looped layers the gradient is about two times what a depth trend predicts, with a sharp drop right after the loop. At the start of training a deeper task does not put a larger share of gradient into the loop.</p>
 <p>Training on two to four hops works with all three optimizers. AdamW and Dimuon end with adapters spread evenly over the layers, and they make the model take 2 to 4 hops on every prompt, so one-hop and reverse lookups break. Keeping \(\epsilon\) huge for every step turns AdamW into gradient descent with momentum. That SGD mode keeps the gradient's shape, with 0.95 of the adapter in the loop and a sharp drop after layer 17, and it keeps the one-hop skills. It also has a stability edge between effective rates \(5 \times 10^{-4}\) and \(8.7 \times 10^{-4}\), above which the model falls to a uniform guess. A low-rate AdamW run is still nearly flat, and switching off the output layer's adapter does not move the edge. Each of these is one run per setting, so they suggest rather than establish.</p>
+<p>Training one adapter per task answers the depth question. Adapters trained on \(k = 4\) and on \(k = 2\) put the same share of their weight in the loop, to within the spread between two seeds, so the third hypothesis fails as stated. On both seeds the \(k = 4\) adapter does put more of its looped weight in the middle third, layers 10 to 13. Each adapter learns a fixed hop count, and the SGD-mode result of Step 13 replicates on a second seed. The stability edge differs by module group, but measured by the size of the first update all groups fit one threshold, and a collapsing run is at first an evenly scaled copy of a learning run. Tinker cannot switch adapters by layer, so whether the loop sets the edge stays open.</p>
 
 <h2>Decisions so far</h2>
 <ul>
@@ -951,6 +1159,8 @@ $$\Delta\theta \approx -\frac{\eta}{\epsilon}\,\hat m.$$
   <li><b>SGD mode adopted.</b> \(\epsilon = 10^4\) at \(\eta_{\text{eff}} = 2.9 \times 10^{-4}\) is the working setting. The stability edge lies between \(5 \times 10^{-4}\) and \(8.7 \times 10^{-4}\), which corrects an earlier note that put it below \(5 \times 10^{-4}\).</li>
   <li><b>Depth is tested in SGD mode.</b> AdamW and Dimuon give flat profiles even at small movement, so only SGD mode can show whether hop count changes where weight lands.</li>
   <li><b>No collapse call on a plateau alone.</b> A run counts as collapsed only if every task is at chance and the loss stays near \(\ln\,26\) at the end of at least 30 steps.</li>
+  <li><b>Third hypothesis recorded as failed in its main form.</b> In SGD mode the looped share does not depend on hop count on two seeds (Step 15). Further work on it targets the narrower claim that more hops move weight toward layers 10 to 13.</li>
+  <li><b>Second hypothesis recorded as untestable on the free tier.</b> The edge tracks the total size of the first update and shows no layer-specific growth (Step 16). Without per-layer adapter selection no available experiment separates looped from ordinary layers. The hypothesis stays open, not refuted.</li>
   <li><b>Pretraining claim withdrawn.</b> An earlier session said Inkling was pretrained with Muon. The model card does not say so. We treat it as unknown.</li>
   <li><b>Records.</b> Every result has a script and a note in the repository. This page is rebuilt when findings change.</li>
 </ul>
@@ -968,6 +1178,10 @@ $$\Delta\theta \approx -\frac{\eta}{\epsilon}\,\hat m.$$
   <li><b>"More hops need proportionally more layers."</b> A doubling trick lets a model do \(k\) hops in about \(\log_2 k\) layers.</li>
   <li><b>"A larger gradient in a layer means its output is more sensitive."</b> The gradient measures how fast the loss changes. Output sensitivity is a different quantity, and we could not measure it here.</li>
   <li><b>"A looped share of 0.95 means the loop does almost all the work."</b> Part of it is built in, because a looped layer's gradient adds up three passes. And the share barely moves with task depth.</li>
+  <li><b>"A gap between two runs is a result."</b> Only next to the spread between seeds. In Step 15 the \(k = 4\) minus \(k = 2\) gap in \(S\) was smaller than the change from reseeding one task, and its sign flipped between seeds.</li>
+  <li><b>"Since the looped share ignores depth, depth leaves no trace in the adapter."</b> The \(k = 4\) adapters put 0.075 to 0.088 more of their looped weight in layers 10 to 13, on both seeds.</li>
+  <li><b>"The experts tolerate a higher rate, so they are the more stable part."</b> Per unit rate their gradient is smaller. Measured by the size of the first update, both groups break at the same threshold.</li>
+  <li><b>"Untestable means false."</b> The second hypothesis is open. The available switches cannot separate the loop from the rest of the model.</li>
   <li><b>"The model fails reverse lookup because it cannot find the answer."</b> Most of its errors are forward lookups. It does the familiar direction instead of the asked one.</li>
 </ul>
 
@@ -975,11 +1189,13 @@ $$\Delta\theta \approx -\frac{\eta}{\epsilon}\,\hat m.$$
 <p>First, the limits of our own measurements.</p>
 <ul>
   <li><b>Loss, not output.</b> Every loop result so far is a gradient or a weight norm. A gradient is a first-order loss sensitivity. Activation sizes differ between layers, and the readout cannot say how open the cross-pass gates are.</li>
-  <li><b>One run per setting.</b> Every training result in Steps 11 to 14 comes from a single run. Repeated runs are not bit-identical (about 1% apart at step 2), and no seed spread exists yet.</li>
-  <li><b>Different training lengths.</b> AdamW ran 100 steps, Dimuon 50 and SGD mode 150, because each stopped when it passed the bar. Profiles are not compared after equal training.</li>
+  <li><b>Few seeds.</b> The single-condition \(k = 2\) and \(k = 4\) runs and the \(k = 2, 3, 4\) mix have two LoRA seeds each. Every other training result in Steps 11 to 16 comes from a single run. Repeated runs are not bit-identical (about 1% apart at step 2), and two seeds give only a rough measure of the noise.</li>
+  <li><b>Unfinished \(k = 4\) runs.</b> The \(k = 4\) adapters of Step 15 reached only 0.60 and 0.77 on \(k = 4\) by step 100, so the middle-third shift is measured before convergence.</li>
+  <li><b>Different training lengths.</b> AdamW ran 100 steps, Dimuon 50 and SGD mode 150, because each stopped when it passed the bar. Profiles are not compared after equal training. The single-condition runs of Step 15 fix this with 100 steps each, but the seed 1 mix (100 steps) is compared with a 150-step seed 0 run.</li>
   <li><b>Gradients after step 1.</b> The SGD-mode regime is checked only at step 1. Later gradients were not logged, so linearity after that rests on a bound.</li>
   <li><b>SGD mode moved far less.</b> Its \(\|B\|_F\) is 2.12, against 36.2 and 57.2. The low-rate AdamW control matches its movement only roughly (2.82), and it cannot separate placement from update direction.</li>
-  <li><b>A coarse edge.</b> The edge is bracketed by rates a factor of 1.74 apart, and a 30-step probe cannot tell a long plateau from a collapse.</li>
+  <li><b>A coarse edge.</b> Each edge is bracketed by grid rates 1.26 to 1.74 times apart (\(1.1/0.87\), \(1.5/1.1\) and \(8.7/5\)), and a 30- or 40-step probe cannot tell a long plateau from a collapse.</li>
+  <li><b>Module groups, not layers.</b> Tinker switches adapters only by group, and every group puts most of its update in the loop. Switching groups also changes the random \(A\) draws, so group runs are not subsets of the all-modules run.</li>
   <li><b>Small evaluation sets.</b> Training runs are scored on 30 examples per task, so each accuracy has a standard error of up to 0.09.</li>
   <li><b>Small data at the start.</b> Step 9 uses three batches of 8 chats and Step 10 uses two seeds per task. In Step 9 the loss was about 9.2 nats per supervised token, so formatting tokens may dominate that gradient.</li>
   <li><b>Experts.</b> Expert gradients come only from the experts a token was routed to. Three passes may reach more experts, which the saved norms cannot test.</li>
@@ -1003,6 +1219,7 @@ $$\Delta\theta \approx -\frac{\eta}{\epsilon}\,\hat m.$$
   <li>Tinker SDK 0.40.1 source code, for what the optimizers and LoRA settings expose.</li>
   <li>Our scripts <code>00_probe_free_tier.py</code> to <code>08_e0_grad_by_hops.py</code> and the task generator <code>task_pointer.py</code>, for every measured number in Steps 7 to 10. Notes 04 to 08 in the repository describe the gradient readout, the upload probe, base accuracy, the control search and the depth check.</li>
   <li>The training harness <code>train_lib.py</code> and scripts <code>09</code> to <code>12</code> for Steps 11 to 14. Notes 09, 10 and 11 describe the AdamW and Dimuon pilots, the SGD-mode pilot and the controls. Note 11 corrects note 10 on where the stability edge lies. The numbers come from <code>comparison.json</code>, <code>controls_tables.json</code> and each run's <code>adapter_stats.json</code> under <code>artifacts/e2_pilot/</code> and <code>artifacts/e2_controls/</code>.</li>
+  <li>Scripts <code>13_e2_single_condition.py</code> and <code>14_edge_by_module.py</code> for Steps 15 and 16. Note 12 (with its 27 Nov update for the seed 1 runs) and note 13 describe them. The numbers come from <code>artifacts/e2_single/single_tables.json</code>, <code>artifacts/e2_edge/edge_tables.json</code> and each edge run's <code>train_log.jsonl</code>.</li>
   <li>Hu et al. (2021), LoRA. Kingma and Ba (2015), Adam. Jordan (2024), Muon blog post. Cohen et al. (2021), edge of stability. Dehghani et al. (2019), Universal Transformers. Bai, Kolter and Koltun (2019), deep equilibrium models. Hayou, Ghosh and Yu (2024), LoRA+. These are cited from memory and were not re-read today.</li>
   <li>Simon et al., "There Will Be a Scientific Theory of Deep Learning" (arXiv 2604.21691). This framing paper was summarised in an earlier session and has not been re-read.</li>
 </ul>
@@ -1027,12 +1244,16 @@ $$\Delta\theta \approx -\frac{\eta}{\epsilon}\,\hat m.$$
 <tr><td>\(B_{\ell,m},\ \|\cdot\|_F\)</td><td>Trained \(B\) matrix of weight type \(m\) in layer \(\ell\), and the Frobenius norm</td></tr>
 <tr><td>\(T,\ T^2(x)\)</td><td>The prompt's lookup table, and the letter two arrows on from \(x\)</td></tr>
 <tr><td>\(k\)</td><td>Hop count of the pointer-chasing task</td></tr>
-<tr><td>\(S\)</td><td>Looped share, the fraction of squared norm in layers 6 to 17. Step 10 takes it over the gradient, Steps 11 to 14 over the trained \(B\). An even spread gives 0.5</td></tr>
+<tr><td>\(S\)</td><td>Looped share, the fraction of squared norm in layers 6 to 17. Step 10 takes it over the gradient, Steps 11 to 16 over the trained \(B\). An even spread gives 0.5</td></tr>
+<tr><td>\(M\)</td><td>Middle share, the fraction of the looped squared norm in layers 10 to 13</td></tr>
+<tr><td>\(\Delta_{\text{task}},\ \Delta_{\text{seed}}\)</td><td>Step 15. The \(k = 4\) adapter minus the \(k = 2\) adapter on one seed, and seed 1 minus seed 0 on one task</td></tr>
+<tr><td>\(\|\Delta B_1\|_F\)</td><td>Frobenius norm of the first update to \(B\) over all 24 layers</td></tr>
+<tr><td>H1, H2, H3</td><td>The project's three hypotheses, listed in the section after Step 16</td></tr>
 <tr><td>\(h_k\)</td><td>Output of pass \(k\) through the looped layers</td></tr>
 <tr><td>\(\eta\)</td><td>Learning rate</td></tr>
 <tr><td>\(\lambda\)</td><td>Curvature of the loss. Its largest value is the sharpness</td></tr>
 </table></div>
-<p class="try">Colours in the training charts. <span style="color:var(--c-adamw);font-weight:600">AdamW</span>, <span style="color:var(--c-dimuon);font-weight:600">Dimuon</span> and <span style="color:var(--c-sgd);font-weight:600">SGD mode</span> keep one colour each. The shaded band is always the looped block.</p>
+<p class="try">Colours in the training charts. <span style="color:var(--c-adamw);font-weight:600">AdamW</span>, <span style="color:var(--c-dimuon);font-weight:600">Dimuon</span> and <span style="color:var(--c-sgd);font-weight:600">SGD mode</span> keep one colour each. The orange shaded band is always the looped block. In Step 16, green is a run that learned and amber a run that collapsed.</p>
 </main>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>

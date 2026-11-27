@@ -1,6 +1,6 @@
 # Project State
 
-**Last updated:** 2026-11-28
+**Last updated:** 2026-11-27
 **Phase:** Phase 1. All three hypotheses have a first answer. Open work is the stability edge, Dimuon's step rule and the write-up.
 
 ## Verified facts
