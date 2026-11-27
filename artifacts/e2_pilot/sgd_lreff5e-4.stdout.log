@@ -1,0 +1,37 @@
+  [queue] Model creation: QueueState.ACTIVE reason=None
+[sgd_lreff5e-4] client ready 8s
+  [queue] Training: QueueState.ACTIVE reason=None
+[sgd_lreff5e-4] step-0 export 56s
+[sgd_lreff5e-4] eval@0 k1:1.00 k2:0.37 k3:0.13 k4:0.03 k6:0.00 reverse:0.53 rev_fy:0.30 (53s)
+[sgd_lreff5e-4] step 1 loss 4.985 k2:3.64 k3:6.72 k4:4.55 122.4s
+[sgd_lreff5e-4] step-1 export 53s
+[sgd_lreff5e-4] step 2 loss 3.399 k2:3.74 k3:3.28 k4:3.21 7.9s
+[sgd_lreff5e-4] step 3 loss 3.350 k2:3.32 k3:3.44 k4:3.30 10.4s
+[sgd_lreff5e-4] step 5 loss 3.231 k2:3.01 k3:3.27 k4:3.39 9.0s
+[sgd_lreff5e-4] step 10 loss 3.299 k2:3.43 k3:3.09 k4:3.38 10.3s
+[sgd_lreff5e-4] eval@10 k1:0.07 k2:0.00 k3:0.00 k4:0.00 k6:0.03 reverse:0.00 rev_fy:0.00 (42s)
+[sgd_lreff5e-4] step 15 loss 3.484 k2:3.38 k3:3.40 k4:3.67 9.7s
+Traceback (most recent call last):
+  File "/Users/fanpu/ml/inkling-2-mini-free-research/scripts/11_e2_pilot_sgd.py", line 243, in <module>
+    main()
+  File "/Users/fanpu/ml/inkling-2-mini-free-research/scripts/11_e2_pilot_sgd.py", line 231, in main
+    s = tl.run(cfg, resume="--resume" in sys.argv)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/fanpu/ml/inkling-2-mini-free-research/scripts/train_lib.py", line 456, in run
+    fb, op = retry(log, _step, f"step {step}")
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/fanpu/ml/inkling-2-mini-free-research/scripts/train_lib.py", line 166, in retry
+    return fn()
+           ^^^^
+  File "/Users/fanpu/ml/inkling-2-mini-free-research/scripts/train_lib.py", line 455, in _step
+    return fbf.result(timeout=STEP_TIMEOUT), opf.result(timeout=STEP_TIMEOUT)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/fanpu/ml/inkling-2-mini-free-research/.venv/lib/python3.12/site-packages/tinker/lib/public_interfaces/api_future.py", line 151, in result
+    return self._future.result(timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.15_1/Frameworks/Python.framework/Versions/3.12/lib/python3.12/concurrent/futures/_base.py", line 451, in result
+    self._condition.wait(timeout)
+  File "/opt/homebrew/Cellar/python@3.12/3.12.15_1/Frameworks/Python.framework/Versions/3.12/lib/python3.12/threading.py", line 359, in wait
+    gotit = waiter.acquire(True, timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt

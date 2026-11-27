@@ -1,0 +1,19 @@
+{
+ "lr": 2.9,
+ "eps": 10000.0,
+ "lr_eff": 0.00029,
+ "max_u": 0.006073627877852012,
+ "max_abs_g_inferred": 61.10742252350255,
+ "step1_norm_all_incl_lm_head": 0.5929935509207752,
+ "step1_norm_layers": 0.5928469413423909,
+ "grad_norm_layers_linear": 2044.2997977323823,
+ "grad_norm_all_linear": 2044.805348002673,
+ "per_tensor_grad_norm_min_median_max": [
+  3.284640773373208,
+  71.79284943284743,
+  501.99020470336944
+ ],
+ "lm_head_grad_norm_linear": [
+  45.46700134905011
+ ]
+}

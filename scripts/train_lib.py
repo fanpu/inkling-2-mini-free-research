@@ -12,7 +12,9 @@ Outputs in cfg.out_dir:
     train_log.jsonl     one line per step ({"type": "train"}), per eval ({"type": "eval"}),
                         per saved state ({"type": "state"}) and the run header/footer
     eval_<step>.json    per-example eval rows at that step
-    adapter_stats.json  per-layer / per-module norms of the final adapter (and step-0 A)
+    adapter_stats.json  per-layer / per-module norms of the final adapter (and step-0 A),
+                        plus max |B| per tensor and the singular values of each attention B
+    adapter_stats_step<n>.json  the same for each step in cfg.export_steps (default none)
     errors.json         every failed API attempt, verbatim
     config.json
 
@@ -97,6 +99,9 @@ class Config:
     export_ttl: int = 3600
     export_step0: bool = True
     max_wall_seconds: float | None = None  # stop training (then export) after this long
+    export_steps: list = field(default_factory=list)  # extra adapter exports after these steps
+    diverge_loss: float | None = None   # stop when loss_mean exceeds this ...
+    diverge_patience: int = 5           # ... on this many consecutive steps (or is non-finite)
 
     def __post_init__(self):
         assert self.optimizer in ("adamw", "dimuon"), self.optimizer
@@ -291,7 +296,9 @@ def adapter_stats(st_path: Path, conf: dict, A0: dict | None = None, keep_A: boo
                 shapes[mod] = {"A": list(A.shape), "B": list(B.shape)}
             eff2 = (_gram_B(B, r) * _gram_A(A, r)).sum().item()
             row = {"layer": layer, "module": mod, "B_fro": B.norm().item(), "A_fro": A.norm().item(),
-                   "eff_fro": scale * math.sqrt(max(eff2, 0.0))}
+                   "eff_fro": scale * math.sqrt(max(eff2, 0.0)), "B_absmax": B.abs().max().item()}
+            if mod.startswith("attn"):  # B is [out, r], so its r singular values are cheap
+                row["B_sv"] = torch.linalg.svdvals(B).tolist()
             if A0 is not None and ka in A0:
                 row["dA_fro"] = (A - A0[ka].double()).norm().item()
             rows.append(row)
@@ -393,7 +400,7 @@ def run(cfg: Config, resume: bool = False) -> dict:
     log.write({"type": "start", "config": asdict(cfg), "resume_from": state_path, "model": MODEL_ID})
     sc, rest = tinker.ServiceClient(), tinker.RestClient()
     status, detail, summary = "errored", "", {"evals": {}}
-    step_times, stopped = [], None
+    step_times, stopped, n_high = [], None, 0
     try:
         meta = {"purpose": "e2", "run": cfg.name}
         if state_path:
@@ -470,6 +477,19 @@ def run(cfg: Config, resume: bool = False) -> dict:
             if not math.isfinite(rec["loss_mean"]):
                 stopped = f"non-finite loss at step {step+1}"
                 break
+            if step + 1 in cfg.export_steps:
+                t1 = time.time()
+                sx, _ = export_and_stats(log, tc, rest, f"{cfg.name}-step{step+1}", cfg.export_ttl, A0=A0)
+                (cfg.out_dir / f"adapter_stats_step{step+1}.json").write_text(json.dumps(sx, indent=1))
+                log.write({"type": "export", "step": step + 1, "seconds": round(time.time() - t1, 1)})
+                print(f"[{cfg.name}] step-{step+1} export {time.time()-t1:.0f}s", flush=True)
+            if cfg.diverge_loss is not None:
+                n_high = n_high + 1 if rec["loss_mean"] > cfg.diverge_loss else 0
+                if n_high >= cfg.diverge_patience:
+                    stopped = (f"diverged: loss_mean above {cfg.diverge_loss} on {n_high} consecutive "
+                               f"steps ending at step {step+1}")
+                    do_eval(step + 1)  # the eval block below is not reached this step
+                    break
             if step + 1 in cfg.eval_steps:
                 summ = do_eval(step + 1)
                 if all(summ[c]["acc"] > cfg.early_stop_acc for c in cfg.early_stop_conds if c in summ):

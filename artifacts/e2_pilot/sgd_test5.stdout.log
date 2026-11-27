@@ -1,0 +1,14 @@
+  [queue] Model creation: QueueState.ACTIVE reason=None
+[sgd_test5] client ready 7s
+  [queue] Training: QueueState.ACTIVE reason=None
+[sgd_test5] step-0 export 62s
+[sgd_test5] eval@0 k1:1.00 k2:0.40 k3:0.00 k4:0.00 k6:0.00 reverse:0.80 rev_fy:0.00 (32s)
+[sgd_test5] step 1 loss 4.985 k2:3.64 k3:6.72 k4:4.55 8.8s
+[sgd_test5] step-1 export 45s
+[sgd_test5] step 2 loss 3.538 k2:3.58 k3:3.50 k4:3.54 12.8s
+[sgd_test5] step 3 loss 3.385 k2:3.39 k3:3.50 k4:3.27 12.3s
+[sgd_test5] step 5 loss 3.333 k2:3.39 k3:3.24 k4:3.37 10.5s
+[sgd_test5] eval@5 k1:0.00 k2:0.00 k3:0.00 k4:0.00 k6:0.00 reverse:0.00 rev_fy:0.00 (33s)
+[sgd_test5] final export 48s
+{"steps_run": 5, "wall_seconds": 286.1, "step_seconds_mean": 11.697738599777221, "step_seconds_median": 12.322219133377075} None
+{"lr": 20.0, "eps": 10000.0, "lr_eff": 0.002, "max_u": 0.00596, "max_abs_g_inferred": 59.957032, "step1_norm_all_incl_lm_head": 4.031508, "step1_norm_layers": 4.030482, "grad_norm_layers_linear": 2015.241119, "grad_norm_all_linear": 2015.753957, "per_tensor_grad_norm_min_median_max": [3.2846407788641856, 70.34727378823885, 496.1075485193417], "lm_head_grad_norm_linear": [45.4670014185335]}

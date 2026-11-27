@@ -1,0 +1,56 @@
+{
+ "name": "sgd_lreff1.5e-3",
+ "out_dir": "artifacts/e2_pilot/sgd_lreff1.5e-3",
+ "optimizer": "adamw",
+ "lr": 15.0,
+ "rank": 8,
+ "lora_seed": 0,
+ "data_seed": 1,
+ "train_conds": [
+  "k2",
+  "k3",
+  "k4"
+ ],
+ "batch": 32,
+ "steps": 150,
+ "eval_steps": [
+  0,
+  10,
+  25,
+  50,
+  100,
+  150
+ ],
+ "eval_conds": [
+  "k1",
+  "k2",
+  "k3",
+  "k4",
+  "k6",
+  "reverse"
+ ],
+ "eval_n": 30,
+ "early_stop_conds": [
+  "k2",
+  "k3",
+  "k4"
+ ],
+ "early_stop_acc": 0.95,
+ "adam_beta1": 0.9,
+ "adam_beta2": 0.95,
+ "adam_eps": 10000.0,
+ "weight_decay": 0.0,
+ "dimuon_beta1": 0.9,
+ "grad_clip_norm": 0.0,
+ "max_in_flight": 16,
+ "save_state": true,
+ "state_ttl": 86400,
+ "export_ttl": 3600,
+ "export_step0": true,
+ "max_wall_seconds": null,
+ "export_steps": [
+  1
+ ],
+ "diverge_loss": 10.0,
+ "diverge_patience": 5
+}

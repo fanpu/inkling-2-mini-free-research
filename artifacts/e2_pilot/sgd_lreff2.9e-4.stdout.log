@@ -1,0 +1,48 @@
+  [queue] Model creation: QueueState.ACTIVE reason=None
+[sgd_lreff2.9e-4] client ready 8s
+  [queue] Training: QueueState.ACTIVE reason=None
+[sgd_lreff2.9e-4] step-0 export 64s
+[sgd_lreff2.9e-4] eval@0 k1:1.00 k2:0.37 k3:0.13 k4:0.03 k6:0.00 reverse:0.53 rev_fy:0.30 (44s)
+[sgd_lreff2.9e-4] step 1 loss 4.985 k2:3.64 k3:6.72 k4:4.55 33.6s
+[sgd_lreff2.9e-4] step-1 export 52s
+[sgd_lreff2.9e-4] step 2 loss 3.035 k2:2.85 k3:3.12 k4:3.13 12.3s
+[sgd_lreff2.9e-4] step 3 loss 3.324 k2:3.03 k3:3.49 k4:3.46 15.2s
+[sgd_lreff2.9e-4] step 5 loss 2.800 k2:2.06 k3:2.97 k4:3.30 11.7s
+[sgd_lreff2.9e-4] step 10 loss 2.151 k2:0.77 k3:2.39 k4:3.41 11.1s
+[sgd_lreff2.9e-4] eval@10 k1:0.83 k2:0.70 k3:0.33 k4:0.07 k6:0.03 reverse:0.93 rev_fy:0.10 (49s)
+[sgd_lreff2.9e-4] step 15 loss 1.396 k2:0.27 k3:1.05 k4:2.83 11.3s
+[sgd_lreff2.9e-4] step 20 loss 1.475 k2:2.12 k3:0.97 k4:1.40 48.1s
+[sgd_lreff2.9e-4] step 25 loss 0.929 k2:0.33 k3:0.81 k4:1.71 15.0s
+[sgd_lreff2.9e-4] eval@25 k1:0.97 k2:0.73 k3:0.53 k4:0.30 k6:0.00 reverse:0.93 rev_fy:0.10 (49s)
+[sgd_lreff2.9e-4] step 30 loss 1.071 k2:0.20 k3:1.07 k4:1.94 12.5s
+[sgd_lreff2.9e-4] step 35 loss 0.573 k2:0.15 k3:0.69 k4:0.83 159.2s
+[sgd_lreff2.9e-4] step 40 loss 0.447 k2:0.13 k3:0.44 k4:0.80 8.8s
+[sgd_lreff2.9e-4] step 45 loss 0.530 k2:0.02 k3:0.61 k4:0.97 7.9s
+[sgd_lreff2.9e-4] step 50 loss 0.352 k2:0.19 k3:0.34 k4:0.51 5.1s
+[sgd_lreff2.9e-4] eval@50 k1:0.93 k2:0.93 k3:0.80 k4:0.73 k6:0.07 reverse:0.97 rev_fy:0.07 (47s)
+[sgd_lreff2.9e-4] step 55 loss 0.398 k2:0.01 k3:0.14 k4:1.10 10.4s
+[sgd_lreff2.9e-4] step 60 loss 0.195 k2:0.01 k3:0.10 k4:0.47 10.3s
+[sgd_lreff2.9e-4] step 65 loss 0.141 k2:0.00 k3:0.16 k4:0.25 10.3s
+[sgd_lreff2.9e-4] step 70 loss 0.148 k2:0.01 k3:0.19 k4:0.26 10.3s
+[sgd_lreff2.9e-4] step 75 loss 0.088 k2:0.00 k3:0.08 k4:0.18 9.4s
+[sgd_lreff2.9e-4] step 80 loss 0.081 k2:0.00 k3:0.11 k4:0.13 11.5s
+[sgd_lreff2.9e-4] step 85 loss 0.101 k2:0.00 k3:0.04 k4:0.28 11.3s
+[sgd_lreff2.9e-4] step 90 loss 0.024 k2:0.00 k3:0.02 k4:0.05 11.2s
+[sgd_lreff2.9e-4] step 95 loss 0.104 k2:0.00 k3:0.27 k4:0.03 10.5s
+[sgd_lreff2.9e-4] step 100 loss 0.055 k2:0.00 k3:0.00 k4:0.17 11.4s
+[sgd_lreff2.9e-4] eval@100 k1:0.97 k2:1.00 k3:0.83 k4:0.60 k6:0.00 reverse:1.00 rev_fy:0.03 (43s)
+[sgd_lreff2.9e-4] step 105 loss 0.212 k2:0.00 k3:0.55 k4:0.11 12.5s
+[sgd_lreff2.9e-4] step 110 loss 0.165 k2:0.03 k3:0.07 k4:0.38 12.5s
+[sgd_lreff2.9e-4] step 115 loss 0.197 k2:0.02 k3:0.27 k4:0.31 26.0s
+[sgd_lreff2.9e-4] step 120 loss 0.111 k2:0.00 k3:0.01 k4:0.31 12.2s
+[sgd_lreff2.9e-4] step 125 loss 0.053 k2:0.00 k3:0.01 k4:0.15 15.4s
+[sgd_lreff2.9e-4] step 130 loss 0.051 k2:0.00 k3:0.03 k4:0.12 13.6s
+[sgd_lreff2.9e-4] step 135 loss 0.031 k2:0.00 k3:0.00 k4:0.09 12.4s
+[sgd_lreff2.9e-4] step 140 loss 0.067 k2:0.00 k3:0.17 k4:0.02 15.2s
+[sgd_lreff2.9e-4] step 145 loss 0.009 k2:0.00 k3:0.01 k4:0.02 14.9s
+[sgd_lreff2.9e-4] step 150 loss 0.013 k2:0.00 k3:0.00 k4:0.04 11.5s
+[sgd_lreff2.9e-4] eval@150 k1:0.90 k2:1.00 k3:1.00 k4:0.97 k6:0.00 reverse:1.00 rev_fy:0.03 (49s)
+[sgd_lreff2.9e-4] early stop at step 150: ['k2', 'k3', 'k4'] all above 0.95
+[sgd_lreff2.9e-4] final export 49s
+{"steps_run": 150, "wall_seconds": 2756.7, "step_seconds_mean": 14.999859999020895, "step_seconds_median": 11.35762906074524} {"B_fro": 0.9497917827161998, "eff_fro": 0.9439465268009454, "dA_fro": 0.9940121267169073} early stop at step 150: ['k2', 'k3', 'k4'] all above 0.95
+{"lr": 2.9, "eps": 10000.0, "lr_eff": 0.00029, "max_u": 0.006074, "max_abs_g_inferred": 61.107423, "step1_norm_all_incl_lm_head": 0.592994, "step1_norm_layers": 0.592847, "grad_norm_layers_linear": 2044.299798, "grad_norm_all_linear": 2044.805348, "per_tensor_grad_norm_min_median_max": [3.284640773373208, 71.79284943284743, 501.99020470336944], "lm_head_grad_norm_linear": [45.46700134905011]}
