@@ -1,0 +1,5 @@
+[adamw_lr5.4e-4] client ready 9s
+[adamw_lr5.4e-4] step-0 export 60s
+[adamw_lr5.4e-4] eval@0 k1:1.00 k2:0.37 k3:0.13 k4:0.03 k6:0.00 reverse:0.53 rev_fy:0.30 (52s)
+[adamw_lr5.4e-4] step 1 loss 4.985 k2:3.64 k3:6.72 k4:4.55 6.9s
+[adamw_lr5.4e-4] step 2 loss 3.185 k2:3.26 k3:3.08 k4:3.22 821.9s
