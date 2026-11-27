@@ -6,15 +6,18 @@
 :root {
   --bg: #f7f8fa; --panel: #ffffff; --fg: #1c2330; --muted: #5d6878; --line: #d9dee6;
   --loop: #c9650a; --plain: #2f6fb5; --ok: #1f7a4d; --warn: #a15c00; --code: #eef1f5;
+  --c-adamw: #7446c0; --c-dimuon: #b0306f; --c-sgd: #0d7f86;
   --sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
   --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
 }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
   --bg: #12161d; --panel: #1a202a; --fg: #e4e8ef; --muted: #9aa5b5; --line: #2e3745;
-  --loop: #f0943a; --plain: #6aa9e8; --ok: #5bc48f; --warn: #e0a54a; --code: #222a36; color-scheme: dark } }
+  --loop: #f0943a; --plain: #6aa9e8; --ok: #5bc48f; --warn: #e0a54a; --code: #222a36;
+  --c-adamw: #b598f0; --c-dimuon: #ee7fb5; --c-sgd: #45c9cf; color-scheme: dark } }
 :root[data-theme="dark"] {
   --bg: #12161d; --panel: #1a202a; --fg: #e4e8ef; --muted: #9aa5b5; --line: #2e3745;
-  --loop: #f0943a; --plain: #6aa9e8; --ok: #5bc48f; --warn: #e0a54a; --code: #222a36; color-scheme: dark }
+  --loop: #f0943a; --plain: #6aa9e8; --ok: #5bc48f; --warn: #e0a54a; --code: #222a36;
+  --c-adamw: #b598f0; --c-dimuon: #ee7fb5; --c-sgd: #45c9cf; color-scheme: dark }
 body { background: var(--bg); color: var(--fg); font-family: var(--sans); font-size: 18px; line-height: 1.7;
   padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 2.5rem 5rem; }
 main { max-width: 700px; margin: 0 auto; display: flex; flex-direction: column; gap: 1.15rem; min-width: 0; }
@@ -59,13 +62,13 @@ math { font-size: 1.05em; } math[display="block"] { margin: 0.3rem 0; overflow-x
 </style>
 
 <main>
-<span class="step">Orientation · updated 26 Nov 2026 · Feasibility probes complete, training pilot running</span>
+<span class="step">Orientation · updated 27 Nov 2026 · Training pilots and controls complete</span>
 <h1>What does looping a layer do to fine-tuning?</h1>
 <p class="lede">Inkling 2 Mini runs its middle 12 layers three times per token, reusing the same weights each time. We want to know how that reuse changes training when we fine-tune the model. This page teaches the ideas from scratch, then reports what we have measured and decided so far.</p>
 
 <div class="panel status">
-  <div><b>Where we are.</b> The feasibility probes are done. We can read the raw gradient of every layer from one optimizer step, the training task is calibrated against the untuned model, and a first check of gradient against task depth is finished. An AdamW training pilot is running now.</div>
-  <div><b>Main findings so far.</b> Both optimizers ignore how large the gradient is, so the loop does not show in how far the weights move (Step 7). The gradient itself is about two times larger in the looped layers once a steady trend with depth is removed, and it drops sharply right after the loop ends (Step 9). At the start of training, a deeper task does not put a larger share of the gradient into the loop (Step 10). These results suggest a loop effect but do not establish one.</div>
+  <div><b>Where we are.</b> The feasibility probes are done, and so are three training pilots and two controls. We trained the model on two to four hops with AdamW, with Dimuon, and with a gradient-following mode of AdamW we call SGD mode. Next come runs that train on one hop count at a time.</div>
+  <div><b>Main findings so far.</b> The gradient is about two times larger in the looped layers once a steady trend with depth is removed (Step 9), and at the start 0.95 of it sits in the loop whatever the task depth (Step 10). All three optimizers learn the task. AdamW and Dimuon spread the trained adapter evenly over the layers and make the model take 2 to 4 hops on every prompt (Step 11). SGD mode keeps the gradient's shape, with 0.95 of the adapter in the loop, and keeps one-hop lookups, but it collapses above an effective rate between \(5 \times 10^{-4}\) and \(8.7 \times 10^{-4}\) (Step 13). A low-rate AdamW control is still nearly flat (Step 14). Each result comes from one run per setting, so these suggest rather than establish.</div>
   <div><b>Correction from the review.</b> The model's three passes are not simply chained. Each pass restarts from the same input and receives a gated message from the previous pass. Step 6 explains this and Step 8 gives the revised prediction.</div>
   <div><b>Blocked.</b> Uploading an edited adapter is disabled on this account, so the planned perturbation test is cancelled. Training clients also have to run one at a time. Every run uses the free model.</div>
 </div>
@@ -87,6 +90,10 @@ math { font-size: 1.05em; } math[display="block"] { margin: 0.3rem 0; overflow-x
   <li>What the real loop predicts.</li>
   <li>Reading the gradient through one Adam step.</li>
   <li>Does a deeper task pull more gradient into the loop?</li>
+  <li>Training with the two real optimizers.</li>
+  <li>Making Adam follow the gradient.</li>
+  <li>What SGD mode shows.</li>
+  <li>Two controls.</li>
 </ol>
 <p>After the steps come what we will do next, a summary, decisions, common misconceptions and blind spots.</p>
 
@@ -94,7 +101,7 @@ math { font-size: 1.05em; } math[display="block"] { margin: 0.3rem 0; overflow-x
 <p>Fine-tuning a large model usually leaves the original weights frozen and trains a small add-on called an adapter. The common kind is LoRA (low-rank adaptation). For a frozen weight matrix \(W_0\), LoRA trains two thin matrices \(B\) and \(A\) and uses \(W_0 + BA\) in place of \(W_0\).</p>
 <p>To see the mechanics, shrink every matrix to a single number. The frozen weight is \(w_0\). The two trainable numbers are \(a\) and \(b\). The layer multiplies its input \(x\) by the <em>effective weight</em></p>
 $$u = w_0 + ab.$$
-<p>\(B\) has \(r\) columns and \(A\) has \(r\) rows. The number \(r\) is the adapter's <em>rank</em>, and it is small. Our first probe used 8. The gradient probes in Steps 9 and 10 use 2.</p>
+<p>\(B\) has \(r\) columns and \(A\) has \(r\) rows. The number \(r\) is the adapter's <em>rank</em>, and it is small. Our first probe and the training runs in Steps 11 to 14 use 8. The gradient probes in Steps 9 and 10 use 2.</p>
 <p><b>Example.</b> Take \(w_0 = 1\), \(a = 0.5\), \(b = 0.2\). Then \(u = 1 + 0.5 \times 0.2 = 1.1\), and an input of \(x = 1\) comes out as \(1.1\).</p>
 <p>LoRA starts with \(b = 0\) and \(a\) set to a small random value. The product \(ab\) is then zero, so the model starts out exactly as it was before fine-tuning.</p>
 <p class="take">Takeaway. An adapter is a product of two trainable factors added to a frozen weight, and it starts at zero.</p>
@@ -162,7 +169,7 @@ $$\text{sharpness} = \left(K u^{K-1}\right)^2 \left(a^2 + b^2\right)$$
 <p>Nobody fine-tunes large models with plain gradient descent. The two optimizers Tinker offers are AdamW and Dimuon. Both rescale the gradient before using it, and that changes the story.</p>
 <p>The simplest rescaling optimizer is <em>sign descent</em>. It keeps only the direction of the gradient and always moves by exactly \(\eta\).</p>
 $$b \leftarrow b - \eta \cdot \operatorname{sign}\!\left(\frac{\partial L}{\partial b}\right)$$
-<p><b>Adam</b> keeps, for each gradient entry, a running average of its squared values. It divides the entry by the square root of that average plus a tiny constant \(\epsilon\) (epsilon), which is there to avoid dividing by zero. On the very first step the average holds only the current gradient \(g\), so the division gives \(g / (|g| + \epsilon)\). With the usual tiny \(\epsilon\) that is \(+1\) or \(-1\), so Adam's first step is sign descent. Step 9 uses what happens when \(\epsilon\) is not tiny. On later steps the result is no longer exactly \(\pm 1\), but it still does not grow when every gradient is scaled up by the same factor.</p>
+<p><b>Adam</b> keeps, for each gradient entry, a running average of its squared values. It divides the entry by the square root of that average plus a tiny constant \(\epsilon\) (epsilon), which is there to avoid dividing by zero. On the very first step the average holds only the current gradient \(g\), so the division gives \(g / (|g| + \epsilon)\). With the usual tiny \(\epsilon\) that is \(+1\) or \(-1\), so Adam's first step is sign descent. Steps 9 and 12 use what happens when \(\epsilon\) is not tiny. On later steps the result is no longer exactly \(\pm 1\), but it still does not grow when every gradient is scaled up by the same factor.</p>
 <p> AdamW is Adam plus weight decay, which shrinks every weight a little each step.</p>
 <p><b>Muon</b> does the matrix version. Any matrix stretches space by certain factors along certain directions. Those factors are its <em>singular values</em>. Muon replaces the gradient matrix with one that has the same directions and all singular values near 1. For a single number that is again the sign. Dimuon is Thinking Machines' Muon-style optimizer for LoRA. Its exact rule is not published.</p>
 <p><b>Example.</b> One sign step with \(\eta = 0.001\) from the start of Step 3. Both layers move \(b\) by \(0.001\). The ordinary output changes by \(0.0005\). The looped output changes by \(0.0015\).</p>
@@ -194,7 +201,7 @@ $$b \leftarrow b - \eta \cdot \operatorname{sign}\!\left(\frac{\partial L}{\part
 <tr><th>We can set</th><th>We cannot set</th></tr>
 <tr><td>Adapter rank and random seed</td><td>Which layers get adapters</td></tr>
 <tr><td>Attention, experts and output layer on or off as groups</td><td>Separate learning rates per layer</td></tr>
-<tr><td>AdamW learning rate, weight decay, and how much each step reuses earlier gradients (momentum)</td><td>Weight decay for Dimuon</td></tr>
+<tr><td>AdamW learning rate, weight decay, \(\epsilon\), and how much each step reuses earlier gradients (momentum)</td><td>Weight decay for Dimuon</td></tr>
 <tr><td>Dimuon learning rate and momentum</td><td>Anything inside Dimuon's update rule</td></tr>
 </table></div>
 <p>The training task is pointer chasing. The prompt holds a random lookup table over 26 letters, and the model must follow a given number of arrows from a starting letter and answer with the final letter only. The number of arrows is called the hop count. Training is supervised, with a known correct answer for every example.</p>
@@ -493,20 +500,437 @@ $$S = \frac{\sum_{\ell=6}^{17} \sum_m n_{\ell,m}^2}{\sum_{\ell=0}^{23} \sum_m n_
 <p>The share is about 0.93 at \(k = 1\) and about 0.95 for every \(k\) from 2 to 6. Between \(k = 2\) and \(k = 6\) the two-seed averages move by at most 0.006, no more than the gap between seeds at \(k = 6\), which is 0.010. The one-hop reverse control also gives about 0.95.</p>
 <p>The only step is between \(k = 1\), which the model already solves, and everything harder. It comes from the late layers 18 to 23, which hold 0.019 to 0.028 of the squared norm at \(k = 1\) and 0.004 to 0.013 in the other runs. The reverse control needs one lookup yet matches \(k = 2\) in both log-probability and share. So at initialisation the share seems to track whether the model is wrong more than how deep the task is. Two seeds cannot fully separate these readings.</p>
 <p>Part of the high share is built in. A looped layer runs three times, so its weight gradient adds up the contributions of three passes. For comparison, the batches of Step 9 gave shares of 0.76 to 0.79. Those used different prompts and supervised whole replies, not just the answer token, so the comparison says only that this setup concentrates gradient in the loop more than those batches did.</p>
-<p class="note">Limits. This is one step at initialisation, on \(B\) only, at rank 2, with one initialisation of \(A\). Where the gradient points at the start need not match where adapter weight lands after many steps. The training runs below test that.</p>
+<p class="note">Limits. This is one step at initialisation, on \(B\) only, at rank 2, with one initialisation of \(A\). Where the gradient points at the start need not match where adapter weight lands after many steps. Steps 11 to 14 look at that.</p>
 <p class="take">Takeaway. At the start of training a deeper task does not put a larger share of the gradient into the loop. The share seems to track being wrong more than being deep.</p>
+
+<h2><span class="step">Step 11</span>Training with the two real optimizers</h2>
+<p>Steps 9 and 10 looked at a single step. Now we train for many steps and ask two questions. Does the model learn to follow more arrows? And where in the 24 layers does the trained adapter end up?</p>
+<p>Both runs use a rank-8 adapter, the same seeds, and batches of 32 examples drawn from \(k = 2, 3, 4\). AdamW uses learning rate \(\eta = 5.4 \times 10^{-4}\) and Dimuon \(\eta = 1.6 \times 10^{-2}\). Step 7 showed that Dimuon's step is about 61 times smaller at an equal rate, so at 30 times the rate its first step is about half of AdamW's. Neither run uses weight decay. Training stops once \(k = 2, 3, 4\) all score above 0.95 on a fixed evaluation set of 30 examples per task. A step takes about 12 seconds.</p>
+
+<h3>The model learns two, three and four hops</h3>
+<div class="scroll"><table>
+<tr><th>Step</th><th>Optimizer</th><th>\(k=1\)</th><th>\(k=2\)</th><th>\(k=3\)</th><th>\(k=4\)</th><th>\(k=6\)</th><th>Reverse</th></tr>
+<tr><td>0</td><td>both</td><td>1.00</td><td>0.37</td><td>0.13</td><td>0.03</td><td>0.00</td><td>0.53</td></tr>
+<tr><td>10</td><td>AdamW</td><td>0.83</td><td>0.63</td><td>0.43</td><td>0.17</td><td>0.00</td><td>0.90</td></tr>
+<tr><td>10</td><td>Dimuon</td><td>0.97</td><td>0.77</td><td>0.73</td><td>0.27</td><td>0.03</td><td>1.00</td></tr>
+<tr><td>25</td><td>AdamW</td><td>0.90</td><td>1.00</td><td>0.73</td><td>0.00</td><td>0.00</td><td>0.97</td></tr>
+<tr><td>25</td><td>Dimuon</td><td>0.43</td><td>0.97</td><td>0.63</td><td>0.70</td><td>0.00</td><td>0.90</td></tr>
+<tr><td>50</td><td>AdamW</td><td>0.13</td><td>1.00</td><td>0.83</td><td>0.90</td><td>0.00</td><td>0.03</td></tr>
+<tr><td>50</td><td>Dimuon</td><td>0.00</td><td>1.00</td><td>1.00</td><td>0.97</td><td>0.00</td><td>0.07</td></tr>
+<tr><td>100</td><td>AdamW</td><td>0.00</td><td>1.00</td><td>1.00</td><td>1.00</td><td>0.00</td><td>0.07</td></tr>
+</table></div>
+<p>Each accuracy comes from 30 examples, so its standard error is at most 0.09. Step 0 is the untuned model on this evaluation set, which is why it differs a little from the 60-example table in Step 6. Dimuon passed the bar at step 50 and AdamW at step 100.</p>
+
+<h3>And forgets how to follow one arrow</h3>
+<p>Now look at the \(k = 1\) and reverse columns. The untuned model followed one arrow perfectly. After training, both adapters score near 0 on it. They also score 0 on \(k = 6\), which they never saw in training.</p>
+<p>The wrong answers show what happened. Write \(T\) for the lookup table in the prompt, so \(T(x)\) is the letter that \(x\) points to and \(T^2(x) = T(T(x))\) is the letter two arrows on. Reverse lookup asks for \(T^{-1}(y)\), the letter that points to \(y\).</p>
+<div class="scroll"><table>
+<tr><th>Task</th><th>Correct answer</th><th>What the trained adapters answer</th></tr>
+<tr><td>\(k = 1\)</td><td>\(T(x)\)</td><td>\(T^2(x)\) in 28 of 30</td></tr>
+<tr><td>\(k = 6\)</td><td>\(T^6(x)\)</td><td>\(T^4(x)\) in 30 of 30</td></tr>
+<tr><td>Reverse</td><td>\(T^{-1}(y)\)</td><td>\(T^2(y)\) in 26 of 30 (AdamW) and 27 of 30 (Dimuon)</td></tr>
+</table></div>
+<p>So both adapters take between 2 and 4 forward hops on every prompt, whatever the prompt asks. We call this the <em>hop-count clamp</em>. The single lookup itself was not lost along the way. Reverse accuracy first rose to 0.90 or more by step 10 in both runs and only collapsed between steps 25 and 50.</p>
+
+<h3>Where the adapter weight lands</h3>
+<p>We reuse the looped share \(S\) from Step 10, now computed on the trained \(B\) matrices in place of the gradient. Write \(B_{\ell,m}\) for the \(B\) matrix of weight type \(m\) in layer \(\ell\). Then</p>
+$$S = \frac{\sum_{\ell=6}^{17} \sum_m \|B_{\ell,m}\|_F^2}{\sum_{\ell=0}^{23} \sum_m \|B_{\ell,m}\|_F^2},$$
+<p>where \(\|\cdot\|_F\) is the Frobenius norm from Step 7. The output layer is left out. Twelve of the 24 layers are looped, so an adapter spread evenly over the layers gives \(S = 0.5\). Step 10 found that 0.95 of the squared gradient sits in the looped layers at the start.</p>
+
+<details><summary>Pause and predict. After training, what share of the adapter's squared norm sits in the looped layers? Think back to Steps 5 and 7 before you open this.</summary>
+<p>About half. AdamW gives \(S = 0.489\) and Dimuon gives \(S = 0.510\). The chart below shows the whole profile.</p></details>
+
+<div class="panel">
+  <p class="try">Read the chart. Each line is one optimizer's \(\|B\|_F\) in each layer, all weight types together, divided by that optimizer's mean over the 24 layers. So 1 is an average layer. Look for a step up at layer 6 or down at layer 18.</p>
+<svg viewBox="0 0 660 330" role="img" aria-label="Per-layer B norm divided by its mean for AdamW and Dimuon, both close to 1 in every layer">
+<rect x="202.0" y="40" width="292.0" height="244" style="fill:var(--loop)" opacity="0.10"/>
+<text x="348.0" y="276" text-anchor="middle" style="fill:var(--loop);font-weight:600">looped block, layers 6 to 17</text>
+<rect x="56" y="40" width="584" height="244" fill="none" stroke="var(--line)"/>
+<line x1="56" x2="640" y1="284.0" y2="284.0" stroke="var(--line)" stroke-dasharray="2 4"/>
+<text x="48" y="288.0" text-anchor="end">0</text>
+<line x1="56" x2="640" y1="237.1" y2="237.1" stroke="var(--line)" stroke-dasharray="2 4"/>
+<text x="48" y="241.1" text-anchor="end">0.5</text>
+<line x1="56" x2="640" y1="190.2" y2="190.2" stroke="var(--muted)"/>
+<text x="48" y="194.2" text-anchor="end">1</text>
+<line x1="56" x2="640" y1="143.2" y2="143.2" stroke="var(--line)" stroke-dasharray="2 4"/>
+<text x="48" y="147.2" text-anchor="end">1.5</text>
+<line x1="56" x2="640" y1="96.3" y2="96.3" stroke="var(--line)" stroke-dasharray="2 4"/>
+<text x="48" y="100.3" text-anchor="end">2</text>
+<line x1="56" x2="640" y1="49.4" y2="49.4" stroke="var(--line)" stroke-dasharray="2 4"/>
+<text x="48" y="53.4" text-anchor="end">2.5</text>
+<text x="68.2" y="302" text-anchor="middle">0</text>
+<text x="189.8" y="302" text-anchor="middle">5</text>
+<text x="214.2" y="302" text-anchor="middle">6</text>
+<text x="335.8" y="302" text-anchor="middle">11</text>
+<text x="481.8" y="302" text-anchor="middle">17</text>
+<text x="506.2" y="302" text-anchor="middle">18</text>
+<text x="627.8" y="302" text-anchor="middle">23</text>
+<text x="348.0" y="324" text-anchor="middle">layer</text>
+<text transform="translate(13 162.0) rotate(-90)" text-anchor="middle">B norm over its own mean</text>
+<line x1="56" x2="84" y1="14" y2="14" stroke="var(--c-adamw)" stroke-width="2.5" stroke-dasharray=""/>
+<text x="90" y="18" style="fill:var(--c-adamw);font-weight:600">AdamW</text>
+<line x1="157.5" x2="185.5" y1="14" y2="14" stroke="var(--c-dimuon)" stroke-width="2.5" stroke-dasharray="7 4"/>
+<text x="191.5" y="18" style="fill:var(--c-dimuon);font-weight:600">Dimuon</text>
+<polyline fill="none" stroke="var(--c-adamw)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="" points="68.2,184.3 92.5,191.0 116.8,183.7 141.2,185.0 165.5,185.8 189.8,186.3 214.2,188.1 238.5,191.7 262.8,195.3 287.2,193.0 311.5,194.0 335.8,194.0 360.2,190.2 384.5,191.4 408.8,190.9 433.2,190.2 457.5,186.1 481.8,188.7 506.2,193.1 530.5,187.0 554.8,190.4 579.2,186.8 603.5,190.0 627.8,206.8"/>
+<circle cx="68.2" cy="184.3" r="2.6" fill="var(--c-adamw)"/>
+<circle cx="92.5" cy="191.0" r="2.6" fill="var(--c-adamw)"/>
+<circle cx="116.8" cy="183.7" r="2.6" fill="var(--c-adamw)"/>
+<circle cx="141.2" cy="185.0" r="2.6" fill="var(--c-adamw)"/>
+<circle cx="165.5" cy="185.8" r="2.6" fill="var(--c-adamw)"/>
+<circle cx="189.8" cy="186.3" r="2.6" fill="var(--c-adamw)"/>
+<circle cx="214.2" cy="188.1" r="2.6" fill="var(--c-adamw)"/>
+<circle cx="238.5" cy="191.7" r="2.6" fill="var(--c-adamw)"/>
+<circle cx="262.8" cy="195.3" r="2.6" fill="var(--c-adamw)"/>
+<circle cx="287.2" cy="193.0" r="2.6" fill="var(--c-adamw)"/>
+<circle cx="311.5" cy="194.0" r="2.6" fill="var(--c-adamw)"/>
+<circle cx="335.8" cy="194.0" r="2.6" fill="var(--c-adamw)"/>
+<circle cx="360.2" cy="190.2" r="2.6" fill="var(--c-adamw)"/>
+<circle cx="384.5" cy="191.4" r="2.6" fill="var(--c-adamw)"/>
+<circle cx="408.8" cy="190.9" r="2.6" fill="var(--c-adamw)"/>
+<circle cx="433.2" cy="190.2" r="2.6" fill="var(--c-adamw)"/>
+<circle cx="457.5" cy="186.1" r="2.6" fill="var(--c-adamw)"/>
+<circle cx="481.8" cy="188.7" r="2.6" fill="var(--c-adamw)"/>
+<circle cx="506.2" cy="193.1" r="2.6" fill="var(--c-adamw)"/>
+<circle cx="530.5" cy="187.0" r="2.6" fill="var(--c-adamw)"/>
+<circle cx="554.8" cy="190.4" r="2.6" fill="var(--c-adamw)"/>
+<circle cx="579.2" cy="186.8" r="2.6" fill="var(--c-adamw)"/>
+<circle cx="603.5" cy="190.0" r="2.6" fill="var(--c-adamw)"/>
+<circle cx="627.8" cy="206.8" r="2.6" fill="var(--c-adamw)"/>
+<polyline fill="none" stroke="var(--c-dimuon)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="7 4" points="68.2,193.4 92.5,195.2 116.8,195.0 141.2,194.0 165.5,194.6 189.8,192.5 214.2,191.2 238.5,190.0 262.8,191.2 287.2,187.5 311.5,188.9 335.8,189.1 360.2,189.6 384.5,191.1 408.8,189.0 433.2,188.6 457.5,186.6 481.8,186.6 506.2,195.2 530.5,183.4 554.8,182.1 579.2,184.3 603.5,185.2 627.8,199.5"/>
+<circle cx="68.2" cy="193.4" r="2.6" fill="var(--c-dimuon)"/>
+<circle cx="92.5" cy="195.2" r="2.6" fill="var(--c-dimuon)"/>
+<circle cx="116.8" cy="195.0" r="2.6" fill="var(--c-dimuon)"/>
+<circle cx="141.2" cy="194.0" r="2.6" fill="var(--c-dimuon)"/>
+<circle cx="165.5" cy="194.6" r="2.6" fill="var(--c-dimuon)"/>
+<circle cx="189.8" cy="192.5" r="2.6" fill="var(--c-dimuon)"/>
+<circle cx="214.2" cy="191.2" r="2.6" fill="var(--c-dimuon)"/>
+<circle cx="238.5" cy="190.0" r="2.6" fill="var(--c-dimuon)"/>
+<circle cx="262.8" cy="191.2" r="2.6" fill="var(--c-dimuon)"/>
+<circle cx="287.2" cy="187.5" r="2.6" fill="var(--c-dimuon)"/>
+<circle cx="311.5" cy="188.9" r="2.6" fill="var(--c-dimuon)"/>
+<circle cx="335.8" cy="189.1" r="2.6" fill="var(--c-dimuon)"/>
+<circle cx="360.2" cy="189.6" r="2.6" fill="var(--c-dimuon)"/>
+<circle cx="384.5" cy="191.1" r="2.6" fill="var(--c-dimuon)"/>
+<circle cx="408.8" cy="189.0" r="2.6" fill="var(--c-dimuon)"/>
+<circle cx="433.2" cy="188.6" r="2.6" fill="var(--c-dimuon)"/>
+<circle cx="457.5" cy="186.6" r="2.6" fill="var(--c-dimuon)"/>
+<circle cx="481.8" cy="186.6" r="2.6" fill="var(--c-dimuon)"/>
+<circle cx="506.2" cy="195.2" r="2.6" fill="var(--c-dimuon)"/>
+<circle cx="530.5" cy="183.4" r="2.6" fill="var(--c-dimuon)"/>
+<circle cx="554.8" cy="182.1" r="2.6" fill="var(--c-dimuon)"/>
+<circle cx="579.2" cy="184.3" r="2.6" fill="var(--c-dimuon)"/>
+<circle cx="603.5" cy="185.2" r="2.6" fill="var(--c-dimuon)"/>
+<circle cx="627.8" cy="199.5" r="2.6" fill="var(--c-dimuon)"/>
+</svg>
+  <p class="try">From each run's <code>adapter_stats.json</code>. Both lines stay between 0.82 and 1.09 of their own mean.</p>
+</div>
+<p>There is no step at either edge of the loop. Layer 6 over layer 5 is 0.98 for AdamW and 1.01 for Dimuon. Layer 18 over layer 17 is 0.95 and 0.91. The share computed on the product \(BA\), which is what each layer actually adds, is 0.45 for AdamW and 0.51 for Dimuon.</p>
+<p>This is Steps 5 and 7 played out over a whole run. AdamW moves each entry of \(B\) by about \(\eta\) per step and Dimuon gives every attention matrix a step of the same norm, whatever the gradient's size. Many such steps add up to an adapter spread evenly over the layers, even though the gradient sat mostly in the loop.</p>
+<p class="note">One run per optimizer, and the runs trained for different lengths (100 and 50 steps). The flat profile is suggestive, not established.</p>
+<p class="take">Takeaway. AdamW and Dimuon both learn \(k = 2, 3, 4\) but clamp every prompt to 2 to 4 hops, and both spread the adapter evenly over the layers although the gradient sat in the loop.</p>
+
+<h2><span class="step">Step 12</span>Making Adam follow the gradient</h2>
+<p>Step 11 leaves a problem. If both optimizers flatten the layer profile by design, the profile cannot tell us anything about the loop. We need an optimizer whose step grows with the gradient, like the plain gradient descent of Step 4. Tinker does not offer one, but Adam can be turned into one.</p>
+<p>The trick is the one Step 9 used to read the gradient. There, a huge \(\epsilon\) made a single Adam step proportional to the gradient. Here we keep \(\epsilon\) huge for every step of training.</p>
+<p>First the full Adam update. For each entry, Adam keeps a running average of recent gradients, written \(\hat m\), and a running average of recent squared gradients, written \(\hat v\). The running average of gradients is called <em>momentum</em>. Each step blends in the new gradient with weight \(1 - \beta_1\), and here \(\beta_1 = 0.9\), so recent steps count most. The hats mark a correction that keeps both averages unbiased in the first few steps. On step 1 it gives \(\hat m = g\) and \(\hat v = g^2\). The update to a parameter \(\theta\) is</p>
+$$\Delta\theta = -\eta\,\frac{\hat m}{\sqrt{\hat v} + \epsilon}.$$
+<p>On step 1 this is \(-\eta\, g/(|g| + \epsilon)\), the formula of Step 9. Now pull \(\epsilon\) out of the denominator,</p>
+$$\Delta\theta = -\frac{\eta}{\epsilon}\,\hat m \cdot \frac{1}{1 + \sqrt{\hat v}/\epsilon}.$$
+<p>The last factor is the only place where the gradient's size cancels out. When \(\epsilon\) is far above every gradient entry, \(\sqrt{\hat v}/\epsilon\) is close to 0 and the factor is close to 1,</p>
+$$\Delta\theta \approx -\frac{\eta}{\epsilon}\,\hat m.$$
+<p>That is gradient descent with momentum at the <em>effective learning rate</em> \(\eta_{\text{eff}} = \eta/\epsilon\). We call it <em>SGD mode</em>, after stochastic gradient descent, which is gradient descent on random batches of data.</p>
+<p>The same factor says how far from linear the step is. It falls short of the gradient-proportional step by the fraction \(1 - 1/(1 + x) = x/(1 + x)\), with \(x = \sqrt{\hat v}/\epsilon\), and that is never more than \(x\).</p>
+<p><b>Example.</b> Our runs use \(\epsilon = 10^4\) and \(\eta = 2.9\), so \(\eta_{\text{eff}} = 2.9 \times 10^{-4}\). Take three gradient entries on step 1, \(g = 0.5\), \(5\) and \(61\). The last is close to the largest entry we measured. The steps are \(2.9 \times 0.5 / 10000.5 = 1.45 \times 10^{-4}\), \(2.9 \times 5 / 10005 = 1.45 \times 10^{-3}\) and \(2.9 \times 61 / 10061 = 0.0176\). Their ratios are 1 to 10 to 121, close to the gradients' 1 to 10 to 122. The largest entry falls short of its linear step \(2.9 \times 10^{-4} \times 61 = 0.0177\) by \(61/10061\), which is 0.6%. With the usual tiny \(\epsilon\), all three entries would move by the same amount, the sign step of Step 5.</p>
+
+<div class="panel">
+  <p class="try">Try it. Slide \(\epsilon\) down from \(10^4\). Below the smallest gradient every entry takes the same step (a sign step). Above the largest, the steps line up in proportion to the gradients. This computes Adam's first step for the three entries of the example.</p>
+  <div class="ctrl">
+    <label for="e5">constant \(\epsilon\) <input type="range" id="e5" min="-3" max="5" step="0.01" value="4"><output id="e5o"></output></label>
+    <button id="r5" type="button">Reset</button>
+  </div>
+  <div class="bars" id="bars5"></div>
+  <div class="read" id="read5"></div>
+</div>
+
+<h3>Does the regime hold in the real runs?</h3>
+<p>At step 1 we can check exactly. \(B\) starts at 0, so the exported \(B\) is the first step itself, and each entry's shortfall from linear is \(\rho = |\Delta|/\eta\) from Step 9. The largest \(\rho\) in every run was 0.006, for an entry with \(|g| \approx 61\). So the first step is linear in the gradient to within 0.6%.</p>
+<p>Later gradients were not logged. One bound still holds. \(\hat v\) is an average of squared gradients, so \(\sqrt{\hat v}\) can never exceed the largest gradient entry seen so far. Entries up to 600 would keep every step within 6% of linear.</p>
+<p>The runs otherwise use the setup of Step 11, with weight decay 0. Tinker accepted the large \(\epsilon\) without complaint.</p>
+<p class="take">Takeaway. With \(\epsilon = 10^4\), far above every gradient entry, Adam becomes gradient descent with momentum at rate \(\eta/\epsilon\), and its first step is linear in the gradient to within 0.6%.</p>
+
+<h2><span class="step">Step 13</span>What SGD mode shows</h2>
+<p>SGD mode at \(\eta_{\text{eff}} = 2.9 \times 10^{-4}\) also learned the task, more slowly. It passed the bar at step 150. Its adapter looks nothing like the other two.</p>
+<div class="panel">
+  <p class="try">Read the chart. Same axes as Step 11, now with SGD mode added. Compare the three lines inside and outside the shaded band, and look at the two edges of the band.</p>
+<svg viewBox="0 0 660 330" role="img" aria-label="Per-layer B norm divided by its mean for three optimizers. SGD mode is high in layers 6 to 17 and low elsewhere">
+<rect x="202.0" y="40" width="292.0" height="244" style="fill:var(--loop)" opacity="0.10"/>
+<text x="348.0" y="276" text-anchor="middle" style="fill:var(--loop);font-weight:600">looped block, layers 6 to 17</text>
+<rect x="56" y="40" width="584" height="244" fill="none" stroke="var(--line)"/>
+<line x1="56" x2="640" y1="284.0" y2="284.0" stroke="var(--line)" stroke-dasharray="2 4"/>
+<text x="48" y="288.0" text-anchor="end">0</text>
+<line x1="56" x2="640" y1="237.1" y2="237.1" stroke="var(--line)" stroke-dasharray="2 4"/>
+<text x="48" y="241.1" text-anchor="end">0.5</text>
+<line x1="56" x2="640" y1="190.2" y2="190.2" stroke="var(--muted)"/>
+<text x="48" y="194.2" text-anchor="end">1</text>
+<line x1="56" x2="640" y1="143.2" y2="143.2" stroke="var(--line)" stroke-dasharray="2 4"/>
+<text x="48" y="147.2" text-anchor="end">1.5</text>
+<line x1="56" x2="640" y1="96.3" y2="96.3" stroke="var(--line)" stroke-dasharray="2 4"/>
+<text x="48" y="100.3" text-anchor="end">2</text>
+<line x1="56" x2="640" y1="49.4" y2="49.4" stroke="var(--line)" stroke-dasharray="2 4"/>
+<text x="48" y="53.4" text-anchor="end">2.5</text>
+<text x="68.2" y="302" text-anchor="middle">0</text>
+<text x="189.8" y="302" text-anchor="middle">5</text>
+<text x="214.2" y="302" text-anchor="middle">6</text>
+<text x="335.8" y="302" text-anchor="middle">11</text>
+<text x="481.8" y="302" text-anchor="middle">17</text>
+<text x="506.2" y="302" text-anchor="middle">18</text>
+<text x="627.8" y="302" text-anchor="middle">23</text>
+<text x="348.0" y="324" text-anchor="middle">layer</text>
+<text transform="translate(13 162.0) rotate(-90)" text-anchor="middle">B norm over its own mean</text>
+<line x1="56" x2="84" y1="14" y2="14" stroke="var(--c-adamw)" stroke-width="2.5" stroke-dasharray=""/>
+<text x="90" y="18" style="fill:var(--c-adamw);font-weight:600">AdamW</text>
+<line x1="157.5" x2="185.5" y1="14" y2="14" stroke="var(--c-dimuon)" stroke-width="2.5" stroke-dasharray="7 4"/>
+<text x="191.5" y="18" style="fill:var(--c-dimuon);font-weight:600">Dimuon</text>
+<line x1="266.5" x2="294.5" y1="14" y2="14" stroke="var(--c-sgd)" stroke-width="3" stroke-dasharray=""/>
+<text x="300.5" y="18" style="fill:var(--c-sgd);font-weight:600">SGD mode</text>
+<polyline fill="none" stroke="var(--c-adamw)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="" points="68.2,184.3 92.5,191.0 116.8,183.7 141.2,185.0 165.5,185.8 189.8,186.3 214.2,188.1 238.5,191.7 262.8,195.3 287.2,193.0 311.5,194.0 335.8,194.0 360.2,190.2 384.5,191.4 408.8,190.9 433.2,190.2 457.5,186.1 481.8,188.7 506.2,193.1 530.5,187.0 554.8,190.4 579.2,186.8 603.5,190.0 627.8,206.8"/>
+<circle cx="68.2" cy="184.3" r="2.6" fill="var(--c-adamw)"/>
+<circle cx="92.5" cy="191.0" r="2.6" fill="var(--c-adamw)"/>
+<circle cx="116.8" cy="183.7" r="2.6" fill="var(--c-adamw)"/>
+<circle cx="141.2" cy="185.0" r="2.6" fill="var(--c-adamw)"/>
+<circle cx="165.5" cy="185.8" r="2.6" fill="var(--c-adamw)"/>
+<circle cx="189.8" cy="186.3" r="2.6" fill="var(--c-adamw)"/>
+<circle cx="214.2" cy="188.1" r="2.6" fill="var(--c-adamw)"/>
+<circle cx="238.5" cy="191.7" r="2.6" fill="var(--c-adamw)"/>
+<circle cx="262.8" cy="195.3" r="2.6" fill="var(--c-adamw)"/>
+<circle cx="287.2" cy="193.0" r="2.6" fill="var(--c-adamw)"/>
+<circle cx="311.5" cy="194.0" r="2.6" fill="var(--c-adamw)"/>
+<circle cx="335.8" cy="194.0" r="2.6" fill="var(--c-adamw)"/>
+<circle cx="360.2" cy="190.2" r="2.6" fill="var(--c-adamw)"/>
+<circle cx="384.5" cy="191.4" r="2.6" fill="var(--c-adamw)"/>
+<circle cx="408.8" cy="190.9" r="2.6" fill="var(--c-adamw)"/>
+<circle cx="433.2" cy="190.2" r="2.6" fill="var(--c-adamw)"/>
+<circle cx="457.5" cy="186.1" r="2.6" fill="var(--c-adamw)"/>
+<circle cx="481.8" cy="188.7" r="2.6" fill="var(--c-adamw)"/>
+<circle cx="506.2" cy="193.1" r="2.6" fill="var(--c-adamw)"/>
+<circle cx="530.5" cy="187.0" r="2.6" fill="var(--c-adamw)"/>
+<circle cx="554.8" cy="190.4" r="2.6" fill="var(--c-adamw)"/>
+<circle cx="579.2" cy="186.8" r="2.6" fill="var(--c-adamw)"/>
+<circle cx="603.5" cy="190.0" r="2.6" fill="var(--c-adamw)"/>
+<circle cx="627.8" cy="206.8" r="2.6" fill="var(--c-adamw)"/>
+<polyline fill="none" stroke="var(--c-dimuon)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="7 4" points="68.2,193.4 92.5,195.2 116.8,195.0 141.2,194.0 165.5,194.6 189.8,192.5 214.2,191.2 238.5,190.0 262.8,191.2 287.2,187.5 311.5,188.9 335.8,189.1 360.2,189.6 384.5,191.1 408.8,189.0 433.2,188.6 457.5,186.6 481.8,186.6 506.2,195.2 530.5,183.4 554.8,182.1 579.2,184.3 603.5,185.2 627.8,199.5"/>
+<circle cx="68.2" cy="193.4" r="2.6" fill="var(--c-dimuon)"/>
+<circle cx="92.5" cy="195.2" r="2.6" fill="var(--c-dimuon)"/>
+<circle cx="116.8" cy="195.0" r="2.6" fill="var(--c-dimuon)"/>
+<circle cx="141.2" cy="194.0" r="2.6" fill="var(--c-dimuon)"/>
+<circle cx="165.5" cy="194.6" r="2.6" fill="var(--c-dimuon)"/>
+<circle cx="189.8" cy="192.5" r="2.6" fill="var(--c-dimuon)"/>
+<circle cx="214.2" cy="191.2" r="2.6" fill="var(--c-dimuon)"/>
+<circle cx="238.5" cy="190.0" r="2.6" fill="var(--c-dimuon)"/>
+<circle cx="262.8" cy="191.2" r="2.6" fill="var(--c-dimuon)"/>
+<circle cx="287.2" cy="187.5" r="2.6" fill="var(--c-dimuon)"/>
+<circle cx="311.5" cy="188.9" r="2.6" fill="var(--c-dimuon)"/>
+<circle cx="335.8" cy="189.1" r="2.6" fill="var(--c-dimuon)"/>
+<circle cx="360.2" cy="189.6" r="2.6" fill="var(--c-dimuon)"/>
+<circle cx="384.5" cy="191.1" r="2.6" fill="var(--c-dimuon)"/>
+<circle cx="408.8" cy="189.0" r="2.6" fill="var(--c-dimuon)"/>
+<circle cx="433.2" cy="188.6" r="2.6" fill="var(--c-dimuon)"/>
+<circle cx="457.5" cy="186.6" r="2.6" fill="var(--c-dimuon)"/>
+<circle cx="481.8" cy="186.6" r="2.6" fill="var(--c-dimuon)"/>
+<circle cx="506.2" cy="195.2" r="2.6" fill="var(--c-dimuon)"/>
+<circle cx="530.5" cy="183.4" r="2.6" fill="var(--c-dimuon)"/>
+<circle cx="554.8" cy="182.1" r="2.6" fill="var(--c-dimuon)"/>
+<circle cx="579.2" cy="184.3" r="2.6" fill="var(--c-dimuon)"/>
+<circle cx="603.5" cy="185.2" r="2.6" fill="var(--c-dimuon)"/>
+<circle cx="627.8" cy="199.5" r="2.6" fill="var(--c-dimuon)"/>
+<polyline fill="none" stroke="var(--c-sgd)" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="" points="68.2,247.0 92.5,233.8 116.8,249.4 141.2,245.6 165.5,225.2 189.8,225.5 214.2,156.7 238.5,166.9 262.8,143.6 287.2,159.7 311.5,141.0 335.8,50.3 360.2,48.2 384.5,124.1 408.8,131.0 433.2,148.0 457.5,132.2 481.8,149.4 506.2,267.6 530.5,269.5 554.8,272.4 579.2,266.0 603.5,260.7 627.8,250.0"/>
+<circle cx="68.2" cy="247.0" r="2.6" fill="var(--c-sgd)"/>
+<circle cx="92.5" cy="233.8" r="2.6" fill="var(--c-sgd)"/>
+<circle cx="116.8" cy="249.4" r="2.6" fill="var(--c-sgd)"/>
+<circle cx="141.2" cy="245.6" r="2.6" fill="var(--c-sgd)"/>
+<circle cx="165.5" cy="225.2" r="2.6" fill="var(--c-sgd)"/>
+<circle cx="189.8" cy="225.5" r="2.6" fill="var(--c-sgd)"/>
+<circle cx="214.2" cy="156.7" r="2.6" fill="var(--c-sgd)"/>
+<circle cx="238.5" cy="166.9" r="2.6" fill="var(--c-sgd)"/>
+<circle cx="262.8" cy="143.6" r="2.6" fill="var(--c-sgd)"/>
+<circle cx="287.2" cy="159.7" r="2.6" fill="var(--c-sgd)"/>
+<circle cx="311.5" cy="141.0" r="2.6" fill="var(--c-sgd)"/>
+<circle cx="335.8" cy="50.3" r="2.6" fill="var(--c-sgd)"/>
+<circle cx="360.2" cy="48.2" r="2.6" fill="var(--c-sgd)"/>
+<circle cx="384.5" cy="124.1" r="2.6" fill="var(--c-sgd)"/>
+<circle cx="408.8" cy="131.0" r="2.6" fill="var(--c-sgd)"/>
+<circle cx="433.2" cy="148.0" r="2.6" fill="var(--c-sgd)"/>
+<circle cx="457.5" cy="132.2" r="2.6" fill="var(--c-sgd)"/>
+<circle cx="481.8" cy="149.4" r="2.6" fill="var(--c-sgd)"/>
+<circle cx="506.2" cy="267.6" r="2.6" fill="var(--c-sgd)"/>
+<circle cx="530.5" cy="269.5" r="2.6" fill="var(--c-sgd)"/>
+<circle cx="554.8" cy="272.4" r="2.6" fill="var(--c-sgd)"/>
+<circle cx="579.2" cy="266.0" r="2.6" fill="var(--c-sgd)"/>
+<circle cx="603.5" cy="260.7" r="2.6" fill="var(--c-sgd)"/>
+<circle cx="627.8" cy="250.0" r="2.6" fill="var(--c-sgd)"/>
+</svg>
+  <p class="try">From each run's <code>adapter_stats.json</code>. SGD mode sits at 1.25 to 2.51 of its mean inside the loop and 0.12 to 0.63 outside.</p>
+</div>
+<p>SGD mode puts 0.950 of the adapter's squared norm in the looped layers, against 0.489 and 0.510 for the other two. Layer 6 over layer 5 is 2.17 and layer 18 over layer 17 is 0.12, so the adapter jumps up where the loop starts and drops sharply where it ends. That drop matches the gradient drop after layer 17 in Step 9.</p>
+<p>The trained profile is close to the starting gradient. SGD mode's first update had \(S = 0.942\), close to Step 10's 0.95. The <em>cosine similarity</em> of two profiles is their dot product divided by the product of their lengths, so 1 means the same shape. Between each run's final 24-layer \(B\) profile and the step-1 gradient profile it is 0.997 for SGD mode, 0.819 for AdamW and 0.826 for Dimuon.</p>
+
+<h3>It keeps one-hop lookups</h3>
+<div class="scroll"><table>
+<tr><th>Final step</th><th>\(k=1\)</th><th>\(k=2\)</th><th>\(k=3\)</th><th>\(k=4\)</th><th>\(k=6\)</th><th>Reverse</th></tr>
+<tr><td>AdamW, step 100</td><td>0.00</td><td>1.00</td><td>1.00</td><td>1.00</td><td>0.00</td><td>0.07</td></tr>
+<tr><td>Dimuon, step 50</td><td>0.00</td><td>1.00</td><td>1.00</td><td>0.97</td><td>0.00</td><td>0.07</td></tr>
+<tr><td>SGD mode, step 150</td><td>0.90</td><td>1.00</td><td>1.00</td><td>0.97</td><td>0.00</td><td>1.00</td></tr>
+</table></div>
+<p>SGD mode follows one arrow on \(k = 1\) in 27 of 30 cases and inverts correctly on reverse in 30 of 30. It is not free of the clamp, though. Like the other two, it answers \(T^4(x)\) on \(k = 6\) in 30 of 30.</p>
+<p class="note">A second reading. SGD mode also moved far less. Its \(\|B\|_F\) over the 24 layers is 2.12, against 36.2 for AdamW and 57.2 for Dimuon, 17 to 27 times smaller. An adapter that stays near its start would keep old skills and keep the gradient's shape whatever the loop does. Step 14 tests this.</p>
+
+<h3>The stability edge</h3>
+<p>Choosing the rate was not simple. The natural first try was to match AdamW's first step. AdamW at \(5.4 \times 10^{-4}\) takes a sign step of norm about 3.08, which is Step 7's 5.71 at \(\eta = 10^{-3}\) scaled by 0.54. SGD mode at \(\eta_{\text{eff}} = 1.5 \times 10^{-3}\) took a first step of norm 3.00, nearly the same. It failed.</p>
+<p>Failing looks different from Step 4. The loss did not grow without bound, and it never went above 4.69 after the first step. It fell to about \(\ln\,26 \approx 3.26\) and stayed there. That is the loss of a model that spreads its probability evenly over the 26 letters, and accuracy fell to chance, \(1/26\). We call a run <em>collapsed</em> when, after at least 30 steps, every task scores at most 0.11 (chance plus two standard errors) and the loss over the last 5 steps is within 0.5 of \(\ln\,26\).</p>
+<div class="scroll"><table>
+<tr><th>\(\eta_{\text{eff}}\)</th><th>First-step norm</th><th>Steps</th><th>Outcome</th></tr>
+<tr><td>\(1.7 \times 10^{-4}\)</td><td>0.35</td><td>150</td><td>learned, \(k = 3\) at 0.93 at step 150</td></tr>
+<tr><td>\(2.9 \times 10^{-4}\)</td><td>0.59</td><td>150</td><td>learned, passed the bar at step 150</td></tr>
+<tr><td>\(5 \times 10^{-4}\)</td><td>1.01</td><td>30</td><td>learning, best task at 0.70 by step 30</td></tr>
+<tr><td>\(8.7 \times 10^{-4}\)</td><td>1.77</td><td>30</td><td>collapsed</td></tr>
+<tr><td>\(1.5 \times 10^{-3}\)</td><td>3.00</td><td>150</td><td>collapsed</td></tr>
+</table></div>
+<p>A first run at \(5 \times 10^{-4}\) was stopped at step 16 on a loss plateau and called collapsed. A 30-step rerun left the plateau, so that call was wrong. Since then a run counts as collapsed only by the rule above.</p>
+<p>So the edge lies between \(\eta_{\text{eff}} = 5 \times 10^{-4}\) and \(8.7 \times 10^{-4}\). The last rate that learned had a first step about a third the size of AdamW's working first step (1.01 against 3.08). The first rate that collapsed had a first step a bit over half of it (1.77).</p>
+<p>Step 4 explains why a gradient-following optimizer can have an edge at all. Plain gradient descent is stable only while \(\eta\) stays below \(2/\lambda\) in the sharpest direction. Sign descent caps every entry's step at \(\eta\). Gradient descent does not, so the entries with large gradients take large steps. At \(5 \times 10^{-4}\) the largest first-step entry moved 0.030, about 55 times AdamW's per-entry step of \(5.4 \times 10^{-4}\), even though SGD mode's whole step was a third of AdamW's.</p>
+<p class="note">What this does not show. It does not show that the looped layers set the edge. That is our second hypothesis, that the looped layers set the largest stable rate, and it is still untested. The collapse is also not the blow-up of Step 4, so the bowl picture is a guide and not an explanation. Each rate is a single run.</p>
+<p class="take">Takeaway. A gradient-following optimizer keeps the gradient's shape, with 0.95 of the adapter in the loop, and keeps the one-hop skills, but it collapses to a uniform guess above an effective rate between \(5 \times 10^{-4}\) and \(8.7 \times 10^{-4}\).</p>
+
+<h2><span class="step">Step 14</span>Two controls</h2>
+<p>Step 13 leaves two questions. Did SGD mode keep \(k = 1\) and reverse because of where it put weight, or only because it moved so little? And does one obvious suspect set the stability edge? A <em>control</em> here is a run that changes one setting to rule an explanation in or out. We ran one for each question.</p>
+
+<h3>Control 1, AdamW with small total movement</h3>
+<p>If small movement alone explains SGD mode, a low-rate AdamW run that moves about as far should look like SGD mode. AdamW's step scales with \(\eta\), so we scaled the rate down. The 100-step run at \(5.4 \times 10^{-4}\) ended at \(\|B\|_F = 36.2\). Multiplying by \(2.5 \times 10^{-5} / 5.4 \times 10^{-4}\) gives 1.68 at 100 steps. Over 150 steps that becomes \(1.68\sqrt{1.5} = 2.05\) if the movement grows like a random walk (steps in unrelated directions), or \(1.68 \times 1.5 = 2.51\) if it grows linearly. We ran \(\eta = 2.5 \times 10^{-5}\) with Adam's default \(\epsilon\) for 150 steps. It ended at \(\|B\|_F = 2.82\), against SGD mode's 2.12.</p>
+
+<div class="panel">
+  <p class="try">Read the chart. Same axes as before. The dotted purple line is AdamW at the low rate. Compare its height inside the band with SGD mode's.</p>
+<svg viewBox="0 0 660 330" role="img" aria-label="Per-layer B norm divided by its mean for low-rate AdamW and SGD mode">
+<rect x="202.0" y="40" width="292.0" height="244" style="fill:var(--loop)" opacity="0.10"/>
+<text x="348.0" y="276" text-anchor="middle" style="fill:var(--loop);font-weight:600">looped block, layers 6 to 17</text>
+<rect x="56" y="40" width="584" height="244" fill="none" stroke="var(--line)"/>
+<line x1="56" x2="640" y1="284.0" y2="284.0" stroke="var(--line)" stroke-dasharray="2 4"/>
+<text x="48" y="288.0" text-anchor="end">0</text>
+<line x1="56" x2="640" y1="237.1" y2="237.1" stroke="var(--line)" stroke-dasharray="2 4"/>
+<text x="48" y="241.1" text-anchor="end">0.5</text>
+<line x1="56" x2="640" y1="190.2" y2="190.2" stroke="var(--muted)"/>
+<text x="48" y="194.2" text-anchor="end">1</text>
+<line x1="56" x2="640" y1="143.2" y2="143.2" stroke="var(--line)" stroke-dasharray="2 4"/>
+<text x="48" y="147.2" text-anchor="end">1.5</text>
+<line x1="56" x2="640" y1="96.3" y2="96.3" stroke="var(--line)" stroke-dasharray="2 4"/>
+<text x="48" y="100.3" text-anchor="end">2</text>
+<line x1="56" x2="640" y1="49.4" y2="49.4" stroke="var(--line)" stroke-dasharray="2 4"/>
+<text x="48" y="53.4" text-anchor="end">2.5</text>
+<text x="68.2" y="302" text-anchor="middle">0</text>
+<text x="189.8" y="302" text-anchor="middle">5</text>
+<text x="214.2" y="302" text-anchor="middle">6</text>
+<text x="335.8" y="302" text-anchor="middle">11</text>
+<text x="481.8" y="302" text-anchor="middle">17</text>
+<text x="506.2" y="302" text-anchor="middle">18</text>
+<text x="627.8" y="302" text-anchor="middle">23</text>
+<text x="348.0" y="324" text-anchor="middle">layer</text>
+<text transform="translate(13 162.0) rotate(-90)" text-anchor="middle">B norm over its own mean</text>
+<line x1="56" x2="84" y1="14" y2="14" stroke="var(--c-adamw)" stroke-width="2.5" stroke-dasharray="2 4"/>
+<text x="90" y="18" style="fill:var(--c-adamw);font-weight:600">AdamW, low rate</text>
+<line x1="232.5" x2="260.5" y1="14" y2="14" stroke="var(--c-sgd)" stroke-width="3" stroke-dasharray=""/>
+<text x="266.5" y="18" style="fill:var(--c-sgd);font-weight:600">SGD mode</text>
+<polyline fill="none" stroke="var(--c-adamw)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="2 4" points="68.2,197.9 92.5,201.1 116.8,196.5 141.2,193.9 165.5,197.4 189.8,192.9 214.2,179.5 238.5,181.2 262.8,189.0 287.2,182.2 311.5,183.3 335.8,185.7 360.2,175.6 384.5,182.4 408.8,179.6 433.2,177.7 457.5,169.1 481.8,176.7 506.2,207.3 530.5,200.9 554.8,198.8 579.2,194.6 603.5,196.2 627.8,224.2"/>
+<circle cx="68.2" cy="197.9" r="2.6" fill="var(--c-adamw)"/>
+<circle cx="92.5" cy="201.1" r="2.6" fill="var(--c-adamw)"/>
+<circle cx="116.8" cy="196.5" r="2.6" fill="var(--c-adamw)"/>
+<circle cx="141.2" cy="193.9" r="2.6" fill="var(--c-adamw)"/>
+<circle cx="165.5" cy="197.4" r="2.6" fill="var(--c-adamw)"/>
+<circle cx="189.8" cy="192.9" r="2.6" fill="var(--c-adamw)"/>
+<circle cx="214.2" cy="179.5" r="2.6" fill="var(--c-adamw)"/>
+<circle cx="238.5" cy="181.2" r="2.6" fill="var(--c-adamw)"/>
+<circle cx="262.8" cy="189.0" r="2.6" fill="var(--c-adamw)"/>
+<circle cx="287.2" cy="182.2" r="2.6" fill="var(--c-adamw)"/>
+<circle cx="311.5" cy="183.3" r="2.6" fill="var(--c-adamw)"/>
+<circle cx="335.8" cy="185.7" r="2.6" fill="var(--c-adamw)"/>
+<circle cx="360.2" cy="175.6" r="2.6" fill="var(--c-adamw)"/>
+<circle cx="384.5" cy="182.4" r="2.6" fill="var(--c-adamw)"/>
+<circle cx="408.8" cy="179.6" r="2.6" fill="var(--c-adamw)"/>
+<circle cx="433.2" cy="177.7" r="2.6" fill="var(--c-adamw)"/>
+<circle cx="457.5" cy="169.1" r="2.6" fill="var(--c-adamw)"/>
+<circle cx="481.8" cy="176.7" r="2.6" fill="var(--c-adamw)"/>
+<circle cx="506.2" cy="207.3" r="2.6" fill="var(--c-adamw)"/>
+<circle cx="530.5" cy="200.9" r="2.6" fill="var(--c-adamw)"/>
+<circle cx="554.8" cy="198.8" r="2.6" fill="var(--c-adamw)"/>
+<circle cx="579.2" cy="194.6" r="2.6" fill="var(--c-adamw)"/>
+<circle cx="603.5" cy="196.2" r="2.6" fill="var(--c-adamw)"/>
+<circle cx="627.8" cy="224.2" r="2.6" fill="var(--c-adamw)"/>
+<polyline fill="none" stroke="var(--c-sgd)" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="" points="68.2,247.0 92.5,233.8 116.8,249.4 141.2,245.6 165.5,225.2 189.8,225.5 214.2,156.7 238.5,166.9 262.8,143.6 287.2,159.7 311.5,141.0 335.8,50.3 360.2,48.2 384.5,124.1 408.8,131.0 433.2,148.0 457.5,132.2 481.8,149.4 506.2,267.6 530.5,269.5 554.8,272.4 579.2,266.0 603.5,260.7 627.8,250.0"/>
+<circle cx="68.2" cy="247.0" r="2.6" fill="var(--c-sgd)"/>
+<circle cx="92.5" cy="233.8" r="2.6" fill="var(--c-sgd)"/>
+<circle cx="116.8" cy="249.4" r="2.6" fill="var(--c-sgd)"/>
+<circle cx="141.2" cy="245.6" r="2.6" fill="var(--c-sgd)"/>
+<circle cx="165.5" cy="225.2" r="2.6" fill="var(--c-sgd)"/>
+<circle cx="189.8" cy="225.5" r="2.6" fill="var(--c-sgd)"/>
+<circle cx="214.2" cy="156.7" r="2.6" fill="var(--c-sgd)"/>
+<circle cx="238.5" cy="166.9" r="2.6" fill="var(--c-sgd)"/>
+<circle cx="262.8" cy="143.6" r="2.6" fill="var(--c-sgd)"/>
+<circle cx="287.2" cy="159.7" r="2.6" fill="var(--c-sgd)"/>
+<circle cx="311.5" cy="141.0" r="2.6" fill="var(--c-sgd)"/>
+<circle cx="335.8" cy="50.3" r="2.6" fill="var(--c-sgd)"/>
+<circle cx="360.2" cy="48.2" r="2.6" fill="var(--c-sgd)"/>
+<circle cx="384.5" cy="124.1" r="2.6" fill="var(--c-sgd)"/>
+<circle cx="408.8" cy="131.0" r="2.6" fill="var(--c-sgd)"/>
+<circle cx="433.2" cy="148.0" r="2.6" fill="var(--c-sgd)"/>
+<circle cx="457.5" cy="132.2" r="2.6" fill="var(--c-sgd)"/>
+<circle cx="481.8" cy="149.4" r="2.6" fill="var(--c-sgd)"/>
+<circle cx="506.2" cy="267.6" r="2.6" fill="var(--c-sgd)"/>
+<circle cx="530.5" cy="269.5" r="2.6" fill="var(--c-sgd)"/>
+<circle cx="554.8" cy="272.4" r="2.6" fill="var(--c-sgd)"/>
+<circle cx="579.2" cy="266.0" r="2.6" fill="var(--c-sgd)"/>
+<circle cx="603.5" cy="260.7" r="2.6" fill="var(--c-sgd)"/>
+<circle cx="627.8" cy="250.0" r="2.6" fill="var(--c-sgd)"/>
+</svg>
+  <p class="try">From each run's <code>adapter_stats.json</code>. Low-rate AdamW sits between 0.64 and 1.22 of its mean.</p>
+</div>
+<p>The low-rate profile is nearly flat, with \(S = 0.603\). Its first update already had \(S = 0.508\), so it was flat from step 1. Layer 6 over layer 5 is 1.15 and layer 18 over layer 17 is 0.71, mild steps next to SGD mode's 2.17 and 0.12.</p>
+<p>The skills split. It learned \(k = 2, 3, 4\) (1.00, 0.97, 0.93) and kept reverse at 0.87, inverting correctly in 26 of 30. But \(k = 1\) fell to 0.33, with two hops in 20 of 30. A fair moment to compare is when \(k = 4\) first reached 0.90. The fast AdamW run (step 50) then had \(k = 1\) at 0.13 and reverse at 0.03. The low-rate run (step 100) had 0.50 and 0.90.</p>
+
+<div class="scroll"><table>
+<tr><th>Run</th><th>Steps</th><th>\(\|B\|_F\)</th><th>\(S\)</th><th>Layer 6 / 5</th><th>Layer 18 / 17</th><th>\(k=1\)</th><th>\(k=4\)</th><th>Reverse</th></tr>
+<tr><td>AdamW \(5.4 \times 10^{-4}\)</td><td>100</td><td>36.2</td><td>0.489</td><td>0.98</td><td>0.95</td><td>0.00</td><td>1.00</td><td>0.07</td></tr>
+<tr><td>AdamW \(2.5 \times 10^{-5}\)</td><td>150</td><td>2.82</td><td>0.603</td><td>1.15</td><td>0.71</td><td>0.33</td><td>0.93</td><td>0.87</td></tr>
+<tr><td>Dimuon \(1.6 \times 10^{-2}\)</td><td>50</td><td>57.2</td><td>0.510</td><td>1.01</td><td>0.91</td><td>0.00</td><td>0.97</td><td>0.07</td></tr>
+<tr><td>SGD mode \(2.9 \times 10^{-4}\)</td><td>150</td><td>2.12</td><td>0.950</td><td>2.17</td><td>0.12</td><td>0.90</td><td>0.97</td><td>1.00</td></tr>
+</table></div>
+<p>What this shows. The flat profile appears to come from AdamW's per-entry scaling, not from moving far, since it is flat from the first step and stays nearly flat at small movement. Small movement does protect some skills. It kept reverse lookup and slowed the loss of \(k = 1\), so movement explains part of the forgetting in Step 11. SGD mode kept \(k = 1\) at 0.90 with similar movement, which points to placement or update direction for the rest.</p>
+<p>What it does not show. It cannot tell placement from update direction, since SGD mode differs from AdamW in both. And each row is one run.</p>
+
+<h3>Control 2, the output layer and the edge</h3>
+<p>The output layer turns the model's last hidden vector into one score per token, and is also called the <em>unembedding</em>. Its adapter was a suspect for the stability edge because we expected it to have the largest gradient entries. We switched its adapter off and reran the edge, with 30 steps per rate.</p>
+<div class="scroll"><table>
+<tr><th>\(\eta_{\text{eff}}\)</th><th>All adapters</th><th>Output-layer adapter off</th></tr>
+<tr><td>\(5 \times 10^{-4}\)</td><td>leaving the plateau, best task 0.70, final loss 3.00</td><td>learned, best task 0.93, final loss 0.89</td></tr>
+<tr><td>\(8.7 \times 10^{-4}\)</td><td>collapsed</td><td>collapsed</td></tr>
+<tr><td>\(1.5 \times 10^{-3}\)</td><td>collapsed</td><td>collapsed</td></tr>
+</table></div>
+<p>"Final loss" is the mean over the last 5 steps. The edge did not move. At \(5 \times 10^{-4}\) the output layer only lengthened the plateau. Without it the loss stayed below 2.5 from step 18.</p>
+<p>The step-1 exports also contradict the premise. The output layer's largest update entry was a quarter of the largest entry in the 24 layers (0.0069 against 0.030 at \(5 \times 10^{-4}\)). That largest entry sits in a looped expert matrix (layer 14, w3, gradient about 61).</p>
+<p>What this shows. The output layer does not set the edge, to within the grid's spacing, a factor of \(8.7/5 = 1.74\). What it does not show. A smaller shift would go unseen, which modules do set the edge is still open, and a 30-step probe cannot tell a long plateau from a collapse.</p>
+<p class="take">Takeaway. Low-rate AdamW is still nearly flat, which suggests the flat profile comes from how AdamW scales each step rather than how far it moves. Small movement explains only part of the forgetting, and the output layer does not set the edge.</p>
 
 <h2>What comes next</h2>
 <p>Two practical limits shape the plan. Edited adapters cannot be uploaded, so the perturbation test from Step 8 is cancelled. And training clients must run one at a time. In one probe, a client left open made the next one stall for over 15 minutes with the message "concurrent training clients rate limit hit". With each client closed first, later clients started in 89 to 162 seconds. Sampling showed no such limit, with runs of 433 and 213 requests and no throttling.</p>
+<p>AdamW and Dimuon give flat profiles even at small movement (Step 14), so only SGD mode can show whether the hop count changes where adapter weight lands. The next runs all use SGD mode at \(\eta_{\text{eff}} = 2.9 \times 10^{-4}\).</p>
 <ol>
-  <li><b>AdamW training pilot (running now).</b> A first multi-step AdamW run on the pointer-chasing task.</li>
-  <li><b>AdamW against Dimuon.</b> Train both optimizers on \(k = 2, 3, 4\) and the reverse control, matched by measured step size, and compare where the adapter weight lands by layer. Step 10 says the starting gradient does not depend on depth, so this asks whether the trained weights do. Matching first needs short Dimuon runs at different learning rates and ranks to find its step rule. The documentation recommends 10 to 100 times the AdamW learning rate, which fits the gap from Step 7.</li>
-  <li><b>Learning-rate edge and weight-decay sweep.</b> Only if the training runs show a loop effect. Raise the learning rate, and AdamW's weight decay, and see whether the looped layers fail first.</li>
+  <li><b>One condition per run.</b> Train on \(k = 2\) only, on \(k = 4\) only and on reverse lookup only, then compare the per-layer profiles. If deeper tasks put more weight in the loop, \(S\) should be higher for \(k = 4\) than for \(k = 2\), and reverse lookup should sit with \(k = 2\) or below.</li>
+  <li><b>A second LoRA seed.</b> Rerun the \(k = 2, 3, 4\) mix with LoRA seed 1. Differences between conditions mean something only next to the spread between seeds.</li>
+  <li><b>What sets the edge.</b> Probes between \(\eta_{\text{eff}} = 5 \times 10^{-4}\) and \(8.7 \times 10^{-4}\) with only the attention adapters on, and with only the expert adapters on. The output layer is already ruled out.</li>
+  <li><b>Dimuon's step rule.</b> Still unknown beyond step one.</li>
 </ol>
 
 <h2>Summary</h2>
 <p>An adapter adds a product \(ab\) to a frozen weight. Looping raises the effective weight to the power \(K\). That makes the output, and so the gradient, \(K u^{K-1}\) times more sensitive, and makes the loss \((K u^{K-1})^2\) times sharper. Plain gradient descent would feel all of this. AdamW and Dimuon discard gradient size, so they move looped and ordinary weights equally, and our first measurement on the real model shows exactly that.</p>
-<p>We could not measure output change per unit of weight change, because edited adapters cannot be uploaded. Instead we read the raw gradient from one Adam step with a huge \(\epsilon\). The readout checks out to about 8%. In the looped layers the gradient is about two times what a depth trend predicts, with a sharp drop right after the loop. At the start of training a deeper task does not put a larger share of gradient into the loop. These results suggest a loop effect on the gradient but say nothing yet about where trained weights end up. The training runs come next.</p>
+<p>We could not measure output change per unit of weight change, because edited adapters cannot be uploaded. Instead we read the raw gradient from one Adam step with a huge \(\epsilon\). The readout checks out to about 8%. In the looped layers the gradient is about two times what a depth trend predicts, with a sharp drop right after the loop. At the start of training a deeper task does not put a larger share of gradient into the loop.</p>
+<p>Training on two to four hops works with all three optimizers. AdamW and Dimuon end with adapters spread evenly over the layers, and they make the model take 2 to 4 hops on every prompt, so one-hop and reverse lookups break. Keeping \(\epsilon\) huge for every step turns AdamW into gradient descent with momentum. That SGD mode keeps the gradient's shape, with 0.95 of the adapter in the loop and a sharp drop after layer 17, and it keeps the one-hop skills. It also has a stability edge between effective rates \(5 \times 10^{-4}\) and \(8.7 \times 10^{-4}\), above which the model falls to a uniform guess. A low-rate AdamW run is still nearly flat, and switching off the output layer's adapter does not move the edge. Each of these is one run per setting, so they suggest rather than establish.</p>
 
 <h2>Decisions so far</h2>
 <ul>
@@ -521,6 +945,12 @@ $$S = \frac{\sum_{\ell=6}^{17} \sum_m n_{\ell,m}^2}{\sum_{\ell=0}^{23} \sum_m n_
   <li><b>Direct answers are forced by prefill.</b> Every prompt ends with the prefilled start of a visible reply and <code>Answer:</code>. Only the first generated token is supervised and scored.</li>
   <li><b>Training set and control.</b> Train on \(k = 2, 3, 4\). \(k = 0\) and \(1\) are ceiling checks and \(k = 6\) is held out. Seed 2026 is kept for evaluation. The control is single-table reverse lookup, reported with its share of forward answers. It replaces the larger-table control, which turned out to be easy.</li>
   <li><b>One training client at a time.</b> Close every client before opening the next, and run training jobs in sequence.</li>
+  <li><b>Depth is tested on trained adapters.</b> The starting gradient's looped share is flat in hop count (Step 10), so the remaining test is where adapter weight lands after training on single conditions.</li>
+  <li><b>Pilot rates carried forward.</b> AdamW at \(5.4 \times 10^{-4}\) and Dimuon at \(1.6 \times 10^{-2}\), rank 8, batch 32. Main runs use a fixed number of steps with early stopping off, so adapters are compared after equal training.</li>
+  <li><b>An SGD mode through large \(\epsilon\).</b> Both Tinker optimizers discard gradient size, so AdamW with \(\epsilon\) far above every gradient entry is added as a gradient-following optimizer (Step 12).</li>
+  <li><b>SGD mode adopted.</b> \(\epsilon = 10^4\) at \(\eta_{\text{eff}} = 2.9 \times 10^{-4}\) is the working setting. The stability edge lies between \(5 \times 10^{-4}\) and \(8.7 \times 10^{-4}\), which corrects an earlier note that put it below \(5 \times 10^{-4}\).</li>
+  <li><b>Depth is tested in SGD mode.</b> AdamW and Dimuon give flat profiles even at small movement, so only SGD mode can show whether hop count changes where weight lands.</li>
+  <li><b>No collapse call on a plateau alone.</b> A run counts as collapsed only if every task is at chance and the loss stays near \(\ln\,26\) at the end of at least 30 steps.</li>
   <li><b>Pretraining claim withdrawn.</b> An earlier session said Inkling was pretrained with Muon. The model card does not say so. We treat it as unknown.</li>
   <li><b>Records.</b> Every result has a script and a note in the repository. This page is rebuilt when findings change.</li>
 </ul>
@@ -529,6 +959,10 @@ $$S = \frac{\sum_{\ell=6}^{17} \sum_m n_{\ell,m}^2}{\sum_{\ell=0}^{23} \sum_m n_
 <ul>
   <li><b>"A looped layer gets three times the update."</b> Only under plain gradient descent. Under AdamW and Dimuon the weight update is the same size.</li>
   <li><b>"Flat updates across layers mean the loop does nothing."</b> They mean the optimizer hides it. The output still moves more.</li>
+  <li><b>"A flat trained adapter means the loop got no extra gradient."</b> At the start 0.95 of the gradient sat in the loop. AdamW and Dimuon flattened it on the way to the trained adapter.</li>
+  <li><b>"SGD mode's share of 0.95 shows the loop does the task."</b> It mirrors the starting gradient, with a cosine similarity of 0.997. Training barely reshaped it, and SGD mode moved far less than the other optimizers.</li>
+  <li><b>"Training forgot the one-hop lookup."</b> The lookup survived. The adapters apply 2 to 4 hops to every prompt, so a one-hop question gets a two-hop answer.</li>
+  <li><b>"Collapse means the loss blew up."</b> Here the loss settled at \(\ln\,26 \approx 3.26\), a uniform guess over the letters, and never rose above 4.69 after the first step.</li>
   <li><b>"The same learning rate is a fair comparison between optimizers."</b> Here it gave steps 61 times apart.</li>
   <li><b>"The three passes are chained end to end."</b> They are not. Each restarts from the same input and is linked to the previous pass only through a gated message. The factor of 3 is an upper reference.</li>
   <li><b>"More hops need proportionally more layers."</b> A doubling trick lets a model do \(k\) hops in about \(\log_2 k\) layers.</li>
@@ -540,9 +974,14 @@ $$S = \frac{\sum_{\ell=6}^{17} \sum_m n_{\ell,m}^2}{\sum_{\ell=0}^{23} \sum_m n_
 <h2>Blind spots</h2>
 <p>First, the limits of our own measurements.</p>
 <ul>
-  <li><b>Loss, not output.</b> Every loop result so far is a gradient, which is a first-order loss sensitivity. Activation sizes differ between layers, and the readout cannot say how open the cross-pass gates are.</li>
-  <li><b>Start of training only.</b> Steps 9 and 10 use one step from \(B = 0\), at rank 2, with one random \(A\). Nothing yet says where adapter weight lands after many steps.</li>
-  <li><b>Small data.</b> Step 9 uses three batches of 8 chats and Step 10 uses two seeds per task. In Step 9 the loss was about 9.2 nats per supervised token, so formatting tokens may dominate that gradient.</li>
+  <li><b>Loss, not output.</b> Every loop result so far is a gradient or a weight norm. A gradient is a first-order loss sensitivity. Activation sizes differ between layers, and the readout cannot say how open the cross-pass gates are.</li>
+  <li><b>One run per setting.</b> Every training result in Steps 11 to 14 comes from a single run. Repeated runs are not bit-identical (about 1% apart at step 2), and no seed spread exists yet.</li>
+  <li><b>Different training lengths.</b> AdamW ran 100 steps, Dimuon 50 and SGD mode 150, because each stopped when it passed the bar. Profiles are not compared after equal training.</li>
+  <li><b>Gradients after step 1.</b> The SGD-mode regime is checked only at step 1. Later gradients were not logged, so linearity after that rests on a bound.</li>
+  <li><b>SGD mode moved far less.</b> Its \(\|B\|_F\) is 2.12, against 36.2 and 57.2. The low-rate AdamW control matches its movement only roughly (2.82), and it cannot separate placement from update direction.</li>
+  <li><b>A coarse edge.</b> The edge is bracketed by rates a factor of 1.74 apart, and a 30-step probe cannot tell a long plateau from a collapse.</li>
+  <li><b>Small evaluation sets.</b> Training runs are scored on 30 examples per task, so each accuracy has a standard error of up to 0.09.</li>
+  <li><b>Small data at the start.</b> Step 9 uses three batches of 8 chats and Step 10 uses two seeds per task. In Step 9 the loss was about 9.2 nats per supervised token, so formatting tokens may dominate that gradient.</li>
   <li><b>Experts.</b> Expert gradients come only from the experts a token was routed to. Three passes may reach more experts, which the saved norms cannot test.</li>
   <li><b>The control.</b> We do not know that reverse lookup is truly one hop inside the model.</li>
 </ul>
@@ -562,7 +1001,8 @@ $$S = \frac{\sum_{\ell=6}^{17} \sum_m n_{\ell,m}^2}{\sum_{\ell=0}^{23} \sum_m n_
   <li>Inkling 2 Mini model card and configuration on Hugging Face, and Thinking Machines' release post of 20 Nov 2026, all read directly on 26 Nov 2026. The architecture facts and the description of the gated message come from these.</li>
   <li>Four review notes in the repository under <code>notes/lit/</code>, written by reviewing agents.</li>
   <li>Tinker SDK 0.40.1 source code, for what the optimizers and LoRA settings expose.</li>
-  <li>Our scripts <code>00_probe_free_tier.py</code> to <code>08_e0_grad_by_hops.py</code> and the task generator <code>task_pointer.py</code>, for every measured number. Notes 04 to 08 in the repository describe the gradient readout, the upload probe, base accuracy, the control search and the depth check.</li>
+  <li>Our scripts <code>00_probe_free_tier.py</code> to <code>08_e0_grad_by_hops.py</code> and the task generator <code>task_pointer.py</code>, for every measured number in Steps 7 to 10. Notes 04 to 08 in the repository describe the gradient readout, the upload probe, base accuracy, the control search and the depth check.</li>
+  <li>The training harness <code>train_lib.py</code> and scripts <code>09</code> to <code>12</code> for Steps 11 to 14. Notes 09, 10 and 11 describe the AdamW and Dimuon pilots, the SGD-mode pilot and the controls. Note 11 corrects note 10 on where the stability edge lies. The numbers come from <code>comparison.json</code>, <code>controls_tables.json</code> and each run's <code>adapter_stats.json</code> under <code>artifacts/e2_pilot/</code> and <code>artifacts/e2_controls/</code>.</li>
   <li>Hu et al. (2021), LoRA. Kingma and Ba (2015), Adam. Jordan (2024), Muon blog post. Cohen et al. (2021), edge of stability. Dehghani et al. (2019), Universal Transformers. Bai, Kolter and Koltun (2019), deep equilibrium models. Hayou, Ghosh and Yu (2024), LoRA+. These are cited from memory and were not re-read today.</li>
   <li>Simon et al., "There Will Be a Scientific Theory of Deep Learning" (arXiv 2604.21691). This framing paper was summarised in an earlier session and has not been re-read.</li>
 </ul>
@@ -576,17 +1016,23 @@ $$S = \frac{\sum_{\ell=6}^{17} \sum_m n_{\ell,m}^2}{\sum_{\ell=0}^{23} \sum_m n_
 <tr><td>\(K\)</td><td>Number of times the layer is applied. <span class="plain">1 is ordinary</span>, <span class="loop">3 is looped</span></td></tr>
 <tr><td>\(f = u^K x\)</td><td>Output for input \(x\)</td></tr>
 <tr><td>\(s,\ e,\ L\)</td><td>Target, error \(f - s\), loss \(\tfrac12 e^2\)</td></tr>
-<tr><td>\(g\)</td><td>Step 4, the vector of output rates. Step 8, how far the cross-pass gate is open (0 is closed). Step 9, one entry of the gradient</td></tr>
+<tr><td>\(g\)</td><td>Step 4, the vector of output rates. Step 8, how far the cross-pass gate is open (0 is closed). Steps 9 and 12, one entry of the gradient</td></tr>
 <tr><td>\(\epsilon\)</td><td>Adam's constant in the denominator</td></tr>
+<tr><td>\(\hat m,\ \hat v,\ \beta_1\)</td><td>Adam's running averages of the gradient (momentum) and of the squared gradient, and the momentum weight, 0.9</td></tr>
+<tr><td>\(\theta\)</td><td>Any one trained parameter</td></tr>
+<tr><td>\(\eta_{\text{eff}} = \eta/\epsilon\)</td><td>Effective learning rate of SGD mode</td></tr>
 <tr><td>\(\Delta,\ \rho\)</td><td>Change in one entry of \(B\) after one step, and \(\rho = |\Delta|/\eta\)</td></tr>
 <tr><td>\(I_\ell\)</td><td>1 if layer \(\ell\) is looped (6 to 17), else 0</td></tr>
 <tr><td>\(G_\ell,\ n_{\ell,m}\)</td><td>Frobenius norm of the \(B\) gradient in layer \(\ell\), for one weight type or for type \(m\)</td></tr>
+<tr><td>\(B_{\ell,m},\ \|\cdot\|_F\)</td><td>Trained \(B\) matrix of weight type \(m\) in layer \(\ell\), and the Frobenius norm</td></tr>
+<tr><td>\(T,\ T^2(x)\)</td><td>The prompt's lookup table, and the letter two arrows on from \(x\)</td></tr>
 <tr><td>\(k\)</td><td>Hop count of the pointer-chasing task</td></tr>
-<tr><td>\(S\)</td><td>Looped share, the fraction of squared gradient norm in layers 6 to 17</td></tr>
+<tr><td>\(S\)</td><td>Looped share, the fraction of squared norm in layers 6 to 17. Step 10 takes it over the gradient, Steps 11 to 14 over the trained \(B\). An even spread gives 0.5</td></tr>
 <tr><td>\(h_k\)</td><td>Output of pass \(k\) through the looped layers</td></tr>
 <tr><td>\(\eta\)</td><td>Learning rate</td></tr>
 <tr><td>\(\lambda\)</td><td>Curvature of the loss. Its largest value is the sharpness</td></tr>
 </table></div>
+<p class="try">Colours in the training charts. <span style="color:var(--c-adamw);font-weight:600">AdamW</span>, <span style="color:var(--c-dimuon);font-weight:600">Dimuon</span> and <span style="color:var(--c-sgd);font-weight:600">SGD mode</span> keep one colour each. The shaded band is always the looped block.</p>
 </main>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
@@ -688,7 +1134,18 @@ $$S = \frac{\sum_{\ell=6}^{17} \sum_m n_{\ell,m}^2}{\sum_{\ell=0}^{23} \sum_m n_
   ["g4", "e4"].forEach(i => $(i).addEventListener("input", draw4));
   $("r4").addEventListener("click", () => { $("g4").value = 2.778; $("e4").value = 3; draw4(); });
 
+  // Interactive 5: Adam's first step for three gradient entries as epsilon changes.
+  function draw5() {
+    const eps = Math.pow(10, +$("e5").value), gs = [0.5, 5, 61];
+    $("e5o").textContent = eps >= 100 ? eps.toExponential(1) : eps.toPrecision(2);
+    const st = gs.map(g => g / (g + eps)), mx = Math.max(...st);
+    $("bars5").innerHTML = gs.map((g, i) => `<span>entry g = ${g}</span><span class="bar" style="background:var(--c-sgd);width:${100 * st[i] / mx}%"></span><span class="v">${st[i].toPrecision(3)}</span>`).join("");
+    $("read5").innerHTML = `<span>each bar is the step size divided by the learning rate</span><span>largest step over smallest step = ${(st[2] / st[0]).toFixed(1)}   (122 for the gradients, 1 for a sign step)</span><span>largest entry falls short of a gradient-proportional step by ${(100 * 61 / (61 + eps)).toFixed(1)}%</span>`;
+  }
+  $("e5").addEventListener("input", draw5);
+  $("r5").addEventListener("click", () => { $("e5").value = 4; draw5(); });
+
   $("layers").innerHTML = Array.from({ length: 24 }, (_, i) => `<span class="${i >= 6 && i < 18 ? "l" : ""}" title="layer ${i}"></span>`).join("");
-  draw1(); draw2(); draw3(); draw4();
+  draw1(); draw2(); draw3(); draw4(); draw5();
 })();
 </script>
