@@ -1,7 +1,7 @@
 # Project State
 
-**Last updated:** 2026-11-26
-**Phase:** Phase 1. The feasibility probes are done. E0 (gradient readout by hop count) is running. Training runs (E2) come next.
+**Last updated:** 2026-11-27
+**Phase:** Phase 1. Probes, E0 and the AdamW and Dimuon training pilots are done. The SGD-mode pilot is running.
 
 ## Verified facts
 
@@ -22,6 +22,10 @@ Details and sources are in the notes. Each line here has been checked by a scrip
 - Single-table reverse lookup is the hard one-hop control at 0.53 on 40 examples. Most of its errors are forward lookups (note 07).
 - One AdamW step with `eps = lr = 1e3` reads raw B gradients through the exact inverse $|g| = \epsilon u/(1-u)$, $u = |\Delta B|/\text{lr}$. Per-tensor norms reproduce within about 6% (note 04).
 - On small pointer-chasing batches the looped layers' B-gradient norms are about 2 times the unlooped ones after removing a linear depth trend (1.8 to 2.7 by module type). There is a sharp drop from layer 17 to 18 in every module type. The rise from layer 5 to 6 appears only in some. This suggests H1 but does not establish it (note 04).
+- At initialisation the looped share of squared B-gradient norm is 0.93 at k = 1 and 0.95 for k = 2 to 6 and for the reverse control. It does not grow with hop count (note 08).
+- Training on a mix of k = 2, 3, 4 at rank 8 reaches accuracy 1.00 on those in 100 steps with AdamW (lr 5.4e-4) and 50 steps with Dimuon (lr 1.6e-2). A step takes about 12 s (note 09).
+- Both trained adapters clamp the hop count to between 2 and 4 on every prompt. k = 1 and reverse fall to near 0 and k = 6 stays at 0 (note 09).
+- Both trained adapters put about half their squared norm in looped layers (0.45 to 0.51), the even-spread value, with no step at layers 6 or 18. One run each (note 09).
 - In the pure-chain scalar model, looping multiplies the gradient by $K w_0^{K-1}$ and the sharpness by its square, and scale-free optimizers hide this in weight space (note 03).
 
 ## Unverified or unknown
@@ -40,11 +44,10 @@ Details and sources are in the notes. Each line here has been checked by a scrip
 
 ## Next actions
 
-1. **E0, gradient readout by hop count (running).** k = 1, 2, 3, 4, 6 and the reverse control, 2 seeds each, batch 32. Asks whether deeper tasks put a larger share of gradient in the looped layers. Output goes to `notes/08` and `artifacts/e0_grad_by_hops/`.
-2. **E1 is cancelled** because upload is disabled (D-015).
-3. **Dimuon probes.** Sweep learning rate, rank and seed for one to three steps to find its step rule and a matched step size.
-4. **E2, training profiles and hop sweep (tests H3).** AdamW and Dimuon on k in {2, 3, 4} and the reverse control. Keep k = 0, 1 as ceiling checks and k = 6 held out. One training client at a time.
-5. **E3, learning-rate edge and AdamW weight-decay sweep (tests H2).** Only if E0 and E2 show a loop effect.
+1. **SGD-mode pilot (running).** AdamW with `eps = 1e4` acts as SGD with momentum and effective rate `lr/eps`. Asks whether a gradient-following optimizer puts more adapter weight in looped layers, and where it diverges. Output goes to `notes/10` and `scripts/11`.
+2. **Main E2 runs (tests H3).** Separate adapters on k = 2 only, k = 4 only and reverse only, under AdamW, Dimuon and SGD mode if it works, fixed 75 steps, LoRA seeds 0 and 1. About 25 minutes per run, one at a time.
+3. **E3, learning-rate edge (tests H2).** Most natural in SGD mode, where the gradient-descent stability limit applies. AdamW weight-decay sweep only if a loop effect appears.
+4. **Dimuon step rule.** Still unknown beyond step one.
 
 ## Files
 
@@ -54,6 +57,8 @@ Details and sources are in the notes. Each line here has been checked by a scrip
 - `notes/01_architecture_config.md`, `notes/02_tinker_probe.md`, `notes/03_looped_abx_theory.md`.
 - `notes/04_grad_readout_probe.md`, `notes/05_upload_probe.md`, `notes/06_task_base_accuracy.md`, `notes/07_control_search.md`.
 - `scripts/03` to `07` are the probes and their analysis. `scripts/task_pointer.py` is the task generator.
+- `notes/08_e0_grad_by_hops.md`, `notes/09_e2_pilots.md`.
+- `scripts/train_lib.py` is the training harness (AdamW and Dimuon, per-step log, fixed eval set, resume). `scripts/08` to `10` are E0 and the pilots.
 - `notes/lit/01` to `04` are sub-agent literature and documentation reviews (see D-014).
 - `scripts/00_probe_free_tier.py`, `scripts/01_inspect_probe.py`, `scripts/02_looped_abx_toy.py`.
 - `docs/orientation.html` is the source of the human-facing orientation page, published privately at https://claude.ai/artifact/RNJnoBSSA7htrQbjwZVWhm. Republish to that URL after editing. It follows the owner's explainer rules: one 700px column, numbered steps with one idea each, KaTeX math (MathML output), live interactives with a reset, then summary, misconceptions, blind spots and sources.

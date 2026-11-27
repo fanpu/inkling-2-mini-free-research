@@ -62,3 +62,12 @@ Append-only chronological record of key architectural, experimental, and tooling
 
 - **D-019 — One training client at a time:**
   Close every `ServiceClient` before opening the next. Subagents that train run sequentially (note 04).
+
+- **D-020 — H3 is tested on trained adapters, not on step-0 gradients:**
+  E0 found the looped gradient share flat in hop count at initialisation (note 08). The remaining test of H3 is where adapter weight lands after training on single conditions.
+
+- **D-021 — Pilot learning rates carried forward:**
+  AdamW 5.4e-4 and Dimuon 1.6e-2 at rank 8, batch 32. Both learned the task without diverging (note 09). Main runs use a fixed step count with early stop off so adapters are compared after equal training.
+
+- **D-022 — Add an SGD mode through large `eps`:**
+  Both Tinker optimizers discard gradient size, so trained adapter norms come out flat across layers whatever the gradients do. AdamW with `eps` far above every gradient entry behaves as SGD with momentum and effective rate `lr/eps`. This gives a gradient-following optimizer for the layer-profile and stability questions. It is a pilot until note 10 confirms the regime holds.
